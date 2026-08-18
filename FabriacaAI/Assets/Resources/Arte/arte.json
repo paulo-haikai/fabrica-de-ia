@@ -1,0 +1,266 @@
+{
+  "gerado": "2026-08-17T13:19:49.251Z",
+  "tileset": {
+    "arquivo": "tileset_atelie.png",
+    "lado": 16,
+    "colunas": 8,
+    "tiles": [
+      {
+        "nome": "piso_a",
+        "indice": 0
+      },
+      {
+        "nome": "piso_b",
+        "indice": 1
+      },
+      {
+        "nome": "piso_c",
+        "indice": 2
+      },
+      {
+        "nome": "piso_d",
+        "indice": 3
+      },
+      {
+        "nome": "piso_no",
+        "indice": 4
+      },
+      {
+        "nome": "piso_gasto",
+        "indice": 5
+      },
+      {
+        "nome": "ladrilho",
+        "indice": 6
+      },
+      {
+        "nome": "ladrilho_claro",
+        "indice": 7
+      },
+      {
+        "nome": "parede_frente",
+        "indice": 8
+      },
+      {
+        "nome": "parede_frente_verde",
+        "indice": 9
+      },
+      {
+        "nome": "parede_topo",
+        "indice": 10
+      },
+      {
+        "nome": "parede_topo_verde",
+        "indice": 11
+      },
+      {
+        "nome": "sombra_parede",
+        "indice": 12
+      },
+      {
+        "nome": "canteiro",
+        "indice": 13
+      },
+      {
+        "nome": "painel",
+        "indice": 14
+      },
+      {
+        "nome": "luz_centro",
+        "indice": 15
+      },
+      {
+        "nome": "luz_lado",
+        "indice": 16
+      },
+      {
+        "nome": "luz_quina",
+        "indice": 17
+      },
+      {
+        "nome": "caixote",
+        "indice": 18
+      },
+      {
+        "nome": "vaso",
+        "indice": 19
+      }
+    ]
+  },
+  "bancadas": {
+    "arquivo": "bancadas.png",
+    "lado": 32,
+    "colunas": 4,
+    "ordem": [
+      "e1",
+      "e2",
+      "e3",
+      "e4",
+      "e5",
+      "e6",
+      "e7",
+      "e8",
+      "e9",
+      "e10",
+      "e11",
+      "e12"
+    ]
+  },
+  "elenco": {
+    "arquivo": "elenco.png",
+    "largura": 16,
+    "altura": 24,
+    "direcoes": 4,
+    "quadros": 4,
+    "pessoas": [
+      {
+        "id": "jogador",
+        "nome": "Você",
+        "oficio": "aprendiz",
+        "linha": 0
+      },
+      {
+        "id": "e1",
+        "nome": "Tico",
+        "oficio": "aprendiz da estufa",
+        "linha": 1
+      },
+      {
+        "id": "e2",
+        "nome": "Dona Ciça",
+        "oficio": "guarda-livros",
+        "linha": 2
+      },
+      {
+        "id": "e3",
+        "nome": "Mestre Aurélio",
+        "oficio": "arquivista",
+        "linha": 3
+      },
+      {
+        "id": "e4",
+        "nome": "Nara",
+        "oficio": "costureira",
+        "linha": 4
+      },
+      {
+        "id": "e5",
+        "nome": "Bento",
+        "oficio": "cartógrafo de jardim",
+        "linha": 5
+      },
+      {
+        "id": "e6",
+        "nome": "Iara",
+        "oficio": "tecelã de circuitos",
+        "linha": 6
+      },
+      {
+        "id": "e7",
+        "nome": "Seu Ilo",
+        "oficio": "afinador",
+        "linha": 7
+      },
+      {
+        "id": "e8",
+        "nome": "Rosa",
+        "oficio": "treinadora",
+        "linha": 8
+      },
+      {
+        "id": "e9",
+        "nome": "Chef Amaro",
+        "oficio": "cozinheiro",
+        "linha": 9
+      },
+      {
+        "id": "e10",
+        "nome": "Lumi",
+        "oficio": "acendedora de lampiões",
+        "linha": 10
+      },
+      {
+        "id": "e11",
+        "nome": "Vovó Zi",
+        "oficio": "contadora de histórias",
+        "linha": 11
+      },
+      {
+        "id": "e12",
+        "nome": "Sereno",
+        "oficio": "guardião do ateliê",
+        "linha": 12
+      }
+    ]
+  },
+  "abertura": {
+    "prefixo": "abertura_",
+    "pecas": [
+      {
+        "nome": "ceu_bom",
+        "largura": 32,
+        "altura": 120
+      },
+      {
+        "nome": "ceu_ruim",
+        "largura": 32,
+        "altura": 120
+      },
+      {
+        "nome": "colina_boa",
+        "largura": 320,
+        "altura": 96
+      },
+      {
+        "nome": "colina_ruim",
+        "largura": 320,
+        "altura": 96
+      },
+      {
+        "nome": "sol",
+        "largura": 72,
+        "altura": 72
+      },
+      {
+        "nome": "mastro_bom",
+        "largura": 6,
+        "altura": 64
+      },
+      {
+        "nome": "mastro_ruim",
+        "largura": 6,
+        "altura": 64
+      },
+      {
+        "nome": "pa_boa",
+        "largura": 14,
+        "altura": 4
+      },
+      {
+        "nome": "pa_ruim",
+        "largura": 14,
+        "altura": 4
+      },
+      {
+        "nome": "gota",
+        "largura": 4,
+        "altura": 12
+      },
+      {
+        "nome": "faisca",
+        "largura": 9,
+        "altura": 9
+      },
+      {
+        "nome": "companheiro_bom",
+        "largura": 24,
+        "altura": 24
+      },
+      {
+        "nome": "companheiro_ruim",
+        "largura": 24,
+        "altura": 24
+      }
+    ]
+  }
+}

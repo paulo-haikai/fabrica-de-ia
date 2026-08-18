@@ -1,0 +1,87 @@
+# ---------------------------------------------------------------------------
+# Unity — pastas geradas. Todas são reconstruídas pelo Editor a partir de
+# Assets/ + Packages/ + ProjectSettings/, que é o que de fato precisa ser
+# versionado. Library/ sozinha passa de vários GB.
+# ---------------------------------------------------------------------------
+/FabriacaAI/[Ll]ibrary/
+/FabriacaAI/[Tt]emp/
+/FabriacaAI/[Oo]bj/
+/FabriacaAI/[Bb]uild/
+/FabriacaAI/[Bb]uilds/
+/FabriacaAI/[Ll]ogs/
+/FabriacaAI/[Uu]ser[Ss]ettings/
+/FabriacaAI/[Mm]emoryCaptures/
+/FabriacaAI/[Rr]ecordings/
+/FabriacaAI/Assets/AssetStoreTools*
+/FabriacaAI/Assets/Plugins/Editor/JetBrains*
+
+# Projeto C# gerado pelo Editor
+*.csproj
+*.unityproj
+*.sln
+*.suo
+*.user
+*.userprefs
+*.pidb
+*.booproj
+*.svd
+*.pdb
+*.mdb
+*.opendb
+*.VC.db
+.vs/
+.idea/
+.vsconfig
+
+# Arquivos de crash do Unity
+sysinfo.txt
+*.stackdump
+
+# ---------------------------------------------------------------------------
+# Saída de compilação. O jogo publicado vive na branch gh-pages, não na main.
+# ---------------------------------------------------------------------------
+/Build/
+.unity-batch.log
+
+# ---------------------------------------------------------------------------
+# Dados pessoais. O jogo emite um "diploma" em PDF com o nome de quem jogou;
+# esses arquivos são de pessoas reais e não entram num repositório público.
+# ---------------------------------------------------------------------------
+*.pdf
+
+# ---------------------------------------------------------------------------
+# Versão web anterior do projeto (Vite/React), fora do escopo deste repositório.
+# ---------------------------------------------------------------------------
+/node_modules/
+/dist/
+/src/
+/public/
+/tests/
+/package.json
+/package-lock.json
+/tsconfig.json
+/tsconfig.tsbuildinfo
+/vite.config.ts
+/index.html
+/scripts/build-bpe.mjs
+/scripts/pretrain.ts
+/scripts/spike-train.mjs
+/scripts/Abrir Fabrica de IA.bat
+
+# ---------------------------------------------------------------------------
+# Ferramentas locais
+# ---------------------------------------------------------------------------
+.claude/
+Thumbs.db
+desktop.ini
+.DS_Store
+
+# ---------------------------------------------------------------------------
+# Pacote da Unity que acabou copiado para dentro de Packages/. Está declarado
+# no manifest.json, então um clone novo resolve pelo registro. Não é código
+# deste projeto e não se redistribui aqui.
+# ---------------------------------------------------------------------------
+/FabriacaAI/Packages/com.unity.ai.assistant/
+
+# Restos de redirecionamento de shell: arquivos de 0 byte com nome de
+# fragmento de codigo. Nao sao assets.

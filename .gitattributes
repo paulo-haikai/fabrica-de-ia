@@ -1,0 +1,23 @@
+# Normaliza fim de linha: o projeto é editado no Windows e compilado em CI Linux.
+* text=auto eol=lf
+
+# Formatos textuais do Unity (o projeto usa serialização em texto)
+*.cs        text diff=csharp
+*.meta      text
+*.unity     text
+*.asset     text
+*.prefab    text
+*.mat       text
+*.shader    text
+*.jslib     text
+*.json      text
+*.md        text
+
+# Binários — nunca normalizar
+*.png       binary
+*.jpg       binary
+*.wasm      binary
+*.unityweb  binary
+*.ttf       binary
+*.otf       binary
+*.pdf       binary

@@ -1,0 +1,5543 @@
+fileFormatVersion: 2
+guid: 44e1d495057941e4c9637e7358f559dc
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -6811930427844187725
+    second: elenco_0
+  - first:
+      213: 7718990846196682886
+    second: elenco_1
+  - first:
+      213: -1227430274932934150
+    second: elenco_2
+  - first:
+      213: 4820111706651587860
+    second: elenco_3
+  - first:
+      213: -731765945276869697
+    second: elenco_4
+  - first:
+      213: -1016519455942916066
+    second: elenco_5
+  - first:
+      213: 8800275117174940686
+    second: elenco_6
+  - first:
+      213: -5203482744979415823
+    second: elenco_7
+  - first:
+      213: -6959713782042349830
+    second: elenco_8
+  - first:
+      213: 1019807465900323058
+    second: elenco_9
+  - first:
+      213: 3127979712455946862
+    second: elenco_10
+  - first:
+      213: -3346489179417598736
+    second: elenco_11
+  - first:
+      213: -3769955961619016018
+    second: elenco_12
+  - first:
+      213: -328512685888520035
+    second: elenco_13
+  - first:
+      213: -2820123393081654617
+    second: elenco_14
+  - first:
+      213: 8708844321891970635
+    second: elenco_15
+  - first:
+      213: 6922712352507474707
+    second: elenco_16
+  - first:
+      213: 2265844112114896481
+    second: elenco_17
+  - first:
+      213: -7488037384061223695
+    second: elenco_18
+  - first:
+      213: 971522853547614815
+    second: elenco_19
+  - first:
+      213: 1284151037524911219
+    second: elenco_20
+  - first:
+      213: -6582394850866460443
+    second: elenco_21
+  - first:
+      213: 2780559577658221400
+    second: elenco_22
+  - first:
+      213: -5262788427338922633
+    second: elenco_23
+  - first:
+      213: -6519780526109526848
+    second: elenco_24
+  - first:
+      213: -5781870805378900394
+    second: elenco_25
+  - first:
+      213: 3621461104193766986
+    second: elenco_26
+  - first:
+      213: 6537474128626671769
+    second: elenco_27
+  - first:
+      213: 8389083610356124192
+    second: elenco_28
+  - first:
+      213: 184307726369172544
+    second: elenco_29
+  - first:
+      213: -5526584389537728361
+    second: elenco_30
+  - first:
+      213: 3601562301787762166
+    second: elenco_31
+  - first:
+      213: -4235771186752546310
+    second: elenco_32
+  - first:
+      213: -4111102093530180508
+    second: elenco_33
+  - first:
+      213: -2074006669275228264
+    second: elenco_34
+  - first:
+      213: 225069525178613476
+    second: elenco_35
+  - first:
+      213: -5514481570601212816
+    second: elenco_36
+  - first:
+      213: 6492806296135108
+    second: elenco_37
+  - first:
+      213: 4838901424000911892
+    second: elenco_38
+  - first:
+      213: -3520391998713285951
+    second: elenco_39
+  - first:
+      213: 3024375231430790065
+    second: elenco_40
+  - first:
+      213: 1709509183424122526
+    second: elenco_41
+  - first:
+      213: 5878882014188644761
+    second: elenco_42
+  - first:
+      213: -6791255550404437854
+    second: elenco_43
+  - first:
+      213: 7819467314184013622
+    second: elenco_44
+  - first:
+      213: 3729497679353306082
+    second: elenco_45
+  - first:
+      213: -4202293067326514369
+    second: elenco_46
+  - first:
+      213: 4611220993252200760
+    second: elenco_47
+  - first:
+      213: -6367794899300657432
+    second: elenco_48
+  - first:
+      213: -3680908854731584380
+    second: elenco_49
+  - first:
+      213: -6166708710297552896
+    second: elenco_50
+  - first:
+      213: -2766379498701225954
+    second: elenco_51
+  - first:
+      213: -239744826216073450
+    second: elenco_52
+  - first:
+      213: -1387025111714737803
+    second: elenco_53
+  - first:
+      213: -3596196234657298829
+    second: elenco_54
+  - first:
+      213: -346872631339881833
+    second: elenco_55
+  - first:
+      213: 8187507368736979243
+    second: elenco_56
+  - first:
+      213: 5830641380762904750
+    second: elenco_57
+  - first:
+      213: -9054402742396876086
+    second: elenco_58
+  - first:
+      213: -6101522380112517281
+    second: elenco_59
+  - first:
+      213: -5222602038048593080
+    second: elenco_60
+  - first:
+      213: 5904565417451506215
+    second: elenco_61
+  - first:
+      213: 5512326651136910550
+    second: elenco_62
+  - first:
+      213: 1269026818448145293
+    second: elenco_63
+  - first:
+      213: 4082642471405774288
+    second: elenco_64
+  - first:
+      213: 8072887148142476908
+    second: elenco_65
+  - first:
+      213: 1844189880810326248
+    second: elenco_66
+  - first:
+      213: -3888937000731465521
+    second: elenco_67
+  - first:
+      213: -6225471180538287658
+    second: elenco_68
+  - first:
+      213: 4198308076896898322
+    second: elenco_69
+  - first:
+      213: 8406144729015925004
+    second: elenco_70
+  - first:
+      213: -1839860066827229085
+    second: elenco_71
+  - first:
+      213: 6334440294685227526
+    second: elenco_72
+  - first:
+      213: -8597904455558197475
+    second: elenco_73
+  - first:
+      213: 8577820199242412615
+    second: elenco_74
+  - first:
+      213: 2977819140713754923
+    second: elenco_75
+  - first:
+      213: 3642112487269141258
+    second: elenco_76
+  - first:
+      213: -5803033547649212967
+    second: elenco_77
+  - first:
+      213: 5360768304172034453
+    second: elenco_78
+  - first:
+      213: -8406580459243232720
+    second: elenco_79
+  - first:
+      213: 2052367122758781476
+    second: elenco_80
+  - first:
+      213: -1890409973142873299
+    second: elenco_81
+  - first:
+      213: -8472558261960189749
+    second: elenco_82
+  - first:
+      213: -2572755142121859593
+    second: elenco_83
+  - first:
+      213: 3174939459071530486
+    second: elenco_84
+  - first:
+      213: -6835511804083263584
+    second: elenco_85
+  - first:
+      213: -2257986328868640304
+    second: elenco_86
+  - first:
+      213: 3375361980576955156
+    second: elenco_87
+  - first:
+      213: 6323166494772183304
+    second: elenco_88
+  - first:
+      213: 8775954939081116558
+    second: elenco_89
+  - first:
+      213: 3245057603105519422
+    second: elenco_90
+  - first:
+      213: 2262836689746685143
+    second: elenco_91
+  - first:
+      213: 3174434116755800712
+    second: elenco_92
+  - first:
+      213: -8670740738731285141
+    second: elenco_93
+  - first:
+      213: 8338074069990921488
+    second: elenco_94
+  - first:
+      213: -782650849361579398
+    second: elenco_95
+  - first:
+      213: -3657238360336582322
+    second: elenco_96
+  - first:
+      213: 4712966497207395667
+    second: elenco_97
+  - first:
+      213: -5230079984028523087
+    second: elenco_98
+  - first:
+      213: -7960649431974253236
+    second: elenco_99
+  - first:
+      213: 6720434563733068757
+    second: elenco_100
+  - first:
+      213: -3936789871272922875
+    second: elenco_101
+  - first:
+      213: 2655930525307432792
+    second: elenco_102
+  - first:
+      213: -6471374209238272687
+    second: elenco_103
+  - first:
+      213: -8784739461002486145
+    second: elenco_104
+  - first:
+      213: 8823173865871971666
+    second: elenco_105
+  - first:
+      213: -8602181418229426512
+    second: elenco_106
+  - first:
+      213: -7989698278816288577
+    second: elenco_107
+  - first:
+      213: -8428885898767781326
+    second: elenco_108
+  - first:
+      213: -1177069338987488450
+    second: elenco_109
+  - first:
+      213: 1140821063311066685
+    second: elenco_110
+  - first:
+      213: -9011032537098759783
+    second: elenco_111
+  - first:
+      213: 9205553729740724997
+    second: elenco_112
+  - first:
+      213: -4282292810204418357
+    second: elenco_113
+  - first:
+      213: 2448416925906818717
+    second: elenco_114
+  - first:
+      213: -5924456051479479717
+    second: elenco_115
+  - first:
+      213: 2261323381788520140
+    second: elenco_116
+  - first:
+      213: -7275100510143245746
+    second: elenco_117
+  - first:
+      213: -254258947420498025
+    second: elenco_118
+  - first:
+      213: -8094337202471119933
+    second: elenco_119
+  - first:
+      213: -2311131674201285901
+    second: elenco_120
+  - first:
+      213: -4603739384649516154
+    second: elenco_121
+  - first:
+      213: 2678751191580897827
+    second: elenco_122
+  - first:
+      213: -2597019393283900173
+    second: elenco_123
+  - first:
+      213: 8788401129797242609
+    second: elenco_124
+  - first:
+      213: 2249904300368990426
+    second: elenco_125
+  - first:
+      213: -8569543048753761094
+    second: elenco_126
+  - first:
+      213: -8841597776132319859
+    second: elenco_127
+  - first:
+      213: 2775240732941371590
+    second: elenco_128
+  - first:
+      213: -1462510444351554312
+    second: elenco_129
+  - first:
+      213: 2048873438921332818
+    second: elenco_130
+  - first:
+      213: 8013511056129081164
+    second: elenco_131
+  - first:
+      213: 4462429931538013415
+    second: elenco_132
+  - first:
+      213: 2425117549665510087
+    second: elenco_133
+  - first:
+      213: 5563957220672490966
+    second: elenco_134
+  - first:
+      213: 1957467744950549867
+    second: elenco_135
+  - first:
+      213: -2930663722789731788
+    second: elenco_136
+  - first:
+      213: 1236690611232305547
+    second: elenco_137
+  - first:
+      213: 3215012428427533809
+    second: elenco_138
+  - first:
+      213: 450250849990579103
+    second: elenco_139
+  - first:
+      213: -3038956869939542184
+    second: elenco_140
+  - first:
+      213: -1048507777560684823
+    second: elenco_141
+  - first:
+      213: -6006154161822848541
+    second: elenco_142
+  - first:
+      213: 4310286530099780840
+    second: elenco_143
+  - first:
+      213: 4781639998394553999
+    second: elenco_144
+  - first:
+      213: 4619860073089253265
+    second: elenco_145
+  - first:
+      213: 8912315334227728963
+    second: elenco_146
+  - first:
+      213: -5734421015185544840
+    second: elenco_147
+  - first:
+      213: 2987782893783962057
+    second: elenco_148
+  - first:
+      213: 667412257229752501
+    second: elenco_149
+  - first:
+      213: 5879143945230219030
+    second: elenco_150
+  - first:
+      213: 8974334693185337023
+    second: elenco_151
+  - first:
+      213: -7826037697761393398
+    second: elenco_152
+  - first:
+      213: 6078314494270329380
+    second: elenco_153
+  - first:
+      213: -3716200482257184344
+    second: elenco_154
+  - first:
+      213: 7360694580933117472
+    second: elenco_155
+  - first:
+      213: -4940060817348858655
+    second: elenco_156
+  - first:
+      213: 120510146495654532
+    second: elenco_157
+  - first:
+      213: 2157927825263786549
+    second: elenco_158
+  - first:
+      213: 564318892336468571
+    second: elenco_159
+  - first:
+      213: 4814288152544986418
+    second: elenco_160
+  - first:
+      213: -6386306455715626575
+    second: elenco_161
+  - first:
+      213: -7506666354476464879
+    second: elenco_162
+  - first:
+      213: 5557089498335725660
+    second: elenco_163
+  - first:
+      213: -920895768117178535
+    second: elenco_164
+  - first:
+      213: -338130329646608003
+    second: elenco_165
+  - first:
+      213: 3917701795504643953
+    second: elenco_166
+  - first:
+      213: 8086261963786747205
+    second: elenco_167
+  - first:
+      213: 3392467591579959914
+    second: elenco_168
+  - first:
+      213: -7643169675576766714
+    second: elenco_169
+  - first:
+      213: 3929882851262476422
+    second: elenco_170
+  - first:
+      213: -4292249805088798867
+    second: elenco_171
+  - first:
+      213: 5672469251749747075
+    second: elenco_172
+  - first:
+      213: 6735063823052435744
+    second: elenco_173
+  - first:
+      213: -3045472442456122126
+    second: elenco_174
+  - first:
+      213: 185051855250417625
+    second: elenco_175
+  - first:
+      213: -7062228493586409202
+    second: elenco_176
+  - first:
+      213: 8697053120422004290
+    second: elenco_177
+  - first:
+      213: -2031895165752508201
+    second: elenco_178
+  - first:
+      213: 710906378553765109
+    second: elenco_179
+  - first:
+      213: -8939483245930444327
+    second: elenco_180
+  - first:
+      213: 8326238625955608335
+    second: elenco_181
+  - first:
+      213: 815291986059590023
+    second: elenco_182
+  - first:
+      213: 8837174363996135792
+    second: elenco_183
+  - first:
+      213: -8797101081075161496
+    second: elenco_184
+  - first:
+      213: -1062585583251039010
+    second: elenco_185
+  - first:
+      213: -7212857666458983487
+    second: elenco_186
+  - first:
+      213: -9079358000187544942
+    second: elenco_187
+  - first:
+      213: -36338621593846526
+    second: elenco_188
+  - first:
+      213: 7866795366345915377
+    second: elenco_189
+  - first:
+      213: 43751031092195983
+    second: elenco_190
+  - first:
+      213: 1038833477626399966
+    second: elenco_191
+  - first:
+      213: -5102445707999069589
+    second: elenco_192
+  - first:
+      213: -6109385667743277135
+    second: elenco_193
+  - first:
+      213: -6392965018766267526
+    second: elenco_194
+  - first:
+      213: 8916307641165059066
+    second: elenco_195
+  - first:
+      213: 8057210864323242955
+    second: elenco_196
+  - first:
+      213: -5510415817897697676
+    second: elenco_197
+  - first:
+      213: -7538490585151409961
+    second: elenco_198
+  - first:
+      213: -7497978442733254502
+    second: elenco_199
+  - first:
+      213: -6652162054900588975
+    second: elenco_200
+  - first:
+      213: 8165187249269206809
+    second: elenco_201
+  - first:
+      213: -7250546573655036509
+    second: elenco_202
+  - first:
+      213: -7271674662383517855
+    second: elenco_203
+  - first:
+      213: -1951224054638532692
+    second: elenco_204
+  - first:
+      213: 300023012286746954
+    second: elenco_205
+  - first:
+      213: -3744688095545292866
+    second: elenco_206
+  - first:
+      213: 2919748942995938365
+    second: elenco_207
+  - first:
+      213: -4811787974124328556
+    second: elenco_208
+  - first:
+      213: 1795982516236926272
+    second: elenco_209
+  - first:
+      213: 4187783937260103551
+    second: elenco_210
+  - first:
+      213: -7088281203204861811
+    second: elenco_211
+  - first:
+      213: 6110589654677493516
+    second: elenco_212
+  - first:
+      213: -126799925214454835
+    second: elenco_213
+  - first:
+      213: 9172502620703605324
+    second: elenco_214
+  - first:
+      213: -8238785147822058668
+    second: elenco_215
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 1
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 1
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 16
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: elenco_0
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 292
+        width: 12
+        height: 20
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3b92ca5fd592771a0800000000000000
+      internalID: -6811930427844187725
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: elenco_1
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 268
+        width: 13
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6809b04174d5f1b60800000000000000
+      internalID: 7718990846196682886
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: elenco_2
+      rect:
+        serializedVersion: 2
+        x: 18
+        y: 293
+        width: 12
+        height: 19
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: af9ff0c0baa47fee0800000000000000
+      internalID: -1227430274932934150
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: elenco_3
+      rect:
+        serializedVersion: 2
+        x: 18
+        y: 269
+        width: 12
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4157ba42f0a74e240800000000000000
+      internalID: 4820111706651587860
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: elenco_4
+      rect:
+        serializedVersion: 2
+        x: 34
+        y: 292
+        width: 12
+        height: 20
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fb35b05ffbe38d5f0800000000000000
+      internalID: -731765945276869697
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: elenco_5
+      rect:
+        serializedVersion: 2
+        x: 34
+        y: 268
+        width: 13
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e18cf39c0f894e1f0800000000000000
+      internalID: -1016519455942916066
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: elenco_6
+      rect:
+        serializedVersion: 2
+        x: 50
+        y: 293
+        width: 12
+        height: 19
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e04ebecd79bd02a70800000000000000
+      internalID: 8800275117174940686
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: elenco_7
+      rect:
+        serializedVersion: 2
+        x: 50
+        y: 269
+        width: 12
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1fc90ae330489c7b0800000000000000
+      internalID: -5203482744979415823
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: elenco_8
+      rect:
+        serializedVersion: 2
+        x: 66
+        y: 292
+        width: 12
+        height: 20
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: afea9fa70312a6f90800000000000000
+      internalID: -6959713782042349830
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: elenco_9
+      rect:
+        serializedVersion: 2
+        x: 66
+        y: 268
+        width: 13
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2f0b740bc75172e00800000000000000
+      internalID: 1019807465900323058
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: elenco_10
+      rect:
+        serializedVersion: 2
+        x: 82
+        y: 293
+        width: 12
+        height: 19
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e62b099c9f0d86b20800000000000000
+      internalID: 3127979712455946862
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: elenco_11
+      rect:
+        serializedVersion: 2
+        x: 82
+        y: 269
+        width: 12
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0f4202062d1ee81d0800000000000000
+      internalID: -3346489179417598736
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: elenco_12
+      rect:
+        serializedVersion: 2
+        x: 98
+        y: 292
+        width: 12
+        height: 20
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ea615d8e60d6eabc0800000000000000
+      internalID: -3769955961619016018
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: elenco_13
+      rect:
+        serializedVersion: 2
+        x: 98
+        y: 268
+        width: 13
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d90c765e373e07bf0800000000000000
+      internalID: -328512685888520035
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: elenco_14
+      rect:
+        serializedVersion: 2
+        x: 114
+        y: 293
+        width: 12
+        height: 19
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7a2499437b8ecd8d0800000000000000
+      internalID: -2820123393081654617
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: elenco_15
+      rect:
+        serializedVersion: 2
+        x: 114
+        y: 269
+        width: 12
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b4e6c82f4c70cd870800000000000000
+      internalID: 8708844321891970635
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: elenco_16
+      rect:
+        serializedVersion: 2
+        x: 129
+        y: 268
+        width: 13
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 313ba6dd43a621060800000000000000
+      internalID: 6922712352507474707
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: elenco_17
+      rect:
+        serializedVersion: 2
+        x: 130
+        y: 292
+        width: 12
+        height: 20
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 16ec40b0735e17f10800000000000000
+      internalID: 2265844112114896481
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: elenco_18
+      rect:
+        serializedVersion: 2
+        x: 146
+        y: 293
+        width: 12
+        height: 19
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1fc7f2a2ca5251890800000000000000
+      internalID: -7488037384061223695
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: elenco_19
+      rect:
+        serializedVersion: 2
+        x: 146
+        y: 269
+        width: 12
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f5221e053ea8b7d00800000000000000
+      internalID: 971522853547614815
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: elenco_20
+      rect:
+        serializedVersion: 2
+        x: 161
+        y: 268
+        width: 13
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3742f9d909832d110800000000000000
+      internalID: 1284151037524911219
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: elenco_21
+      rect:
+        serializedVersion: 2
+        x: 162
+        y: 292
+        width: 12
+        height: 20
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5e88eb612c2a6a4a0800000000000000
+      internalID: -6582394850866460443
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: elenco_22
+      rect:
+        serializedVersion: 2
+        x: 178
+        y: 293
+        width: 12
+        height: 19
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 853e02f2438869620800000000000000
+      internalID: 2780559577658221400
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: elenco_23
+      rect:
+        serializedVersion: 2
+        x: 178
+        y: 269
+        width: 12
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7754d6c0fc1d6f6b0800000000000000
+      internalID: -5262788427338922633
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: elenco_24
+      rect:
+        serializedVersion: 2
+        x: 194
+        y: 292
+        width: 12
+        height: 20
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0c47bbf97261585a0800000000000000
+      internalID: -6519780526109526848
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: elenco_25
+      rect:
+        serializedVersion: 2
+        x: 194
+        y: 268
+        width: 13
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 65e503cd22ba2cfa0800000000000000
+      internalID: -5781870805378900394
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: elenco_26
+      rect:
+        serializedVersion: 2
+        x: 210
+        y: 293
+        width: 12
+        height: 19
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a460d5bdfa3024230800000000000000
+      internalID: 3621461104193766986
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: elenco_27
+      rect:
+        serializedVersion: 2
+        x: 210
+        y: 269
+        width: 12
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 990691d3516c9ba50800000000000000
+      internalID: 6537474128626671769
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: elenco_28
+      rect:
+        serializedVersion: 2
+        x: 226
+        y: 292
+        width: 12
+        height: 20
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 02a045aa8130c6470800000000000000
+      internalID: 8389083610356124192
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: elenco_29
+      rect:
+        serializedVersion: 2
+        x: 226
+        y: 268
+        width: 13
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 04c289f86eace8200800000000000000
+      internalID: 184307726369172544
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: elenco_30
+      rect:
+        serializedVersion: 2
+        x: 242
+        y: 293
+        width: 12
+        height: 19
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 798726067c0ad43b0800000000000000
+      internalID: -5526584389537728361
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: elenco_31
+      rect:
+        serializedVersion: 2
+        x: 242
+        y: 269
+        width: 12
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6fd6f72e4d15bf130800000000000000
+      internalID: 3601562301787762166
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: elenco_32
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 244
+        width: 12
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: af997c73c848735c0800000000000000
+      internalID: -4235771186752546310
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: elenco_33
+      rect:
+        serializedVersion: 2
+        x: 3
+        y: 239
+        width: 10
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 464d4cf6d6e62f6c0800000000000000
+      internalID: -4111102093530180508
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: elenco_34
+      rect:
+        serializedVersion: 2
+        x: 18
+        y: 245
+        width: 12
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8971f004ce5a733e0800000000000000
+      internalID: -2074006669275228264
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: elenco_35
+      rect:
+        serializedVersion: 2
+        x: 18
+        y: 221
+        width: 12
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4ee790a6a8b9f1300800000000000000
+      internalID: 225069525178613476
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: elenco_36
+      rect:
+        serializedVersion: 2
+        x: 34
+        y: 244
+        width: 12
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 07460ef7a30a873b0800000000000000
+      internalID: -5514481570601212816
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: elenco_37
+      rect:
+        serializedVersion: 2
+        x: 35
+        y: 239
+        width: 10
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4c560e44c21171000800000000000000
+      internalID: 6492806296135108
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: elenco_38
+      rect:
+        serializedVersion: 2
+        x: 50
+        y: 245
+        width: 12
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 41ac4b0253b372340800000000000000
+      internalID: 4838901424000911892
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: elenco_39
+      rect:
+        serializedVersion: 2
+        x: 50
+        y: 221
+        width: 12
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1c23196012e052fc0800000000000000
+      internalID: -3520391998713285951
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: elenco_40
+      rect:
+        serializedVersion: 2
+        x: 66
+        y: 244
+        width: 12
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1bb0ce8cf3db8f920800000000000000
+      internalID: 3024375231430790065
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: elenco_41
+      rect:
+        serializedVersion: 2
+        x: 67
+        y: 239
+        width: 10
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e9e43428b8569b710800000000000000
+      internalID: 1709509183424122526
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: elenco_42
+      rect:
+        serializedVersion: 2
+        x: 82
+        y: 245
+        width: 12
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 999a5245b0cf59150800000000000000
+      internalID: 5878882014188644761
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: elenco_43
+      rect:
+        serializedVersion: 2
+        x: 82
+        y: 221
+        width: 12
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2a85e3bfe0d90c1a0800000000000000
+      internalID: -6791255550404437854
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: elenco_44
+      rect:
+        serializedVersion: 2
+        x: 98
+        y: 244
+        width: 12
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 63747bac714548c60800000000000000
+      internalID: 7819467314184013622
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: elenco_45
+      rect:
+        serializedVersion: 2
+        x: 99
+        y: 239
+        width: 10
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2eb5f703166d1c330800000000000000
+      internalID: 3729497679353306082
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: elenco_46
+      rect:
+        serializedVersion: 2
+        x: 114
+        y: 245
+        width: 12
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f3b9aef48b47ea5c0800000000000000
+      internalID: -4202293067326514369
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: elenco_47
+      rect:
+        serializedVersion: 2
+        x: 114
+        y: 221
+        width: 12
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8311f93ef095eff30800000000000000
+      internalID: 4611220993252200760
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: elenco_48
+      rect:
+        serializedVersion: 2
+        x: 130
+        y: 244
+        width: 12
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8e6d3a0f64c01a7a0800000000000000
+      internalID: -6367794899300657432
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: elenco_49
+      rect:
+        serializedVersion: 2
+        x: 131
+        y: 239
+        width: 10
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 48c422f16e8caecc0800000000000000
+      internalID: -3680908854731584380
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: elenco_50
+      rect:
+        serializedVersion: 2
+        x: 146
+        y: 245
+        width: 12
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0083861c9137b6aa0800000000000000
+      internalID: -6166708710297552896
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: elenco_51
+      rect:
+        serializedVersion: 2
+        x: 146
+        y: 221
+        width: 12
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e108df9b088db99d0800000000000000
+      internalID: -2766379498701225954
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: elenco_52
+      rect:
+        serializedVersion: 2
+        x: 162
+        y: 244
+        width: 12
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 61737acc9514cacf0800000000000000
+      internalID: -239744826216073450
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: elenco_53
+      rect:
+        serializedVersion: 2
+        x: 163
+        y: 239
+        width: 10
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 57152b9720c40cce0800000000000000
+      internalID: -1387025111714737803
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: elenco_54
+      rect:
+        serializedVersion: 2
+        x: 178
+        y: 245
+        width: 12
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 37687aaf39eb71ec0800000000000000
+      internalID: -3596196234657298829
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: elenco_55
+      rect:
+        serializedVersion: 2
+        x: 178
+        y: 221
+        width: 12
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 79a6eaafd29af2bf0800000000000000
+      internalID: -346872631339881833
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: elenco_56
+      rect:
+        serializedVersion: 2
+        x: 194
+        y: 244
+        width: 12
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b29f575929edf9170800000000000000
+      internalID: 8187507368736979243
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: elenco_57
+      rect:
+        serializedVersion: 2
+        x: 195
+        y: 239
+        width: 10
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ea8e01991799ae050800000000000000
+      internalID: 5830641380762904750
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: elenco_58
+      rect:
+        serializedVersion: 2
+        x: 210
+        y: 245
+        width: 12
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: aca8c169dac485280800000000000000
+      internalID: -9054402742396876086
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: elenco_59
+      rect:
+        serializedVersion: 2
+        x: 210
+        y: 221
+        width: 12
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f572c48f8b9035ba0800000000000000
+      internalID: -6101522380112517281
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: elenco_60
+      rect:
+        serializedVersion: 2
+        x: 226
+        y: 244
+        width: 12
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 84be1eeed179587b0800000000000000
+      internalID: -5222602038048593080
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: elenco_61
+      rect:
+        serializedVersion: 2
+        x: 227
+        y: 239
+        width: 10
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 72ac044a6fa31f150800000000000000
+      internalID: 5904565417451506215
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: elenco_62
+      rect:
+        serializedVersion: 2
+        x: 242
+        y: 245
+        width: 12
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6d42fe632e7bf7c40800000000000000
+      internalID: 5512326651136910550
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: elenco_63
+      rect:
+        serializedVersion: 2
+        x: 242
+        y: 221
+        width: 12
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d8bbb04fa2d7c9110800000000000000
+      internalID: 1269026818448145293
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: elenco_64
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 220
+        width: 12
+        height: 20
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0d5601d62b578a830800000000000000
+      internalID: 4082642471405774288
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: elenco_65
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 196
+        width: 12
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c6e39d8d618a80070800000000000000
+      internalID: 8072887148142476908
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: elenco_66
+      rect:
+        serializedVersion: 2
+        x: 18
+        y: 197
+        width: 12
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8e8c118fce0e79910800000000000000
+      internalID: 1844189880810326248
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: elenco_67
+      rect:
+        serializedVersion: 2
+        x: 34
+        y: 220
+        width: 12
+        height: 20
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fc8278df668b70ac0800000000000000
+      internalID: -3888937000731465521
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: elenco_68
+      rect:
+        serializedVersion: 2
+        x: 34
+        y: 196
+        width: 12
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6d9659cf1feaa99a0800000000000000
+      internalID: -6225471180538287658
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: elenco_69
+      rect:
+        serializedVersion: 2
+        x: 50
+        y: 197
+        width: 12
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 21dc71dc3f2634a30800000000000000
+      internalID: 4198308076896898322
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: elenco_70
+      rect:
+        serializedVersion: 2
+        x: 66
+        y: 220
+        width: 12
+        height: 20
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c093487e710a8a470800000000000000
+      internalID: 8406144729015925004
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: elenco_71
+      rect:
+        serializedVersion: 2
+        x: 66
+        y: 196
+        width: 12
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 368265864018776e0800000000000000
+      internalID: -1839860066827229085
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: elenco_72
+      rect:
+        serializedVersion: 2
+        x: 82
+        y: 197
+        width: 12
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 60a32aff2e378e750800000000000000
+      internalID: 6334440294685227526
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: elenco_73
+      rect:
+        serializedVersion: 2
+        x: 98
+        y: 220
+        width: 12
+        height: 20
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d1f84b9837b1ea880800000000000000
+      internalID: -8597904455558197475
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: elenco_74
+      rect:
+        serializedVersion: 2
+        x: 98
+        y: 196
+        width: 12
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 742b303260a8a0770800000000000000
+      internalID: 8577820199242412615
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: elenco_75
+      rect:
+        serializedVersion: 2
+        x: 114
+        y: 197
+        width: 12
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b213a973bb6535920800000000000000
+      internalID: 2977819140713754923
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: elenco_76
+      rect:
+        serializedVersion: 2
+        x: 130
+        y: 220
+        width: 12
+        height: 20
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a0b01bba2026b8230800000000000000
+      internalID: 3642112487269141258
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: elenco_77
+      rect:
+        serializedVersion: 2
+        x: 130
+        y: 196
+        width: 12
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9dd91b4fbbb777fa0800000000000000
+      internalID: -5803033547649212967
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: elenco_78
+      rect:
+        serializedVersion: 2
+        x: 146
+        y: 197
+        width: 12
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 599e85dbe56456a40800000000000000
+      internalID: 5360768304172034453
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: elenco_79
+      rect:
+        serializedVersion: 2
+        x: 162
+        y: 220
+        width: 12
+        height: 20
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 032211fbc93d55b80800000000000000
+      internalID: -8406580459243232720
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: elenco_80
+      rect:
+        serializedVersion: 2
+        x: 162
+        y: 196
+        width: 12
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 42a4ab436097b7c10800000000000000
+      internalID: 2052367122758781476
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: elenco_81
+      rect:
+        serializedVersion: 2
+        x: 178
+        y: 197
+        width: 12
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d2b96fe252ae3c5e0800000000000000
+      internalID: -1890409973142873299
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: elenco_82
+      rect:
+        serializedVersion: 2
+        x: 194
+        y: 220
+        width: 12
+        height: 20
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bc8df09762d6b6a80800000000000000
+      internalID: -8472558261960189749
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: elenco_83
+      rect:
+        serializedVersion: 2
+        x: 194
+        y: 196
+        width: 12
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7f554cb44dcbb4cd0800000000000000
+      internalID: -2572755142121859593
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: elenco_84
+      rect:
+        serializedVersion: 2
+        x: 210
+        y: 197
+        width: 12
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6f55451dd96af0c20800000000000000
+      internalID: 3174939459071530486
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: elenco_85
+      rect:
+        serializedVersion: 2
+        x: 226
+        y: 220
+        width: 12
+        height: 20
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0a7a0a3fa326321a0800000000000000
+      internalID: -6835511804083263584
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: elenco_86
+      rect:
+        serializedVersion: 2
+        x: 226
+        y: 196
+        width: 12
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0d9a810b5650aa0e0800000000000000
+      internalID: -2257986328868640304
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: elenco_87
+      rect:
+        serializedVersion: 2
+        x: 242
+        y: 197
+        width: 12
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 41bf5a086d1b7de20800000000000000
+      internalID: 3375361980576955156
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: elenco_88
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 172
+        width: 13
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8014c88ec6660c750800000000000000
+      internalID: 6323166494772183304
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: elenco_89
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 148
+        width: 12
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e8bc3c425847ac970800000000000000
+      internalID: 8775954939081116558
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: elenco_90
+      rect:
+        serializedVersion: 2
+        x: 18
+        y: 173
+        width: 12
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e37f8cc62b2c80d20800000000000000
+      internalID: 3245057603105519422
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: elenco_91
+      rect:
+        serializedVersion: 2
+        x: 18
+        y: 149
+        width: 12
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7dc6215faf5376f10800000000000000
+      internalID: 2262836689746685143
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: elenco_92
+      rect:
+        serializedVersion: 2
+        x: 34
+        y: 172
+        width: 13
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8824c14a20bdd0c20800000000000000
+      internalID: 3174434116755800712
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: elenco_93
+      rect:
+        serializedVersion: 2
+        x: 34
+        y: 148
+        width: 12
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b65e968dc375ba780800000000000000
+      internalID: -8670740738731285141
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: elenco_94
+      rect:
+        serializedVersion: 2
+        x: 50
+        y: 173
+        width: 12
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 01554bc803ac6b370800000000000000
+      internalID: 8338074069990921488
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: elenco_95
+      rect:
+        serializedVersion: 2
+        x: 50
+        y: 149
+        width: 12
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a7235acf2377325f0800000000000000
+      internalID: -782650849361579398
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: elenco_96
+      rect:
+        serializedVersion: 2
+        x: 66
+        y: 172
+        width: 13
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e49b4319611ee3dc0800000000000000
+      internalID: -3657238360336582322
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: elenco_97
+      rect:
+        serializedVersion: 2
+        x: 66
+        y: 148
+        width: 12
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3552d501f02d76140800000000000000
+      internalID: 4712966497207395667
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: elenco_98
+      rect:
+        serializedVersion: 2
+        x: 82
+        y: 173
+        width: 12
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1b56915f6f50b67b0800000000000000
+      internalID: -5230079984028523087
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: elenco_99
+      rect:
+        serializedVersion: 2
+        x: 82
+        y: 149
+        width: 12
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c4d62c9d487168190800000000000000
+      internalID: -7960649431974253236
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: elenco_100
+      rect:
+        serializedVersion: 2
+        x: 98
+        y: 172
+        width: 13
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5db119b11a7c34d50800000000000000
+      internalID: 6720434563733068757
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: elenco_101
+      rect:
+        serializedVersion: 2
+        x: 98
+        y: 148
+        width: 12
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 501fb675876bd59c0800000000000000
+      internalID: -3936789871272922875
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: elenco_102
+      rect:
+        serializedVersion: 2
+        x: 114
+        y: 173
+        width: 12
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 85fe015bdb2cbd420800000000000000
+      internalID: 2655930525307432792
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: elenco_103
+      rect:
+        serializedVersion: 2
+        x: 114
+        y: 149
+        width: 12
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1557ab9817f0136a0800000000000000
+      internalID: -6471374209238272687
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: elenco_104
+      rect:
+        serializedVersion: 2
+        x: 129
+        y: 172
+        width: 13
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f7e1796f006561680800000000000000
+      internalID: -8784739461002486145
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: elenco_105
+      rect:
+        serializedVersion: 2
+        x: 130
+        y: 148
+        width: 12
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2551fc242e5327a70800000000000000
+      internalID: 8823173865871971666
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: elenco_106
+      rect:
+        serializedVersion: 2
+        x: 146
+        y: 173
+        width: 12
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0b618f09399ee9880800000000000000
+      internalID: -8602181418229426512
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: elenco_107
+      rect:
+        serializedVersion: 2
+        x: 146
+        y: 149
+        width: 12
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fb0fa942fb3ee1190800000000000000
+      internalID: -7989698278816288577
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: elenco_108
+      rect:
+        serializedVersion: 2
+        x: 161
+        y: 172
+        width: 13
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 232b5a7eee4960b80800000000000000
+      internalID: -8428885898767781326
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: elenco_109
+      rect:
+        serializedVersion: 2
+        x: 162
+        y: 148
+        width: 12
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e3b95ad2ca53aafe0800000000000000
+      internalID: -1177069338987488450
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: elenco_110
+      rect:
+        serializedVersion: 2
+        x: 178
+        y: 173
+        width: 12
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d3680f676b205df00800000000000000
+      internalID: 1140821063311066685
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: elenco_111
+      rect:
+        serializedVersion: 2
+        x: 178
+        y: 149
+        width: 12
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 991ddb666a162f280800000000000000
+      internalID: -9011032537098759783
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: elenco_112
+      rect:
+        serializedVersion: 2
+        x: 194
+        y: 172
+        width: 13
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 50bd7f51852b0cf70800000000000000
+      internalID: 9205553729740724997
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: elenco_113
+      rect:
+        serializedVersion: 2
+        x: 194
+        y: 148
+        width: 12
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bce6e8fa06d3294c0800000000000000
+      internalID: -4282292810204418357
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: elenco_114
+      rect:
+        serializedVersion: 2
+        x: 210
+        y: 173
+        width: 12
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d96dabac8368af120800000000000000
+      internalID: 2448416925906818717
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: elenco_115
+      rect:
+        serializedVersion: 2
+        x: 210
+        y: 149
+        width: 12
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b5af62c3c9a18cda0800000000000000
+      internalID: -5924456051479479717
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: elenco_116
+      rect:
+        serializedVersion: 2
+        x: 226
+        y: 172
+        width: 13
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cce2acd72a5d16f10800000000000000
+      internalID: 2261323381788520140
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: elenco_117
+      rect:
+        serializedVersion: 2
+        x: 226
+        y: 148
+        width: 12
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e4216a391a6a90b90800000000000000
+      internalID: -7275100510143245746
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: elenco_118
+      rect:
+        serializedVersion: 2
+        x: 242
+        y: 173
+        width: 12
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 797590e95d0b87cf0800000000000000
+      internalID: -254258947420498025
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: elenco_119
+      rect:
+        serializedVersion: 2
+        x: 242
+        y: 149
+        width: 12
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3c3da7233332baf80800000000000000
+      internalID: -8094337202471119933
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: elenco_120
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 124
+        width: 12
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3fa141abcf53defd0800000000000000
+      internalID: -2311131674201285901
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: elenco_121
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 100
+        width: 12
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 68b7d7bdb6b3c10c0800000000000000
+      internalID: -4603739384649516154
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: elenco_122
+      rect:
+        serializedVersion: 2
+        x: 18
+        y: 125
+        width: 12
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 32275df1406dc2520800000000000000
+      internalID: 2678751191580897827
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: elenco_123
+      rect:
+        serializedVersion: 2
+        x: 18
+        y: 101
+        width: 12
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3fc33841f9885fbd0800000000000000
+      internalID: -2597019393283900173
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: elenco_124
+      rect:
+        serializedVersion: 2
+        x: 34
+        y: 124
+        width: 12
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1fec43db34ca6f970800000000000000
+      internalID: 8788401129797242609
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: elenco_125
+      rect:
+        serializedVersion: 2
+        x: 34
+        y: 100
+        width: 12
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ad01e1a6a04493f10800000000000000
+      internalID: 2249904300368990426
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: elenco_126
+      rect:
+        serializedVersion: 2
+        x: 50
+        y: 125
+        width: 12
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ab43d93200ed21980800000000000000
+      internalID: -8569543048753761094
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: elenco_127
+      rect:
+        serializedVersion: 2
+        x: 50
+        y: 101
+        width: 12
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d85dfbadaa55c4580800000000000000
+      internalID: -8841597776132319859
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: elenco_128
+      rect:
+        serializedVersion: 2
+        x: 66
+        y: 124
+        width: 12
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6c84a252eb2a38620800000000000000
+      internalID: 2775240732941371590
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: elenco_129
+      rect:
+        serializedVersion: 2
+        x: 66
+        y: 100
+        width: 12
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8fc7024ef7e14bbe0800000000000000
+      internalID: -1462510444351554312
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: elenco_130
+      rect:
+        serializedVersion: 2
+        x: 82
+        y: 125
+        width: 12
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 25893ac898f0f6c10800000000000000
+      internalID: 2048873438921332818
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: elenco_131
+      rect:
+        serializedVersion: 2
+        x: 82
+        y: 101
+        width: 12
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c4f3d3029d5b53f60800000000000000
+      internalID: 8013511056129081164
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: elenco_132
+      rect:
+        serializedVersion: 2
+        x: 98
+        y: 124
+        width: 12
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7ecd468316cbded30800000000000000
+      internalID: 4462429931538013415
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: elenco_133
+      rect:
+        serializedVersion: 2
+        x: 98
+        y: 100
+        width: 12
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7c2e066009fb7a120800000000000000
+      internalID: 2425117549665510087
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: elenco_134
+      rect:
+        serializedVersion: 2
+        x: 114
+        y: 125
+        width: 12
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6dd47a3fc95273d40800000000000000
+      internalID: 5563957220672490966
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: elenco_135
+      rect:
+        serializedVersion: 2
+        x: 114
+        y: 101
+        width: 12
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b6dff0dfa825a2b10800000000000000
+      internalID: 1957467744950549867
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: elenco_136
+      rect:
+        serializedVersion: 2
+        x: 130
+        y: 124
+        width: 12
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4328ef61fd03457d0800000000000000
+      internalID: -2930663722789731788
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: elenco_137
+      rect:
+        serializedVersion: 2
+        x: 130
+        y: 100
+        width: 12
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b81ff830f8b992110800000000000000
+      internalID: 1236690611232305547
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: elenco_138
+      rect:
+        serializedVersion: 2
+        x: 146
+        y: 125
+        width: 12
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1fd93e015c40e9c20800000000000000
+      internalID: 3215012428427533809
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: elenco_139
+      rect:
+        serializedVersion: 2
+        x: 146
+        y: 101
+        width: 12
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f93918533cc9f3600800000000000000
+      internalID: 450250849990579103
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: elenco_140
+      rect:
+        serializedVersion: 2
+        x: 162
+        y: 124
+        width: 12
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 857458fe3d473d5d0800000000000000
+      internalID: -3038956869939542184
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: elenco_141
+      rect:
+        serializedVersion: 2
+        x: 162
+        y: 100
+        width: 12
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9e6d2464bb3f271f0800000000000000
+      internalID: -1048507777560684823
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: elenco_142
+      rect:
+        serializedVersion: 2
+        x: 178
+        y: 125
+        width: 12
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3e9a05e9c9ad5aca0800000000000000
+      internalID: -6006154161822848541
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: elenco_143
+      rect:
+        serializedVersion: 2
+        x: 178
+        y: 101
+        width: 12
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8ec9fb223c631db30800000000000000
+      internalID: 4310286530099780840
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: elenco_144
+      rect:
+        serializedVersion: 2
+        x: 194
+        y: 124
+        width: 12
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f865b1c8e3ccb5240800000000000000
+      internalID: 4781639998394553999
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: elenco_145
+      rect:
+        serializedVersion: 2
+        x: 194
+        y: 100
+        width: 12
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 19fbe78624a0d1040800000000000000
+      internalID: 4619860073089253265
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: elenco_146
+      rect:
+        serializedVersion: 2
+        x: 210
+        y: 125
+        width: 12
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 34a19e6b397eeab70800000000000000
+      internalID: 8912315334227728963
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: elenco_147
+      rect:
+        serializedVersion: 2
+        x: 210
+        y: 101
+        width: 12
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 879a45d087e3b60b0800000000000000
+      internalID: -5734421015185544840
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: elenco_148
+      rect:
+        serializedVersion: 2
+        x: 226
+        y: 124
+        width: 12
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9c15bf146bcb67920800000000000000
+      internalID: 2987782893783962057
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: elenco_149
+      rect:
+        serializedVersion: 2
+        x: 226
+        y: 100
+        width: 12
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5b8cbee69ef134900800000000000000
+      internalID: 667412257229752501
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: elenco_150
+      rect:
+        serializedVersion: 2
+        x: 242
+        y: 125
+        width: 12
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 617f5d6e44ae69150800000000000000
+      internalID: 5879143945230219030
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: elenco_151
+      rect:
+        serializedVersion: 2
+        x: 242
+        y: 101
+        width: 12
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fb6b6cafadd3b8c70800000000000000
+      internalID: 8974334693185337023
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: elenco_152
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 52
+        width: 14
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a05cd129d24546390800000000000000
+      internalID: -7826037697761393398
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: elenco_153
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 28
+        width: 12
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 422571804d28a5450800000000000000
+      internalID: 6078314494270329380
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: elenco_154
+      rect:
+        serializedVersion: 2
+        x: 17
+        y: 53
+        width: 14
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8a9dce4c9576d6cc0800000000000000
+      internalID: -3716200482257184344
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: elenco_155
+      rect:
+        serializedVersion: 2
+        x: 18
+        y: 29
+        width: 12
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 02649a409b0762660800000000000000
+      internalID: 7360694580933117472
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: elenco_156
+      rect:
+        serializedVersion: 2
+        x: 33
+        y: 52
+        width: 14
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1ec68153cd0617bb0800000000000000
+      internalID: -4940060817348858655
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: elenco_157
+      rect:
+        serializedVersion: 2
+        x: 34
+        y: 28
+        width: 12
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 48a24b9f6532ca100800000000000000
+      internalID: 120510146495654532
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: elenco_158
+      rect:
+        serializedVersion: 2
+        x: 49
+        y: 53
+        width: 14
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 53a77c38cef72fd10800000000000000
+      internalID: 2157927825263786549
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: elenco_159
+      rect:
+        serializedVersion: 2
+        x: 50
+        y: 29
+        width: 12
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b52d1cdea0dd4d700800000000000000
+      internalID: 564318892336468571
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: elenco_160
+      rect:
+        serializedVersion: 2
+        x: 65
+        y: 52
+        width: 14
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 235c0da4199cfc240800000000000000
+      internalID: 4814288152544986418
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: elenco_161
+      rect:
+        serializedVersion: 2
+        x: 66
+        y: 28
+        width: 12
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1b149485d184f57a0800000000000000
+      internalID: -6386306455715626575
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: elenco_162
+      rect:
+        serializedVersion: 2
+        x: 81
+        y: 53
+        width: 14
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 115cd0ef8b6f2d790800000000000000
+      internalID: -7506666354476464879
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: elenco_163
+      rect:
+        serializedVersion: 2
+        x: 82
+        y: 29
+        width: 12
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c58ca5db47fbe1d40800000000000000
+      internalID: 5557089498335725660
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: elenco_164
+      rect:
+        serializedVersion: 2
+        x: 97
+        y: 52
+        width: 14
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 95f07329d225833f0800000000000000
+      internalID: -920895768117178535
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: elenco_165
+      rect:
+        serializedVersion: 2
+        x: 98
+        y: 28
+        width: 12
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d71d0a5b148be4bf0800000000000000
+      internalID: -338130329646608003
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: elenco_166
+      rect:
+        serializedVersion: 2
+        x: 113
+        y: 53
+        width: 14
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 17fd6f0b6097e5630800000000000000
+      internalID: 3917701795504643953
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: elenco_167
+      rect:
+        serializedVersion: 2
+        x: 114
+        y: 29
+        width: 12
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 54df248c96c283070800000000000000
+      internalID: 8086261963786747205
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: elenco_168
+      rect:
+        serializedVersion: 2
+        x: 129
+        y: 52
+        width: 14
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a62062cec47741f20800000000000000
+      internalID: 3392467591579959914
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: elenco_169
+      rect:
+        serializedVersion: 2
+        x: 130
+        y: 28
+        width: 12
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 60f8531eca10ee590800000000000000
+      internalID: -7643169675576766714
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: elenco_170
+      rect:
+        serializedVersion: 2
+        x: 145
+        y: 53
+        width: 14
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 680366eb1afb98630800000000000000
+      internalID: 3929882851262476422
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: elenco_171
+      rect:
+        serializedVersion: 2
+        x: 146
+        y: 29
+        width: 12
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d6741782b8dde64c0800000000000000
+      internalID: -4292249805088798867
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: elenco_172
+      rect:
+        serializedVersion: 2
+        x: 161
+        y: 52
+        width: 14
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3899eddfab8a8be40800000000000000
+      internalID: 5672469251749747075
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: elenco_173
+      rect:
+        serializedVersion: 2
+        x: 162
+        y: 28
+        width: 12
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 021ff98fcd0c77d50800000000000000
+      internalID: 6735063823052435744
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: elenco_174
+      rect:
+        serializedVersion: 2
+        x: 177
+        y: 53
+        width: 14
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2fc592ef2fe4cb5d0800000000000000
+      internalID: -3045472442456122126
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: elenco_175
+      rect:
+        serializedVersion: 2
+        x: 178
+        y: 29
+        width: 12
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9d76a319eaf619200800000000000000
+      internalID: 185051855250417625
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: elenco_176
+      rect:
+        serializedVersion: 2
+        x: 193
+        y: 52
+        width: 14
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e09d3253a9cedfd90800000000000000
+      internalID: -7062228493586409202
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: elenco_177
+      rect:
+        serializedVersion: 2
+        x: 194
+        y: 28
+        width: 12
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 246c47bebb322b870800000000000000
+      internalID: 8697053120422004290
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: elenco_178
+      rect:
+        serializedVersion: 2
+        x: 209
+        y: 53
+        width: 14
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7d00d78bc124dc3e0800000000000000
+      internalID: -2031895165752508201
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: elenco_179
+      rect:
+        serializedVersion: 2
+        x: 210
+        y: 29
+        width: 12
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5fca142b595add900800000000000000
+      internalID: 710906378553765109
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: elenco_180
+      rect:
+        serializedVersion: 2
+        x: 225
+        y: 52
+        width: 14
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9d982cae95390f380800000000000000
+      internalID: -8939483245930444327
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: elenco_181
+      rect:
+        serializedVersion: 2
+        x: 226
+        y: 28
+        width: 12
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f07783f7aedbc8370800000000000000
+      internalID: 8326238625955608335
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: elenco_182
+      rect:
+        serializedVersion: 2
+        x: 241
+        y: 53
+        width: 14
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 789fd41edbf705b00800000000000000
+      internalID: 815291986059590023
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: elenco_183
+      rect:
+        serializedVersion: 2
+        x: 242
+        y: 29
+        width: 12
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 071ad204343f3aa70800000000000000
+      internalID: 8837174363996135792
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: elenco_184
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 4
+        width: 13
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8666f410d2b6ae580800000000000000
+      internalID: -8797101081075161496
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: elenco_185
+      rect:
+        serializedVersion: 2
+        x: 3
+        y: 0
+        width: 10
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: edcded6ba00f041f0800000000000000
+      internalID: -1062585583251039010
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: elenco_186
+      rect:
+        serializedVersion: 2
+        x: 18
+        y: 5
+        width: 12
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1c3624fea28c6eb90800000000000000
+      internalID: -7212857666458983487
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: elenco_187
+      rect:
+        serializedVersion: 2
+        x: 19
+        y: 0
+        width: 10
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 29a683ad004aff180800000000000000
+      internalID: -9079358000187544942
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: elenco_188
+      rect:
+        serializedVersion: 2
+        x: 34
+        y: 4
+        width: 13
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 20d75485736ee7ff0800000000000000
+      internalID: -36338621593846526
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: elenco_189
+      rect:
+        serializedVersion: 2
+        x: 35
+        y: 0
+        width: 10
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1fbbcb3a4b87c2d60800000000000000
+      internalID: 7866795366345915377
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: elenco_190
+      rect:
+        serializedVersion: 2
+        x: 50
+        y: 5
+        width: 12
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f82becab45f6b9000800000000000000
+      internalID: 43751031092195983
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: elenco_191
+      rect:
+        serializedVersion: 2
+        x: 51
+        y: 0
+        width: 10
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: edc84be3b8daa6e00800000000000000
+      internalID: 1038833477626399966
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: elenco_192
+      rect:
+        serializedVersion: 2
+        x: 66
+        y: 4
+        width: 13
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b6abff899a87039b0800000000000000
+      internalID: -5102445707999069589
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: elenco_193
+      rect:
+        serializedVersion: 2
+        x: 67
+        y: 0
+        width: 10
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1bf9c46aa1a173ba0800000000000000
+      internalID: -6109385667743277135
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: elenco_194
+      rect:
+        serializedVersion: 2
+        x: 82
+        y: 5
+        width: 12
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a7b20f2df20a747a0800000000000000
+      internalID: -6392965018766267526
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: elenco_195
+      rect:
+        serializedVersion: 2
+        x: 83
+        y: 0
+        width: 10
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: af39ebb1f861dbb70800000000000000
+      internalID: 8916307641165059066
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: elenco_196
+      rect:
+        serializedVersion: 2
+        x: 98
+        y: 4
+        width: 13
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bcba7689796f0df60800000000000000
+      internalID: 8057210864323242955
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: elenco_197
+      rect:
+        serializedVersion: 2
+        x: 99
+        y: 0
+        width: 10
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 47e938152021783b0800000000000000
+      internalID: -5510415817897697676
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: elenco_198
+      rect:
+        serializedVersion: 2
+        x: 114
+        y: 5
+        width: 12
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7d07c61e0c6e16790800000000000000
+      internalID: -7538490585151409961
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: elenco_199
+      rect:
+        serializedVersion: 2
+        x: 115
+        y: 0
+        width: 10
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a9809531554d1f790800000000000000
+      internalID: -7497978442733254502
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: elenco_200
+      rect:
+        serializedVersion: 2
+        x: 129
+        y: 4
+        width: 13
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 15e51511bd5cea3a0800000000000000
+      internalID: -6652162054900588975
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: elenco_201
+      rect:
+        serializedVersion: 2
+        x: 131
+        y: 0
+        width: 10
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 91f6d3dca82905170800000000000000
+      internalID: 8165187249269206809
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: elenco_202
+      rect:
+        serializedVersion: 2
+        x: 146
+        y: 5
+        width: 12
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3adadd96e42e06b90800000000000000
+      internalID: -7250546573655036509
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: elenco_203
+      rect:
+        serializedVersion: 2
+        x: 147
+        y: 0
+        width: 10
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 16ffb6aeb62d51b90800000000000000
+      internalID: -7271674662383517855
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: elenco_204
+      rect:
+        serializedVersion: 2
+        x: 161
+        y: 4
+        width: 13
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ca7a2127f0cdbe4e0800000000000000
+      internalID: -1951224054638532692
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: elenco_205
+      rect:
+        serializedVersion: 2
+        x: 163
+        y: 0
+        width: 10
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a415bcf0755e92400800000000000000
+      internalID: 300023012286746954
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: elenco_206
+      rect:
+        serializedVersion: 2
+        x: 178
+        y: 5
+        width: 12
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: eb7836e6402380cc0800000000000000
+      internalID: -3744688095545292866
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: elenco_207
+      rect:
+        serializedVersion: 2
+        x: 179
+        y: 0
+        width: 10
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d3c5894b138058820800000000000000
+      internalID: 2919748942995938365
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: elenco_208
+      rect:
+        serializedVersion: 2
+        x: 194
+        y: 4
+        width: 13
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 499a2dbd458193db0800000000000000
+      internalID: -4811787974124328556
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: elenco_209
+      rect:
+        serializedVersion: 2
+        x: 195
+        y: 0
+        width: 10
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 04d3d1f359c9ce810800000000000000
+      internalID: 1795982516236926272
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: elenco_210
+      rect:
+        serializedVersion: 2
+        x: 210
+        y: 5
+        width: 12
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f77a9789d4ffd1a30800000000000000
+      internalID: 4187783937260103551
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: elenco_211
+      rect:
+        serializedVersion: 2
+        x: 211
+        y: 0
+        width: 10
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d8055ee0dcd51ad90800000000000000
+      internalID: -7088281203204861811
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: elenco_212
+      rect:
+        serializedVersion: 2
+        x: 226
+        y: 4
+        width: 13
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c079a376aec2dc450800000000000000
+      internalID: 6110589654677493516
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: elenco_213
+      rect:
+        serializedVersion: 2
+        x: 227
+        y: 0
+        width: 10
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: dcbdb0cc3248d3ef0800000000000000
+      internalID: -126799925214454835
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: elenco_214
+      rect:
+        serializedVersion: 2
+        x: 242
+        y: 5
+        width: 12
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c42c06819864b4f70800000000000000
+      internalID: 9172502620703605324
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: elenco_215
+      rect:
+        serializedVersion: 2
+        x: 243
+        y: 0
+        width: 10
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4535d4b1f84f9ad80800000000000000
+      internalID: -8238785147822058668
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable: {}
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
