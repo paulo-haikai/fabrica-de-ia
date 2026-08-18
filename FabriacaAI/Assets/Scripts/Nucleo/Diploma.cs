@@ -147,7 +147,6 @@ namespace FabricaDeIA.Nucleo
 
             pdf.Linha(Margem, y + 2f, xTempo, y + 2f, 0.7f, Cinza);
             Totais(pdf, p, y + 14f);
-            Assinatura(pdf, y + 118f);
         }
 
         /// <summary>
@@ -198,26 +197,6 @@ namespace FabricaDeIA.Nucleo
                                   ? $"encerrado em  {Quando(p.terminouEm)}"
                                   : $"folha gerada em  {Quando(null)}",
                               Pdf.Largura - Margem - 8f, y + 42f, 10f, Pdf.Normal, Tinta);
-        }
-
-        /// <summary>
-        /// As duas linhas do professor: visto e nota.
-        ///
-        /// Existem porque este papel tem um destino declarado — valer ponto como
-        /// atividade. Sem elas o professor imprime trinta folhas e escreve a nota
-        /// em cima do desenho; com elas, o documento já é o instrumento de
-        /// correção. E ocupam com propósito o vão que sobrava entre o quadro de
-        /// totais e o rodapé.
-        /// </summary>
-        static void Assinatura(Pdf pdf, float y)
-        {
-            var meio = Centro + 40f;
-
-            pdf.Linha(Margem + 8f, y, meio - 30f, y, 0.7f, Cinza);
-            pdf.Texto("visto do professor", Margem + 8f, y + 4f, 9f, Pdf.Normal, Cinza);
-
-            pdf.Linha(meio + 30f, y, Pdf.Largura - Margem - 8f, y, 0.7f, Cinza);
-            pdf.Texto("nota", meio + 30f, y + 4f, 9f, Pdf.Normal, Cinza);
         }
 
         // ------------------------------------------------------------- o rodapé

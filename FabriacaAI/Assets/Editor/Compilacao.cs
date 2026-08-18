@@ -42,6 +42,7 @@ namespace FabricaDeIA.Editor
             }
 
             AjustarWebGL();
+            AjustarAbertura();
 
             var destino = Path.GetFullPath(Path.Combine(Application.dataPath, "..", "..", Saida));
             Directory.CreateDirectory(destino);
@@ -72,6 +73,47 @@ namespace FabricaDeIA.Editor
                 .Take(10);
             Debug.LogError($"BUILD: FALHOU ({resumo.result})\n{string.Join("\n", erros)}");
             if (Application.isBatchMode) EditorApplication.Exit(1);
+        }
+
+        /// <summary>
+        /// A abertura: logo da Unity, depois o da Ludotopia.
+        ///
+        /// A ordem não sai do acaso e nem de `showUnityLogo` sozinho. Com o modo
+        /// de desenho padrão os logos aparecem empilhados na mesma tela; o que
+        /// põe um DEPOIS do outro é `AllSequential`, e aí a ordem é a ordem do
+        /// array. `CreateWithUnityLogo` existe para o logo da Unity ocupar uma
+        /// posição explícita nessa fila em vez de ser encaixado onde o Unity
+        /// achar melhor.
+        ///
+        /// Dois segundos por logo é o mínimo que o Unity aceita
+        /// (`SplashScreenLogo.minimumLogoTime`) — pedir menos não acelera nada,
+        /// só é silenciosamente ignorado. São quatro segundos entre o clique do
+        /// aluno e o jogo, uma vez por aula.
+        /// </summary>
+        static void AjustarAbertura()
+        {
+            var logo = AssetDatabase.LoadAssetAtPath<Sprite>("Assets/Art/Ludotopia.png");
+            if (logo == null)
+            {
+                // Falhar alto. Um logo que some sem avisar vira um build publicado
+                // sem a marca de quem fez, e ninguém percebe até alguém reclamar.
+                Debug.LogError("ABERTURA: Assets/Art/Ludotopia.png não importou como Sprite");
+                return;
+            }
+
+            PlayerSettings.SplashScreen.show = true;
+            PlayerSettings.SplashScreen.showUnityLogo = true;
+            PlayerSettings.SplashScreen.drawMode =
+                PlayerSettings.SplashScreen.DrawMode.AllSequential;
+            PlayerSettings.SplashScreen.animationMode =
+                PlayerSettings.SplashScreen.AnimationMode.Static;
+            PlayerSettings.SplashScreen.logos = new[]
+            {
+                PlayerSettings.SplashScreenLogo.CreateWithUnityLogo(),
+                PlayerSettings.SplashScreenLogo.Create(2f, logo)
+            };
+
+            Debug.Log("ABERTURA: Unity → Ludotopia");
         }
 
         /// <summary>

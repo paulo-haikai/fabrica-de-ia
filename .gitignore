@@ -85,3 +85,8 @@ desktop.ini
 
 # Restos de redirecionamento de shell: arquivos de 0 byte com nome de
 # fragmento de codigo. Nao sao assets.
+
+# Gerados pelo pacote de testes de performance a cada build — entraram no
+# commit inicial por engano e o proprio build os apaga depois.
+/FabriacaAI/Assets/Resources/PerformanceTestRun*.json
+/FabriacaAI/Assets/Resources/PerformanceTestRun*.json.meta
