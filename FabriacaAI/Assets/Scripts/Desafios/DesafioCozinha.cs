@@ -3,31 +3,29 @@ using System.Linq;
 using FabricaDeIA.Engine;
 using FabricaDeIA.UI;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace FabricaDeIA.Desafios
 {
     /// <summary>
     /// Bancada 9 — a cozinha do Chef Amaro.
     ///
-    /// Inspiração: TESTE CEGO, o jogo de mesa mais antigo do mundo — três pratos
-    /// tapados, três sabores, case quem é quem. Em jogo digital é a família do
-    /// Cluedo e do Papers, Please: dedução por evidência, sem sorte envolvida.
+    /// Inspiração: LIGUE OS PONTOS. De um lado as máquinas, do outro o que cada
+    /// uma comeu. O aluno pega um pontinho e puxa um traço até o alimento certo.
     ///
-    /// Aqui os "pratos" são três textos diferentes e as "amostras" são frases que
-    /// máquinas de risquinhos treinadas em cada um deles escreveram. O aluno lê o
-    /// que cada máquina falou e tem que dizer qual texto ela comeu.
+    /// A lição é a mesma de sempre e o gesto agora a diz sozinho: **a máquina é
+    /// o que ela leu**. Ligar uma à sua comida é essa frase virada em risco na
+    /// tela — e é por isso que a bancada não precisa de parágrafo nenhum antes.
     ///
-    /// E funciona porque as máquinas SÃO treinadas de verdade, ali, na hora: cada
-    /// prato constrói um <see cref="Bigrama"/> próprio a partir de um recorte
-    /// diferente do corpus, e as frases são geradas por sorteio ponderado. O aluno
-    /// não está lendo texto escrito por mim imitando uma IA — está lendo a saída
-    /// de três modelos distintos.
+    /// A versão anterior era uma prova cega: três pratos tapados, e o aluno
+    /// casava tudo de uma vez no fim. Tinha dois defeitos que este desenho
+    /// resolve de graça. Era tudo-ou-nada numa permutação de três — acertar dois
+    /// obriga o terceiro, então os resultados possíveis eram 0, 1 ou 3, e o acaso
+    /// sozinho dava 1 em 6. E não havia nada para FAZER com as mãos: era ler,
+    /// pensar e clicar uma vez.
     ///
-    /// A lição chega sozinha, e é a mais fácil de enunciar e a mais difícil de
-    /// aceitar: a máquina não tem estilo, opinião nem assunto preferido. Ela tem
-    /// o texto que comeu. Troque o prato e ela vira outra — mesma arquitetura,
-    /// mesmos fios, outra boca.
+    /// Agora cada ligação responde na hora. Errou, o traço treme e some; acertou,
+    /// fica. O aluno atravessa a bancada por partes, e a parte que ele já venceu
+    /// não pode ser perdida pela próxima.
     /// </summary>
     public partial class DesafioCozinha : DesafioEmNiveis
     {
@@ -40,7 +38,7 @@ namespace FabricaDeIA.Desafios
         const int FrasesPorAmostra = 3;
 
         /// <summary>
-        /// Os pratos: um nome e o filtro que escolhe as frases do corpus.
+        /// Os recortes do corpus, e as palavras que marcam cada um.
         ///
         /// Cada filtro pega um recorte com vocabulário bem distinto dos outros —
         /// é o que torna a dedução possível. Recortes parecidos dariam três
@@ -62,49 +60,47 @@ namespace FabricaDeIA.Desafios
                      "resposta", "questão", "média", "resultado", "corrigiu" })
         };
 
-        readonly List<(string nome, Bigrama modelo, List<string> amostra)> _rodada = new();
-        readonly Dictionary<int, int> _palpites = new();
-        int _amostraAberta = -1;
+        /// <summary>Uma máquina da rodada: o que ela comeu e o que ela escreveu.</summary>
+        struct Maquina
+        {
+            public string Alimento;
+            public List<string> Amostra;
+        }
 
-        RectTransform _amostras;
-        RectTransform _bandejas;
         Mulberry32 _sorteio;
+        readonly List<Maquina> _maquinas = new();
+
+        /// <summary>A ordem em que os alimentos aparecem na coluna da direita.</summary>
+        readonly List<int> _ordemDosAlimentos = new();
+
+        /// <summary>máquina → índice na coluna da direita, quando já ligada.</summary>
+        readonly Dictionary<int, int> _ligacoes = new();
+
+        int _erros;
 
         protected override void Preparar() =>
             _sorteio = new Mulberry32((uint)Rodadas.Semente());
 
         protected override void MontarNivel()
         {
+            _ligacoes.Clear();
+            _erros = 0;
             MontarPratos();
-            _palpites.Clear();
-            _amostraAberta = -1;
+            MontarTela();
 
-            Painel.Rodape("clique numa amostra, depois no prato que você acha que ela comeu");
-
-            var rotulo = Widgets.Texto("Rótulo", Area, 15, TextAnchor.UpperCenter, Cores.Neblina);
-            Widgets.Faixa(rotulo.rectTransform, true, 20f);
-            rotulo.text = "três máquinas iguais, cada uma criada com um texto diferente";
-
-            _amostras = Widgets.Painel("Amostras", Area, Color.clear);
-            Widgets.Faixa(_amostras, true, 250f, 24f);
-
-            _bandejas = Widgets.Painel("Bandejas", Area, Color.clear);
-            Widgets.Esticar(_bandejas);
-            _bandejas.offsetMax = new Vector2(0f, -282f);
-
-            Redesenhar();
+            Painel.Rodape("puxe um traço de cada máquina até o que ela comeu");
+            Painel.Instruir("qual delas leu o quê?");
         }
 
         /// <summary>
-        /// Sorteia três pratos, treina um modelo em cada e gera as amostras.
+        /// Sorteia os recortes, treina um modelo em cada e gera as amostras.
         ///
         /// O treino é de verdade e acontece aqui: três <see cref="Bigrama"/>
-        /// construídos sobre recortes diferentes do corpus. A geração usa o
-        /// sorteio ponderado pela contagem, que é como o modelo escreve.
+        /// construídos sobre recortes diferentes do corpus.
         /// </summary>
         void MontarPratos()
         {
-            _rodada.Clear();
+            _maquinas.Clear();
 
             var indices = Enumerable.Range(0, Cardapio.Length).ToList();
             for (var i = indices.Count - 1; i > 0; i--)
@@ -117,7 +113,6 @@ namespace FabricaDeIA.Desafios
             {
                 var (nome, marcas) = Cardapio[idx];
 
-                // Uma frase entra no prato se contiver alguma palavra-marca dele.
                 var frases = Corpus.Frases
                     .Where(f => marcas.Any(m => f.Contains(m)))
                     .ToList();
@@ -136,6 +131,21 @@ namespace FabricaDeIA.Desafios
 
                 var modelo = new Bigrama(frases);
                 var amostra = new List<string>();
+
+                // A PRIMEIRA FRASE TEM QUE DENUNCIAR O ALIMENTO.
+                //
+                // Sem isto a bancada sorteava rodadas indecidíveis: nada obrigava a
+                // amostra a conter palavra-marca nenhuma, e o prato magro, que é
+                // completado com frases quaisquer, tem chance ainda maior de sair
+                // mudo. Não basta a rodada ser difícil, ela precisa ser decidível.
+                for (var t = 0; t < 120 && amostra.Count == 0; t++)
+                {
+                    var palavras = modelo.Gerar(_sorteio);
+                    if (palavras.Count < 4) continue;
+                    var frase = string.Join(" ", palavras);
+                    if (marcas.Any(m => frase.Contains(m))) amostra.Add(frase);
+                }
+
                 for (var t = 0; t < 40 && amostra.Count < FrasesPorAmostra; t++)
                 {
                     var palavras = modelo.Gerar(_sorteio);
@@ -144,159 +154,66 @@ namespace FabricaDeIA.Desafios
                     if (!amostra.Contains(frase)) amostra.Add(frase);
                 }
 
-                _rodada.Add((nome, modelo, amostra));
+                _maquinas.Add(new Maquina { Alimento = nome, Amostra = amostra });
             }
 
-            // A ordem das amostras na tela não pode ser a ordem dos pratos.
-            for (var i = _rodada.Count - 1; i > 0; i--)
+            // A coluna da direita não pode estar na ordem das máquinas, senão a
+            // primeira ligação entrega o resto por eliminação visual.
+            _ordemDosAlimentos.Clear();
+            _ordemDosAlimentos.AddRange(Enumerable.Range(0, _maquinas.Count));
+            for (var i = _ordemDosAlimentos.Count - 1; i > 0; i--)
             {
                 var j = (int)(_sorteio.Proximo() * (i + 1));
-                (_rodada[i], _rodada[j]) = (_rodada[j], _rodada[i]);
+                (_ordemDosAlimentos[i], _ordemDosAlimentos[j]) =
+                    (_ordemDosAlimentos[j], _ordemDosAlimentos[i]);
             }
         }
 
-        // ------------------------------------------------------------ pintura
+        // -------------------------------------------------------- as ligações
 
-        void Redesenhar()
+        /// <summary>
+        /// O aluno soltou o traço em cima de um alimento.
+        ///
+        /// A resposta é IMEDIATA, e é o que separa esta versão da anterior. Errar
+        /// aqui custa um risco na conta e nada mais: o que ele já ligou certo
+        /// continua ligado. Numa prova cega de três, acertar dois obrigava o
+        /// terceiro — o aluno nunca sabia quantas das suas ideias estavam certas,
+        /// só se todas estavam.
+        /// </summary>
+        void Ligar(int maquina, int posicaoNaDireita)
         {
-            foreach (Transform filho in _amostras) Destroy(filho.gameObject);
-            foreach (Transform filho in _bandejas) Destroy(filho.gameObject);
+            if (_ligacoes.ContainsKey(maquina)) return;
+            if (_ligacoes.ContainsValue(posicaoNaDireita)) return;
 
-            DesenharAmostras();
-            DesenharBandejas();
+            var certo = _ordemDosAlimentos[posicaoNaDireita] == maquina;
 
-            var faltam = Pratos - _palpites.Count;
-            Painel.Instruir(faltam == 0
-                ? "confira as suas apostas"
-                : _amostraAberta >= 0
-                    ? "agora escolha o prato desta amostra"
-                    : $"faltam {faltam} amostras para casar");
-
-            Painel.Acao(faltam == 0 ? "conferir" : null,
-                        faltam == 0 ? Conferir : (System.Action)null);
-        }
-
-        void DesenharAmostras()
-        {
-            const float largura = 290f;
-            for (var i = 0; i < _rodada.Count; i++)
+            if (!certo)
             {
-                var indice = i;
-                var escolhida = _amostraAberta == i;
-                var casada = _palpites.ContainsKey(i);
-
-                var botao = Widgets.Botao($"a{i}", _amostras, string.Empty,
-                                          escolhida ? Cores.Madeira :
-                                          casada ? Cores.TintaClara : Cores.Tinta,
-                                          Cores.Papel);
-                Widgets.Fixar((RectTransform)botao.transform, new Vector2(0.5f, 0.5f),
-                              new Vector2((i - 1) * (largura + 12f), 0f),
-                              new Vector2(largura, 230f));
-                Destroy(botao.GetComponentInChildren<Text>().gameObject);
-
-                var titulo = Widgets.Texto("t", (RectTransform)botao.transform, 14,
-                                           TextAnchor.UpperCenter, Cores.Luz);
-                Widgets.Faixa(titulo.rectTransform, true, 20f, 8f);
-                titulo.text = $"máquina {(char)('A' + i)}";
-
-                var corpo = Widgets.Texto("c", (RectTransform)botao.transform, 14,
-                                          TextAnchor.UpperLeft, Cores.Papel);
-                Widgets.Esticar(corpo.rectTransform, 12f);
-                corpo.rectTransform.offsetMax = new Vector2(-12f, -32f);
-                corpo.rectTransform.offsetMin = new Vector2(12f, 34f);
-                corpo.text = string.Join("\n\n", _rodada[i].amostra.Select(f => $"“{f}”"));
-
-                var escolha = Widgets.Texto("e", (RectTransform)botao.transform, 13,
-                                            TextAnchor.LowerCenter, Cores.Folha);
-                Widgets.Faixa(escolha.rectTransform, false, 20f, 8f);
-                escolha.text = casada ? Cardapio[_palpites[i]].nome : "sem prato";
-
-                botao.onClick.AddListener(() => Abrir(indice));
-            }
-        }
-
-        void DesenharBandejas()
-        {
-            var rotulo = Widgets.Texto("Rótulo", _bandejas, 14, TextAnchor.UpperCenter, Cores.Neblina);
-            Widgets.Faixa(rotulo.rectTransform, true, 18f);
-            rotulo.text = "os três textos da cozinha";
-
-            // As bandejas mostram os pratos DESTA rodada, em ordem de cardápio —
-            // e o aluno tem que descobrir qual amostra veio de qual.
-            var pratos = _rodada
-                .Select(r => System.Array.FindIndex(Cardapio, c => c.nome == r.nome))
-                .OrderBy(i => i)
-                .ToList();
-
-            const float largura = 250f;
-            for (var i = 0; i < pratos.Count; i++)
-            {
-                var prato = pratos[i];
-                var usado = _palpites.ContainsValue(prato);
-
-                var botao = Widgets.Botao($"b{i}", _bandejas, Cardapio[prato].nome,
-                                          usado ? Cores.TintaClara : Cores.Madeira,
-                                          usado ? Cores.Neblina : Cores.Papel, 15);
-                Widgets.Fixar((RectTransform)botao.transform, new Vector2(0.5f, 1f),
-                              new Vector2((i - 1) * (largura + 12f), -46f),
-                              new Vector2(largura, 48f));
-                botao.onClick.AddListener(() => Casar(prato));
-                botao.interactable = _amostraAberta >= 0;
-            }
-        }
-
-        // ------------------------------------------------------------- jogadas
-
-        void Abrir(int amostra)
-        {
-            // Clicar numa amostra já casada desfaz a aposta: mudar de ideia não
-            // pode custar nada, senão o aluno para de arriscar.
-            if (_palpites.Remove(amostra))
-            {
-                _amostraAberta = amostra;
-                Redesenhar();
-                return;
-            }
-            _amostraAberta = _amostraAberta == amostra ? -1 : amostra;
-            Redesenhar();
-        }
-
-        void Casar(int prato)
-        {
-            if (_amostraAberta < 0) return;
-            // Um prato só serve uma máquina: é o que faz a dedução fechar, como
-            // no teste cego de verdade.
-            var jaUsado = _palpites.FirstOrDefault(p => p.Value == prato);
-            if (_palpites.ContainsValue(prato)) _palpites.Remove(jaUsado.Key);
-
-            _palpites[_amostraAberta] = prato;
-            _amostraAberta = -1;
-            Redesenhar();
-        }
-
-        void Conferir()
-        {
-            var certos = _palpites.Count(p => _rodada[p.Key].nome == Cardapio[p.Value].nome);
-
-            if (certos == Pratos)
-            {
-                Resolveu("Os três pratos, certos",
-                    "Você reconheceu o texto pela boca da máquina — porque a boca\n" +
-                    "dela é o texto. As três eram a MESMA máquina: só o que\n" +
-                    "comeram mudava.\n\n" +
-                    "É por isso que “que dados essa IA usou?” não é curiosidade\n" +
-                    "técnica — é a pergunta sobre quem ela é.");
+                _erros++;
+                RecusarLigacao(maquina, posicaoNaDireita);
+                Painel.Instruir("essa não é a comida dela — repare no vocabulário",
+                                Cores.Brasa);
                 return;
             }
 
-            var gabarito = string.Join("\n", _rodada.Select(
-                (r, i) => $"   máquina {(char)('A' + i)}:  {r.nome}"));
+            _ligacoes[maquina] = posicaoNaDireita;
+            AceitarLigacao(maquina, posicaoNaDireita);
+            Painel.Instruir($"“{_maquinas[maquina].Alimento}” — é o que ela leu",
+                            Cores.Folha);
 
-            Falhou($"Você acertou {certos} de {Pratos}",
-                "O certo era:\n\n" + gabarito + "\n\n" +
-                "Não é fácil — as três máquinas são idênticas por dentro.\n" +
-                "A única diferença está no que leram.",
-                contaEstrela: certos >= 2);
+            if (_ligacoes.Count < _maquinas.Count) return;
+
+            var titulo = _erros == 0
+                ? "As três, de primeira"
+                : $"As três ligadas — com {_erros} " + (_erros == 1 ? "tentativa perdida" : "tentativas perdidas");
+
+            Resolveu(titulo,
+                "Você reconheceu cada máquina pela boca dela — porque a boca\n" +
+                "dela é o texto que ela comeu.\n\n" +
+                "As três são a MESMA máquina por dentro. Mudou só o que\n" +
+                "leram.\n\n" +
+                "É por isso que “que dados essa IA usou?” não é curiosidade\n" +
+                "técnica — é a pergunta sobre quem ela é.");
         }
     }
 }

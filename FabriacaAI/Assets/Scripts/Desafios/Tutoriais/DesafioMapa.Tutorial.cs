@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
 using FabricaDeIA.UI;
 using UnityEngine;
 
@@ -8,15 +7,13 @@ namespace FabricaDeIA.Desafios
     /// <summary>
     /// A explicação da bancada 5 — o mapa.
     ///
-    /// A demonstração fecha um grupo inteiro, e isso é deliberado: sem ver um
-    /// grupo FECHAR, o aluno não sabe o que está procurando. Com um fechado na
-    /// tela, os oito que sobram viram um problema claro.
+    /// Quase toda criança já jogou um match-3, então a demonstração não gasta
+    /// passo ensinando a trocar peça: ela gasta os passos na única coisa que este
+    /// match-3 tem de diferente, que é o que está ESCRITO nas peças.
     ///
-    /// O passo mais importante é o segundo, que aponta a companhia impressa na
-    /// carta. É a informação que a máquina usou para montar os grupos, e é a
-    /// única forma de o aluno chegar às mesmas conclusões que ela — se ele
-    /// agrupar por significado, vai discordar dela em algum ponto e o
-    /// quebra-cabeça fica injusto.
+    /// Por isso a troca de mostra acontece cedo e sem cerimônia. O que interessa
+    /// é o instante seguinte, quando as três palavras que saíram aparecem juntas
+    /// na linha de instrução — é ali que o aluno vê que a cor não era enfeite.
     /// </summary>
     public partial class DesafioMapa
     {
@@ -24,78 +21,80 @@ namespace FabricaDeIA.Desafios
         {
             new()
             {
-                Texto = "Doze palavras. Elas formam três grupos de quatro,\n" +
-                        "e Bento quer que você descubra quais.",
-                Destaque = () => _mesa
+                Texto = "Cada peça é uma palavra. Troque duas vizinhas para\n" +
+                        "juntar três da mesma cor.",
+                Destaque = () => _tabuleiro
             },
             new()
             {
-                Texto = "Olhe as duas linhas miúdas de cada carta: dizem quais palavras\n" +
-                        "vêm ANTES e DEPOIS. Agrupa-se pela companhia, não pelo assunto.",
-                Destaque = () => _mesa.childCount > 0 ? _mesa.GetChild(0) as RectTransform : null
+                Texto = "A cor não é enfeite: é uma família que a máquina montou\n" +
+                        "sozinha. Três da mesma cor são três palavras que ela\n" +
+                        "acha parecidas.",
+                Destaque = () => _tabuleiro != null && _tabuleiro.childCount > 0
+                    ? _tabuleiro.GetChild(0) as RectTransform
+                    : null
             },
             new()
             {
-                Texto = "Vou escolher quatro que andam com a mesma companhia.",
-                Acao = EscolherUmGrupo,
-                Espera = 1.2f,
-                Destaque = () => _mesa
+                Texto = "Olhe o que sai quando eu estouro.",
+                Acao = TrocarDeMostra,
+                Espera = 1.6f,
+                Destaque = () => _tabuleiro
             },
             new()
             {
-                Texto = "E confirmar.",
-                Acao = Conferir,
-                Espera = 1.2f,
-                Destaque = () => _acertos
+                Texto = "Bento pede um tanto de CADA cor — não adianta caçar só\n" +
+                        "a que estiver mais fácil.",
+                Destaque = () => _placar != null ? _placar.rectTransform : null
             },
             new()
             {
-                Texto = "Grupo fechado. Ele sobe para o alto com o nome que a máquina\n" +
-                        "deu: “aparecem onde tal palavra aparece”.",
-                Destaque = () => _acertos
-            },
-            new()
-            {
-                Texto = "Você tem três erros de margem. Quando errar, digo quantas\n" +
-                        "das quatro pertencem ao mesmo grupo — errar também informa.",
-                Destaque = () => _vidas.rectTransform
-            },
-            new()
-            {
-                Texto = "Vou desfazer o que montei. Os doze são seus.",
+                Texto = "Vou devolver o tabuleiro como estava. É seu.",
                 Destaque = null
             }
         };
 
         /// <summary>
-        /// Seleciona as quatro palavras de um grupo que a máquina montou.
+        /// Faz, sozinha, uma troca que estoura — usando o mesmo caminho do aluno.
         ///
-        /// Usa o gabarito porque a demonstração precisa ACERTAR: um grupo errado
-        /// gastaria uma vida do aluno e ensinaria a regra ao contrário.
+        /// Procura o primeiro par de vizinhas cuja troca fecha trinca e chama
+        /// <c>Tocar</c> duas vezes, que é exatamente o que dois toques dele
+        /// fariam. Simular pelo caminho de verdade é o que garante que a
+        /// demonstração não possa divergir do jogo — se a regra mudar, isto muda
+        /// junto ou quebra alto.
         /// </summary>
-        void EscolherUmGrupo()
+        void TrocarDeMostra()
         {
-            var grupo = _rodada.FirstOrDefault(g => !_resolvidos.Contains(g));
-            if (grupo == null) return;
+            for (var l = 0; l < Linhas; l++)
+            {
+                for (var c = 0; c < Colunas; c++)
+                {
+                    for (var d = 0; d < 2; d++)
+                    {
+                        var c2 = c + (d == 0 ? 1 : 0);
+                        var l2 = l + (d == 0 ? 0 : 1);
+                        if (c2 >= Colunas || l2 >= Linhas) continue;
 
-            _selecionadas.Clear();
-            foreach (var palavra in grupo.Palavras.Take(Engine.Mapas.PorGrupo))
-                _selecionadas.Add(palavra);
+                        Trocar(c, l, c2, l2);
+                        var fecha = Trincas().Count > 0;
+                        Trocar(c, l, c2, l2);
 
-            Redesenhar();
+                        if (!fecha) continue;
+
+                        Tocar(c, l);
+                        Tocar(c2, l2);
+                        return;
+                    }
+                }
+            }
         }
 
         /// <summary>
-        /// Refaz a rodada com as vidas cheias e os doze na mesa.
+        /// Refaz a rodada do zero.
         ///
-        /// Sem isto o aluno começaria com um grupo já resolvido — um terço do
-        /// quebra-cabeça entregue.
+        /// A demonstração estourou peças e contou pontos no placar. Sem refazer,
+        /// o aluno começaria com parte da meta já cumprida por outra pessoa.
         /// </summary>
-        protected override void AoFimDaExplicacao()
-        {
-            _resolvidos.Clear();
-            _selecionadas.Clear();
-            RecomecarNivel();
-        }
+        protected override void AoFimDaExplicacao() => RecomecarNivel();
     }
 }

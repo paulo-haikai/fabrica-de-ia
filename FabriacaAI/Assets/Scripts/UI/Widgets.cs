@@ -286,6 +286,91 @@ namespace FabricaDeIA.UI
         /// É o "eu recebi seu clique" mais barato que existe: nenhuma ação do
         /// aluno deve deixar a tela parada.
         /// </summary>
+        /// <summary>
+        /// Leva a peça até um lugar, deslizando.
+        ///
+        /// Nasceu para a bancada 5, e lá não é enfeite: num match-3 a queda é o
+        /// que diz DE ONDE cada peça veio. Sem ela as peças teleportam, o
+        /// jogador perde o fio do que mudou e o tabuleiro fica ilegível — o jogo
+        /// deixa de funcionar, mesmo estando todo certo por dentro.
+        ///
+        /// Amortece no fim (o quadrado do tempo invertido) porque queda que
+        /// desacelera parece peso, e queda linear parece planilha.
+        /// </summary>
+        static Texture2D _mao;
+
+        /// <summary>
+        /// Troca o ponteiro por uma mãozinha, ou devolve o normal.
+        ///
+        /// A seta padrão não diz que dá para pegar e puxar. Nas bancadas em que o
+        /// gesto É metade da explicação — o match-3 da 5, o ligar pontos da 9 — a
+        /// mão convida a arrastar sem gastar uma linha de instrução.
+        ///
+        /// Mora aqui, e não dentro de uma bancada, desde que a segunda precisou
+        /// dela. Duas cópias divergiriam.
+        /// </summary>
+        public static void Mao(bool ligar)
+        {
+            if (!ligar)
+            {
+                Cursor.SetCursor(null, Vector2.zero, CursorMode.Auto);
+                return;
+            }
+
+            if (_mao == null)
+            {
+                // 1 = contorno, 2 = palma. Uma mão apontando, 12x16.
+                string[] linhas =
+                {
+                    "....11......", "...1221.....", "...1221.....", "...1221.....",
+                    "...1221111..", "...122122211", "...1221221221", "1..1221221221",
+                    "11.122222222", ".1112222222.", ".11222222222", "..1222222221",
+                    "..1222222221", "...122222221", "...12222221.", "....1111111."
+                };
+
+                _mao = new Texture2D(12, 16, TextureFormat.RGBA32, false) { filterMode = FilterMode.Point };
+                for (var y = 0; y < 16; y++)
+                {
+                    for (var x = 0; x < 12; x++)
+                    {
+                        var ch = x < linhas[y].Length ? linhas[y][x] : '.';
+                        _mao.SetPixel(x, 15 - y, ch switch
+                        {
+                            '1' => Cores.TintaOpaca,
+                            '2' => Cores.Papel,
+                            _ => Color.clear
+                        });
+                    }
+                }
+                _mao.Apply();
+            }
+
+            // O ponto quente na ponta do indicador, que é onde a pessoa acha que
+            // está clicando.
+            Cursor.SetCursor(_mao, new Vector2(4f, 0f), CursorMode.Auto);
+        }
+
+        public static void Deslizar(RectTransform alvo, Vector2 destino, float duracao = 0.16f)
+        {
+            if (alvo == null) return;
+            Maquina.StartCoroutine(Deslize(alvo, destino, duracao));
+        }
+
+        static IEnumerator Deslize(RectTransform alvo, Vector2 destino, float duracao)
+        {
+            if (alvo == null) yield break;
+            var origem = alvo.anchoredPosition;
+
+            for (var t = 0f; t < duracao; t += Time.unscaledDeltaTime)
+            {
+                if (alvo == null) yield break;
+                var f = t / duracao;
+                alvo.anchoredPosition = Vector2.Lerp(origem, destino, 1f - (1f - f) * (1f - f));
+                yield return null;
+            }
+            if (alvo != null) alvo.anchoredPosition = destino;
+        }
+
         public static void Pulsar(RectTransform alvo, float pico = 1.15f, float duracao = 0.1f)
         {
             if (alvo == null) return;

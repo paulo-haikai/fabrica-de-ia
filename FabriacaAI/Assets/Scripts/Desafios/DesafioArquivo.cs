@@ -1,452 +1,552 @@
 using System.Collections.Generic;
-using System.Linq;
 using FabricaDeIA.Engine;
 using FabricaDeIA.UI;
 using UnityEngine;
-using UnityEngine.UI;
+using UnityEngine.InputSystem;
 
 namespace FabricaDeIA.Desafios
 {
     /// <summary>
     /// Bancada 3 — o arquivo de Mestre Aurélio.
     ///
-    /// Inspiração: CAMPO MINADO. A tabela de pares é uma grade de casinhas
-    /// fechadas; clicar revela o que tem dentro. No Campo Minado o jogador caça o
-    /// que NÃO tem mina; aqui ele caça o que TEM risquinho — e descobre, com o
-    /// dedo, que quase tudo está vazio.
+    /// Inspiração: PAPER.IO. O aluno dirige um bonequinho pela tabela de pares,
+    /// dá voltas em torno de regiões e toma cada uma para si.
     ///
-    /// A etapa tem três tempos, e a ordem é o argumento:
+    /// O QUE ELE CAÇA É O VAZIO, E ISSO É A BANCADA INTEIRA.
     ///
-    ///   Rodada 1 — "o canto movimentado". As linhas são palavras muito usadas e
-    ///   várias colunas são continuações reais delas. O aluno acha os pares
-    ///   porque SABE PORTUGUÊS: depois de "a" vem "turma", depois de "na" vem
-    ///   "lousa". É gostoso de jogar e ele ganha.
+    /// Todas as versões anteriores pediam que ele achasse a casinha CHEIA — o par
+    /// que alguém escreveu. Não funcionava, e não era questão de calibragem: a
+    /// lição desta bancada é uma ausência, e procurar o raro num espaço vazio é
+    /// frustrante por construção. O aluno clicava dez vezes no nada e concluía,
+    /// com razão, que o jogo estava quebrado.
     ///
-    ///   Rodada 2 — "a aposta de Aurélio". Mesma grade, mesmos cliques, palavras
-    ///   sorteadas do vocabulário inteiro. Aurélio aposta que ele não acha
-    ///   nenhum par — e ganha a aposta quase sempre.
+    /// Invertido o alvo, tudo se resolve sozinho. Achar nada é fácil porque quase
+    /// tudo é nada — e é justamente a FACILIDADE que prova a lição. Ele conquista
+    /// oitenta, noventa, noventa e nove por cento do arquivo, e a conta de quanto
+    /// tomou é a estatística que a bancada queria ensinar, produzida por ele.
     ///
-    ///   Rodada 3 — a tabela completa aparece de uma vez, desenhada pixel a
-    ///   pixel: 318 por 318 casinhas e as poucas acesas. Não é jogo, é o
-    ///   espanto — e num projetor funciona melhor que qualquer número.
+    /// POR QUE A TABELA ESVAZIA — dito pela mecânica, não por cartaz.
     ///
-    /// A primeira versão desta bancada comparava um arquivo PEQUENO com o
-    /// arquivo inteiro, supondo que o pequeno fosse mais fácil. A ferramenta de
-    /// conferência mostrou o contrário: num arquivo de seis frases, as palavras
-    /// mais movimentadas têm uma ou duas continuações, e a região cheia é ainda
-    /// mais vazia que a do arquivo grande. A lição saía invertida.
+    /// De uma rodada para a outra muda UMA coisa só: quantas palavras o Aurélio
+    /// pôs no arquivo. O texto que ele leu não muda nunca — e o vazio cresce:
     ///
-    /// O desenho atual é mais honesto e ensina mais: o que separa a rodada 1 da
-    /// rodada 2 não é o tamanho do arquivo, é se as palavras da grade têm
-    /// relação entre si. O aluno vence a primeira usando conhecimento de língua
-    /// que a máquina não tem — e perde a segunda porque, sem risquinho, não há
-    /// nada ali. É a diferença entre saber a língua e ter uma tabela.
+    ///     rodada 1 —  20 palavras,  20×20 =    400 casinhas, 86,0% a 88,3% de vazio
+    ///     rodada 2 —  60 palavras,  60×60 =  3.600 casinhas, 94,1% a 96,3% de vazio
+    ///     rodada 3 — 120 palavras, 120×120 = 14.400 casinhas, 97,6% a 98,5% de vazio
+    ///
+    /// O aluno fica cada vez melhor no jogo sem ficar melhor em nada: o placar
+    /// sobe porque o vazio cresceu. É a tabela crescendo com o QUADRADO do
+    /// vocabulário enquanto os pares crescem devagar — e ele sente isso antes de
+    /// alguém dizer a palavra "quadrado".
+    ///
+    /// AS FAIXAS ACIMA SÃO MEDIDAS, não estimadas: saem de Conferencias.Arquivo3
+    /// rodando o sorteio de verdade sobre o corpus de verdade. São faixas, e não
+    /// números fixos, porque O TABULEIRO É SORTEADO — cada aluno recebe um
+    /// labirinto diferente, e dois colegas compartilham perto de metade das
+    /// palavras. Ver Escolher().
+    ///
+    /// Duas armadilhas já pegas por medição, as duas invisíveis compilando:
+    ///
+    ///   · A primeira versão usava 12/40/120 palavras e prometia "os mesmos ~30
+    ///     pares" nas três rodadas. Os pares eram 17, 183 e 510 — trinta vezes
+    ///     mais, não os mesmos — e o aluno lia "os mesmos 510" logo depois de ter
+    ///     visto 17 na tela anterior. O vazio entre a rodada 1 e a 2 nem sequer
+    ///     crescia: 88,2% contra 88,6%.
+    ///   · Abaixo de vinte palavras a densidade OSCILA em vez de cair (8 palavras
+    ///     dão 18,7% de pares, 12 dão 11,8%, 16 dão 14,8%), e é por isso que a
+    ///     rodada 1 começa em 20.
     /// </summary>
     public partial class DesafioArquivo : DesafioEmNiveis
     {
         public override string Etapa => "e3";
         public override string Titulo => "O arquivo que não cabe";
 
-        protected override int Niveis => 3;
+        protected override int Niveis => Rodadas3.Length;
+
+        /// <summary>Quantas palavras o arquivo conhece em cada rodada.</summary>
+        static readonly int[] Rodadas3 = { 20, 60, 120 };
+
+        /// <summary>Quanto do vazio a rodada pede para ser vencida.</summary>
+        static readonly float[] Meta = { 0.60f, 0.80f, 0.90f };
 
         /// <summary>
-        /// A grade, medida em vez de chutada.
+        /// De quão fundo no arquivo cada rodada pode sortear as palavras.
         ///
-        /// Era 5x8 com 12 cliques, e a medição no corpus da aula reprovou: 23% de
-        /// casinhas cheias, meia linha sem par nenhum e 2,8 acertos esperados em
-        /// 12 cliques para uma meta de 3 — o aluno mediano PERDIA a rodada que
-        /// existe para ele ganhar. E com 23%, quatro cliques seguidos no vazio
-        /// acontecem em 35% das partidas: quem cai nisso desiste achando que a
-        /// bancada está quebrada, e foi exatamente o que aconteceu no teste.
+        /// A rodada 1 usa 20 palavras tiradas das 40 mais movimentadas, a 2 usa 60
+        /// tiradas de 120, a 3 usa 120 tiradas de 240. É daqui que vem o labirinto
+        /// ser diferente para cada aluno: dois alunos da mesma turma compartilham
+        /// perto de METADE das palavras, e portanto metade dos riscos.
         ///
-        /// Agora 4x6 com 10 cliques, e as colunas escolhidas para cobrir as linhas
-        /// (ver <see cref="Bigrama.Canto"/>): 40% cheias, nenhuma linha morta, 4
-        /// acertos esperados. Menos casinhas também deixa cada uma maior, e a
-        /// palavra dentro dela legível de longe — numa sala, o aluno do fundo
-        /// também joga.
+        /// A faixa não pode ser o vocabulário inteiro. Sortear 20 palavras entre
+        /// 318 daria uma tabela sem par nenhum — nada em que esbarrar, e a rodada 1
+        /// perderia a única coisa que ela tem para mostrar antes do tombo.
         /// </summary>
-        const int Colunas = 6;
-        const int Linhas = 4;
-        const float LarguraRotulo = 132f;
-        const float LarguraCelula = 108f;
-        const float AlturaCelula = 38f;
-        const int Cliques = 10;
+        static readonly int[] Faixa = { 40, 120, 240 };
 
+        /// <summary>
+        /// O vazio que cada rodada PERSEGUE ao sortear.
+        ///
+        /// Sortear sem alvo estraga a bancada, e não é hipótese: medido em 300
+        /// alunos simulados, com faixa larga e sorteio solto o tabuleiro da rodada 1
+        /// de um aluno sai MAIS vazio que o da rodada 2 dele, e a lição — a rodada
+        /// seguinte fica mais fácil sem você ter melhorado em nada — desmonta na
+        /// mão dele.
+        ///
+        /// O conserto é sortear várias vezes e ficar com a tentativa cujo vazio
+        /// chega mais perto do alvo da rodada. O labirinto continua sorteado; só a
+        /// DENSIDADE fica presa. Nos mesmos 300 alunos: nenhum caiu abaixo da meta,
+        /// e nenhum teve vazio não-crescente.
+        /// </summary>
+        static readonly float[] VazioAlvo = { 0.87f, 0.94f, 0.975f };
+
+        /// <summary>
+        /// Quantos tabuleiros sortear antes de escolher.
+        ///
+        /// Doze fecha a faixa de vazio o bastante (rodada 1 fica entre 86,0% e
+        /// 88,3% em 300 alunos) sem custar nada que se perceba: cada tentativa é
+        /// uma varredura de lado×lado consultas à tabela de pares.
+        /// </summary>
+        const int Tentativas = 12;
+
+        /// <summary>
+        /// Segundos para atravessar a tabela de ponta a ponta, seja ela de que
+        /// tamanho for.
+        ///
+        /// A velocidade é dada em travessias, e não em casinhas por segundo, porque
+        /// a tabela é sempre desenhada no mesmo quadrado de tela: uma casinha da
+        /// rodada 3 tem menos de um sexto da largura de uma da rodada 1. Um passo
+        /// fixo de nove casinhas por segundo — que era o que estava aqui — deixaria
+        /// o bonequinho arrastando na última rodada, onde uma volta pela borda
+        /// custaria quase um minuto, e a rodada que pede 90% seria a mais lenta de
+        /// todas. Assim ele anda sempre à mesma velocidade AOS OLHOS de quem joga.
+        ///
+        /// O número saiu de 3,5 para 6,5 depois do primeiro teste com gente: a
+        /// tabela é desenhada em 430 pixels, então 3,5 segundos davam 123 pixels por
+        /// segundo, e não sobrava tempo de ver o risco chegando e virar. É o único
+        /// botão de velocidade desta bancada — aumentar este número deixa TODAS as
+        /// rodadas mais lentas na mesma proporção.
+        /// </summary>
+        const float Travessia = 6.5f;
+
+        float _passoPorSegundo;
+
+        enum Casa : byte { Livre, Risco, Meu, Trilha }
+
+        // SUBIR NA TELA É DIMINUIR O Y, e não aumentar.
+        //
+        // A tabela é lida como se lê uma tabela: a linha 0 é a primeira palavra e
+        // aparece no ALTO. Quem desenha inverte (Repintar troca y por _lado-1-y),
+        // e é isso que põe a base do aluno no canto de cima à esquerda, onde ele a
+        // vê. Só que Vector2Int.up é (0, +1) — no sentido do eixo da tela, não no
+        // da tabela. Usá-lo aqui fazia a seta para cima descer, que foi o primeiro
+        // defeito que apareceu quando alguém finalmente jogou.
+        //
+        // Ficam nomeados para ninguém mais confundir os dois sistemas.
+        static readonly Vector2Int Cima = new(0, -1);
+        static readonly Vector2Int Baixo = new(0, 1);
+
+        Casa[,] _tabela;
+        int _lado;
+        int _riscos;
+
+        Vector2Int _onde;
+        Vector2Int _rumo = Vector2Int.right;
+        readonly List<Vector2Int> _trilha = new();
+        float _passoPendente;
+
+        int _tomadas;
+        int _esbarrou;
+        bool _travado;
+
+        /// <summary>Pares que a rodada 1 pôs na tela. O fecho compara com eles.</summary>
+        int _riscosDaPrimeira;
+
+        /// <summary>
+        /// O sorteio da aula. Vem de Rodadas.Semente(), como nas outras onze
+        /// bancadas — esta era a única que dava o MESMO tabuleiro para todo mundo,
+        /// toda vez.
+        /// </summary>
         Mulberry32 _sorteio;
-        Bigrama _arquivo;
 
-        string[] _de;
-        string[] _para;
-        int _cliques;
-        int _meta;
-        int _achados;
-        readonly Dictionary<Button, (int linha, int coluna)> _celulas = new();
-        Text _contador;
+        // O teto: o arquivo inteiro do Aurélio, todas as palavras que ele conhece.
+        // É o número que fecha a bancada, porque é o único que NÃO cresce quando o
+        // vocabulário cresce.
+        int _vocabularioTodo;
+        int _paresTodos;
 
-        protected override void Preparar()
-        {
+        protected override void Preparar() =>
             _sorteio = new Mulberry32((uint)Rodadas.Semente());
-            _arquivo = new Bigrama(Corpus.Frases);
-        }
 
         protected override void MontarNivel()
         {
-            if (NivelAtual == 2)
-            {
-                MostrarTabelaInteira();
-                return;
-            }
+            _lado = Rodadas3[NivelAtual];
+            _passoPorSegundo = _lado / Travessia;
+            _travado = false;
+            _esbarrou = 0;
+            _trilha.Clear();
+            _passoPendente = 0f;
 
-            _cliques = 0;
-            _achados = 0;
-            _celulas.Clear();
-            _meta = NivelAtual == 0 ? 3 : 1;
+            Semear();
+            MontarTela();
 
-            EscolherPalavras();
-            MontarGrade();
-
-            Painel.Rodape("a casinha cruza a palavra da linha com a da coluna");
-            Painel.Instruir(NivelAtual == 0
-                ? $"ache {_meta} duplas que alguém já escreveu"
-                : "Aurélio aposta que você não acha nenhuma dupla aqui");
-            Atualizar();
+            Painel.Rodape("setas para andar · dê a volta numa região para tomá-la");
+            Painel.Instruir($"o arquivo agora tem {_lado} palavras — tome o que estiver vazio");
         }
 
         /// <summary>
-        /// Escolhe as palavras da grade — e é aqui que mora a diferença entre as
-        /// duas rodadas.
+        /// Monta a tabela da rodada: um risquinho para cada par que o corpus
+        /// realmente tem, dentro do vocabulário desta rodada.
         ///
-        /// Rodada 1: linhas movimentadas e colunas que são, em boa parte,
-        /// continuações REAIS dessas linhas. O aluno acha os pares deduzindo pela
-        /// língua, não clicando à esmo — que é o que torna a rodada divertida em
-        /// vez de sorteio.
-        ///
-        /// Rodada 2: linhas e colunas sorteadas do vocabulário inteiro, sem
-        /// nenhuma relação entre si. É a tabela como ela é de verdade fora do
-        /// cantinho arrumado: vazia.
+        /// Os pares saem do corpus de verdade, e é isso que faz a conta ser honesta
+        /// — não são trinta marcas espalhadas a esmo para o jogo dar certo, são os
+        /// pares que alguém escreveu mesmo.
         /// </summary>
-        void EscolherPalavras()
+        void Semear()
         {
-            if (NivelAtual == 0)
+            _tabela = new Casa[_lado, _lado];
+            _riscos = 0;
+
+            var arquivo = new Bigrama(Corpus.Frases);
+            MedirOTeto(arquivo);
+
+            var palavras = Escolher(arquivo);
+
+            for (var i = 0; i < palavras.Count; i++)
             {
-                // O algoritmo vive no motor porque a conferência de conteúdo mede
-                // esta mesma grade. Enquanto havia duas cópias, a medição atestava
-                // um jogo e o aluno jogava outro.
-                var (de, para) = Bigrama.Canto(_arquivo, Linhas, Colunas, _sorteio);
-                _de = de.ToArray();
-                _para = para.ToArray();
-                return;
-            }
-
-            var vocabulario = _arquivo.Palavras
-                                      .Where(p => p != Bigrama.Inicio && p != Bigrama.Fim)
-                                      .ToList();
-            _de = Amostra(vocabulario, Linhas);
-            _para = Amostra(vocabulario, Colunas);
-        }
-
-        string[] Amostra(List<string> fonte, int quantas)
-        {
-            var copia = new List<string>(fonte);
-            for (var i = copia.Count - 1; i > 0; i--)
-            {
-                var j = (int)(_sorteio.Proximo() * (i + 1));
-                (copia[i], copia[j]) = (copia[j], copia[i]);
-            }
-            return copia.Take(Mathf.Min(quantas, copia.Count)).ToArray();
-        }
-
-        void MontarGrade()
-        {
-            var titulo = Widgets.Texto("Título", Area, 15, TextAnchor.UpperCenter, Cores.Neblina);
-            Widgets.Faixa(titulo.rectTransform, true, 20f);
-            titulo.text = NivelAtual == 0
-                ? "o canto do arquivo que Aurélio mais usa"
-                : $"um pedaço qualquer do arquivo — {_arquivo.Palavras.Count} palavras no total";
-
-            var grade = Widgets.Painel("Grade", Area, Color.clear);
-            Widgets.Fixar(grade, new Vector2(0.5f, 0.5f), new Vector2(0f, 6f),
-                          new Vector2(LarguraRotulo + Colunas * LarguraCelula,
-                                      (Linhas + 1) * AlturaCelula));
-
-            var esquerda = -(LarguraRotulo + Colunas * LarguraCelula) / 2f;
-            var topo = (Linhas + 1) * AlturaCelula / 2f;
-
-            // COMO SE LÊ A TABELA — a informação que faltava por inteiro.
-            //
-            // A grade sempre significou "palavra da linha, seguida da palavra da
-            // coluna", e isso nunca esteve escrito em lugar nenhum da tela. Quem
-            // pulou o tutorial via um quadriculado de casinhas vazias e a palavra
-            // "pares" numa instrução que nunca definiu o que era um par. Sem essa
-            // leitura, a rodada 1 vira sorteio: são 3 acertos em 12 cliques numa
-            // grade de 40 casas, e sem saber o que a casa pergunta não há como
-            // deduzir nada — o aluno conclui, com razão, que é impossível.
-            var deDica = Widgets.Texto("DicaDe", grade, 11, TextAnchor.MiddleRight, Cores.Neblina);
-            Widgets.Fixar(deDica.rectTransform, new Vector2(0.5f, 0.5f),
-                new Vector2(esquerda + LarguraRotulo / 2f, topo + AlturaCelula * 0.55f),
-                new Vector2(LarguraRotulo - 10f, AlturaCelula));
-            deDica.text = "primeira palavra";
-
-            var paraDica = Widgets.Texto("DicaPara", grade, 11, TextAnchor.MiddleCenter,
-                                         Cores.Neblina);
-            Widgets.Fixar(paraDica.rectTransform, new Vector2(0.5f, 0.5f),
-                new Vector2(esquerda + LarguraRotulo + Colunas * LarguraCelula / 2f,
-                            topo + AlturaCelula * 0.55f),
-                new Vector2(Colunas * LarguraCelula, AlturaCelula));
-            paraDica.text = "…e a segunda: a casinha pergunta se alguém escreveu as duas juntas";
-
-            // Cabeçalho das colunas: "o que vem depois".
-            for (var c = 0; c < _para.Length; c++)
-            {
-                var rotulo = Widgets.Texto($"col{c}", grade, 12, TextAnchor.MiddleCenter, Cores.Luz);
-                Widgets.Fixar(rotulo.rectTransform, new Vector2(0.5f, 0.5f),
-                    new Vector2(esquerda + LarguraRotulo + (c + 0.5f) * LarguraCelula,
-                                topo - AlturaCelula / 2f),
-                    new Vector2(LarguraCelula - 4f, AlturaCelula));
-                rotulo.text = _para[c];
-            }
-
-            for (var l = 0; l < _de.Length; l++)
-            {
-                var rotulo = Widgets.Texto($"lin{l}", grade, 13, TextAnchor.MiddleRight, Cores.Papel);
-                Widgets.Fixar(rotulo.rectTransform, new Vector2(0.5f, 0.5f),
-                    new Vector2(esquerda + LarguraRotulo / 2f,
-                                topo - (l + 1.5f) * AlturaCelula),
-                    new Vector2(LarguraRotulo - 10f, AlturaCelula));
-                rotulo.text = _de[l];
-
-                for (var c = 0; c < _para.Length; c++)
+                for (var j = 0; j < palavras.Count; j++)
                 {
-                    var botao = Widgets.Botao($"c{l}_{c}", grade, string.Empty,
-                                              Cores.TintaClara, Cores.Papel, 13);
-                    Widgets.Fixar((RectTransform)botao.transform, new Vector2(0.5f, 0.5f),
-                        new Vector2(esquerda + LarguraRotulo + (c + 0.5f) * LarguraCelula,
-                                    topo - (l + 1.5f) * AlturaCelula),
-                        new Vector2(LarguraCelula - 4f, AlturaCelula - 4f));
-
-                    var linha = l;
-                    var coluna = c;
-                    botao.onClick.AddListener(() => Abrir(botao, linha, coluna));
-                    _celulas[botao] = (linha, coluna);
+                    if (arquivo.Risquinhos(palavras[i], palavras[j]) <= 0) continue;
+                    _tabela[i, j] = Casa.Risco;
+                    _riscos++;
                 }
             }
 
-            _contador = Widgets.Texto("Contador", Area, 15, TextAnchor.LowerCenter, Cores.Luz);
-            Widgets.Faixa(_contador.rectTransform, false, 20f, 4f);
+            // A base: um cantinho já tomado, para o aluno ter de onde sair e para
+            // onde voltar. Sem base, a primeira volta não tem como fechar.
+            for (var y = 0; y < 2; y++)
+                for (var x = 0; x < 2; x++)
+                    if (_tabela[x, y] != Casa.Risco) _tabela[x, y] = Casa.Meu;
 
-            if (NivelAtual == 0) AbrirExemplo();
+            _onde = new Vector2Int(1, 1);
+            _rumo = Vector2Int.right;
+            _tomadas = Contar(Casa.Meu);
+
+            if (NivelAtual == 0) _riscosDaPrimeira = _riscos;
         }
 
         /// <summary>
-        /// Abre UMA casinha cheia de graça, antes de o aluno tocar em nada.
+        /// Conta o arquivo COMPLETO: todas as palavras que o corpus tem e todos os
+        /// pares distintos entre elas.
         ///
-        /// É o conserto mais barato da bancada e o que faz mais diferença. A
-        /// tabela sempre significou "palavra da linha seguida da palavra da
-        /// coluna", e nada na tela dizia isso; um exemplo já aberto mostra a
-        /// leitura, prova que existe casinha cheia nesta grade, e dá ao aluno o
-        /// padrão que ele vai procurar. Custa zero clique e zero parágrafo.
+        /// É a única conta desta bancada que não depende da rodada, e é por isso que
+        /// ela existe. As três rodadas mostram os pares subirem junto com as
+        /// palavras, e sozinhas dariam a impressão errada — a de que basta ler mais
+        /// para o arquivo encher. O teto desmente: por mais palavras que o Aurélio
+        /// ponha no fichário, os pares param aqui, porque quem os escreve é o texto,
+        /// e o texto acabou.
         ///
-        /// Fica em cor própria, e não na cor de acerto: ela não é dele. Quem
-        /// contou foi Aurélio.
+        /// Percorre as linhas da tabela, e não as casinhas: são mil e poucos pares
+        /// contra cem mil casinhas, e o resultado é o mesmo.
         /// </summary>
-        void AbrirExemplo()
+        void MedirOTeto(Bigrama arquivo)
         {
-            foreach (var par in _celulas)
+            if (_paresTodos > 0) return;
+
+            foreach (var palavra in arquivo.Palavras)
             {
-                var (linha, coluna) = par.Value;
-                var risquinhos = _arquivo.Risquinhos(_de[linha], _para[coluna]);
-                if (risquinhos <= 0) continue;
-
-                var botao = par.Key;
-                botao.interactable = false;
-                botao.GetComponent<Image>().color = Cores.Madeira;
-
-                var texto = botao.GetComponentInChildren<Text>();
-                texto.text = new string('|', Mathf.Min(risquinhos, 8));
-                texto.color = Cores.Luz;
-
-                Painel.Instruir($"exemplo: “{_de[linha]} {_para[coluna]}” — " +
-                                $"alguém escreveu isso {risquinhos} " +
-                                (risquinhos == 1 ? "vez" : "vezes"), Cores.Luz);
-                Widgets.Pulsar((RectTransform)botao.transform, 1.2f, 0.4f);
-                return;
+                if (palavra == Bigrama.Inicio || palavra == Bigrama.Fim) continue;
+                _vocabularioTodo++;
+                foreach (var continuacao in arquivo.Continuacoes(palavra))
+                    if (continuacao.Para != Bigrama.Fim) _paresTodos++;
             }
         }
-
-        void Abrir(Button botao, int linha, int coluna)
-        {
-            if (!botao.interactable) return;
-
-            var risquinhos = _arquivo.Risquinhos(_de[linha], _para[coluna]);
-            _cliques++;
-            botao.interactable = false;
-
-            var fundo = botao.GetComponent<Image>();
-            var texto = botao.GetComponentInChildren<Text>();
-
-            // O gesto comum do jogo, no verbo central desta bancada: são até 36
-            // cliques por visita, e até agora todos eles respondiam só com cor.
-            Widgets.Marcar((RectTransform)botao.transform, risquinhos > 0);
-
-            // A dupla que ele acabou de abrir, dita por extenso.
-            //
-            // É o professor invisível desta bancada: no PRIMEIRO clique o aluno lê
-            // «“na lousa” — escrito 7 vezes» e entende a tabela inteira de uma vez,
-            // sem tutorial e sem parágrafo. Vale mais que qualquer instrução no
-            // topo, porque chega no instante em que ele acabou de agir.
-            Painel.Instruir(
-                risquinhos > 0
-                    ? $"“{_de[linha]} {_para[coluna]}” — escrito {risquinhos} " +
-                      (risquinhos == 1 ? "vez" : "vezes")
-                    : $"“{_de[linha]} {_para[coluna]}” — ninguém escreveu isso",
-                risquinhos > 0 ? Cores.Folha : Cores.Neblina);
-
-            if (risquinhos > 0)
-            {
-                _achados++;
-                fundo.color = Cores.Folha;
-                texto.text = new string('|', Mathf.Min(risquinhos, 8));
-                texto.color = Cores.Papel;
-            }
-            else
-            {
-                // Casinha vazia fica MAIS escura que o fechado, não igual: o mapa
-                // do que já se procurou é o que faz o jogador sentir a extensão
-                // do vazio em vez de só falhar.
-                fundo.color = Cores.Tinta;
-                texto.text = "·";
-                texto.color = Cores.TintaClara;
-            }
-
-            Atualizar();
-        }
-
-        void Atualizar()
-        {
-            _contador.text = NivelAtual == 0
-                ? $"achou {_achados} de {_meta}   ·   cliques: {_cliques} de {Cliques}"
-                : $"achou {_achados}   ·   cliques: {_cliques} de {Cliques}";
-
-            if (_achados >= _meta)
-            {
-                Travar();
-                if (NivelAtual == 0)
-                {
-                    Resolveu($"Achou {_achados} em {_cliques} cliques",
-                        "Repare COMO você achou: nada de chute. Leu “na”, pensou\n" +
-                        "“lousa” — usou o português que sabe.\n\n" +
-                        "A máquina não sabe português. Só tem os risquinhos.\n" +
-                        "Agora Aurélio quer apostar com você.");
-                }
-                else
-                {
-                    Resolveu($"Você achou {_achados} e ganhou a aposta",
-                        "Sorte grande — quase ninguém acha nessas condições.\n\n" +
-                        "É esse o ponto: fora do cantinho arrumado, o arquivo\n" +
-                        "está vazio. Aurélio vai te mostrar o tanto.");
-                }
-                return;
-            }
-
-            if (_cliques < Cliques) return;
-
-            Travar();
-            if (NivelAtual == 0)
-            {
-                Falhou($"Os cliques acabaram — você achou {_achados}",
-                    "Pense como quem lê: o que costuma vir depois de cada\n" +
-                    "palavra da esquerda?\n\n" +
-                    "Siga assim mesmo. O que vem agora é pior.");
-            }
-            else
-            {
-                Falhou("Aurélio ganhou a aposta",
-                    $"Doze casinhas abertas, {_achados} com risquinho.\n\n" +
-                    "Antes você achou vários — as palavras tinham relação e\n" +
-                    "você SABE a língua. Aqui não há relação: só a tabela.\n\n" +
-                    "E a tabela é isto. Veja o tamanho dela.",
-                    contaEstrela: true);
-            }
-        }
-
-        void Travar()
-        {
-            foreach (var botao in _celulas.Keys) botao.interactable = false;
-        }
-
-        // -------------------------------------------------- a tabela inteira
 
         /// <summary>
-        /// A tabela completa, desenhada como imagem.
+        /// Sorteia o vocabulário desta rodada, várias vezes, e fica com o tabuleiro
+        /// cujo vazio chega mais perto do alvo.
         ///
-        /// São 318 por 318 casinhas — mais de cem mil. Criar cem mil objetos de
-        /// interface travaria o jogo; uma textura de 318 por 318 pixels custa
-        /// nada e mostra a mesma coisa melhor. Cada pixel aceso é um par que o
-        /// arquivo viu.
+        /// A lista sai ORDENADA POR MOVIMENTO, e a ordem importa tanto quanto o
+        /// sorteio. Os eixos em ordem de posto deixam os riscos amontoados no canto
+        /// das palavras movimentadas e o resto do tabuleiro limpo, e é o que torna
+        /// a bancada jogável: medindo a maior volta única possível, com os eixos
+        /// ordenados ela cerca 42-60% na rodada 1, 68-78% na 2 e 66-84% na 3 — logo
+        /// abaixo de cada meta, de modo que a primeira volta grande dá quase tudo e
+        /// faltam poucas para fechar.
         ///
-        /// É o momento mais barato e mais eficaz da bancada: o aluno não recebe
-        /// a estatística, ele VÊ o vazio.
+        /// Embaralhar os eixos foi medido e reprovado: espalha os riscos por todo o
+        /// tabuleiro, a maior volta da rodada 1 cai para 33-39% contra uma meta de
+        /// 60%, e a bancada vira uma sequência longa de voltinhas. O canto cheio
+        /// também é o retrato honesto da tabela — é ali que as palavras que todo
+        /// mundo usa se encontram.
         /// </summary>
-        void MostrarTabelaInteira()
+        List<string> Escolher(Bigrama arquivo)
         {
-            var palavras = _arquivo.Palavras;
-            var n = palavras.Count;
-
-            var textura = new Texture2D(n, n, TextureFormat.RGBA32, false)
+            var ordenadas = new List<string>();
+            foreach (var p in arquivo.MaisMovimentadas())
             {
-                filterMode = FilterMode.Point,
-                wrapMode = TextureWrapMode.Clamp
-            };
+                if (p == Bigrama.Inicio || p == Bigrama.Fim) continue;
+                ordenadas.Add(p);
+            }
 
-            var vazio = new Color32(24, 27, 36, 255);
-            var aceso = new Color32(242, 193, 78, 255);
-            var pixels = new Color32[n * n];
-            for (var i = 0; i < pixels.Length; i++) pixels[i] = vazio;
+            var fundo = Mathf.Min(Faixa[NivelAtual], ordenadas.Count);
+            var alvo = VazioAlvo[NivelAtual];
+            var casas = (float)_lado * _lado;
 
-            var cheias = 0;
-            for (var l = 0; l < n; l++)
+            List<int> melhor = null;
+            var melhorErro = float.MaxValue;
+
+            for (var t = 0; t < Tentativas; t++)
             {
-                foreach (var c in _arquivo.Continuacoes(palavras[l]))
+                var postos = Sortear(fundo, _lado);
+
+                var riscos = 0;
+                foreach (var i in postos)
+                    foreach (var j in postos)
+                        if (arquivo.Risquinhos(ordenadas[i], ordenadas[j]) > 0) riscos++;
+
+                var erro = Mathf.Abs(1f - riscos / casas - alvo);
+                if (erro >= melhorErro) continue;
+                melhorErro = erro;
+                melhor = postos;
+            }
+
+            melhor.Sort();
+            var palavras = new List<string>(melhor.Count);
+            foreach (var i in melhor) palavras.Add(ordenadas[i]);
+            return palavras;
+        }
+
+        /// <summary>
+        /// Tira <paramref name="quantos"/> postos distintos entre 0 e
+        /// <paramref name="fundo"/>, por embaralhamento parcial de Fisher-Yates.
+        /// </summary>
+        List<int> Sortear(int fundo, int quantos)
+        {
+            var saco = new int[fundo];
+            for (var i = 0; i < fundo; i++) saco[i] = i;
+
+            for (var i = 0; i < quantos; i++)
+            {
+                var j = i + (int)(_sorteio.Proximo() * (fundo - i));
+                if (j >= fundo) j = fundo - 1;
+                (saco[i], saco[j]) = (saco[j], saco[i]);
+            }
+
+            var saida = new List<int>(quantos);
+            for (var i = 0; i < quantos; i++) saida.Add(saco[i]);
+            return saida;
+        }
+
+        int Contar(Casa que)
+        {
+            var n = 0;
+            foreach (var c in _tabela) if (c == que) n++;
+            return n;
+        }
+
+        // ------------------------------------------------------------- o passo
+
+        void Update()
+        {
+            if (_travado || _tabela == null) return;
+
+            Rumar();
+
+            _passoPendente += Time.deltaTime * _passoPorSegundo;
+            while (_passoPendente >= 1f)
+            {
+                _passoPendente -= 1f;
+                Andar();
+                if (_travado) return;
+            }
+
+            // Repinta a cada quadro em que houve passo. O bonequinho é um pixel
+            // que anda; sem repintar, ele ficaria parado na base enquanto o resto
+            // do jogo acontece.
+            Repintar();
+        }
+
+        void Rumar()
+        {
+            var t = Keyboard.current;
+            if (t == null) return;
+
+            // Não deixa dar meia-volta em cima da própria trilha: seria suicídio
+            // sem aviso, e o aluno não veria o que fez de errado.
+            if (t.leftArrowKey.wasPressedThisFrame && _rumo != Vector2Int.right) _rumo = Vector2Int.left;
+            else if (t.rightArrowKey.wasPressedThisFrame && _rumo != Vector2Int.left) _rumo = Vector2Int.right;
+            else if (t.upArrowKey.wasPressedThisFrame && _rumo != Baixo) _rumo = Cima;
+            else if (t.downArrowKey.wasPressedThisFrame && _rumo != Cima) _rumo = Baixo;
+        }
+
+        void Andar()
+        {
+            var proximo = _onde + _rumo;
+
+            // A borda devolve em vez de matar. Morrer na parede num jogo em que a
+            // parede está longe e o aluno está lendo a tela é castigo por distração,
+            // e distração não é o que esta bancada mede.
+            if (proximo.x < 0 || proximo.y < 0 || proximo.x >= _lado || proximo.y >= _lado)
+            {
+                _rumo = -_rumo;
+                return;
+            }
+
+            _onde = proximo;
+            var casa = _tabela[_onde.x, _onde.y];
+
+            if (casa == Casa.Risco)
+            {
+                // Esbarrou num par que existe. Perde a volta que estava dando —
+                // e é a única forma de perder alguma coisa aqui.
+                _esbarrou++;
+                Recolher();
+                Painel.Instruir($"esbarrou num par que alguém escreveu — {_esbarrou} até agora",
+                                Cores.Brasa);
+                return;
+            }
+
+            if (casa == Casa.Trilha)
+            {
+                _esbarrou++;
+                Recolher();
+                Painel.Instruir("cruzou o próprio traço", Cores.Brasa);
+                return;
+            }
+
+            if (casa == Casa.Meu)
+            {
+                if (_trilha.Count > 0) Fechar();
+                return;
+            }
+
+            _tabela[_onde.x, _onde.y] = Casa.Trilha;
+            _trilha.Add(_onde);
+        }
+
+        /// <summary>Apaga a trilha inteira: a volta não fechou.</summary>
+        void Recolher()
+        {
+            foreach (var c in _trilha) _tabela[c.x, c.y] = Casa.Livre;
+            _trilha.Clear();
+            _onde = new Vector2Int(1, 1);
+            _rumo = Vector2Int.right;
+            Repintar();
+        }
+
+        // ------------------------------------------------------- fechar a volta
+
+        /// <summary>
+        /// Fechou o contorno: a trilha vira território e o miolo dela também.
+        ///
+        /// O miolo sai por eliminação, e não por varredura de dentro: inunda a
+        /// tabela a partir das BORDAS por tudo o que ainda é livre; o que a
+        /// inundação não alcançar está cercado, e é do aluno. É o algoritmo do
+        /// paper.io e evita ter que descobrir onde é "dentro" de um contorno
+        /// torto.
+        /// </summary>
+        void Fechar()
+        {
+            foreach (var c in _trilha) _tabela[c.x, c.y] = Casa.Meu;
+            _trilha.Clear();
+
+            var alcancado = new bool[_lado, _lado];
+            var fila = new Queue<Vector2Int>();
+
+            for (var i = 0; i < _lado; i++)
+            {
+                Molhar(new Vector2Int(i, 0), alcancado, fila);
+                Molhar(new Vector2Int(i, _lado - 1), alcancado, fila);
+                Molhar(new Vector2Int(0, i), alcancado, fila);
+                Molhar(new Vector2Int(_lado - 1, i), alcancado, fila);
+            }
+
+            while (fila.Count > 0)
+            {
+                var c = fila.Dequeue();
+                Molhar(c + Vector2Int.up, alcancado, fila);
+                Molhar(c + Vector2Int.down, alcancado, fila);
+                Molhar(c + Vector2Int.left, alcancado, fila);
+                Molhar(c + Vector2Int.right, alcancado, fila);
+            }
+
+            var ganhou = 0;
+            for (var y = 0; y < _lado; y++)
+            {
+                for (var x = 0; x < _lado; x++)
                 {
-                    var coluna = _arquivo.IndiceDe(c.Para);
-                    if (coluna < 0) continue;
-                    // Textura cresce de baixo para cima; a tabela, de cima para
-                    // baixo. Sem inverter, o desenho sai de cabeça para baixo.
-                    pixels[(n - 1 - l) * n + coluna] = aceso;
-                    cheias++;
+                    if (alcancado[x, y] || _tabela[x, y] == Casa.Meu) continue;
+                    // Cercado. Inclusive o risquinho que ficou dentro: cercar um
+                    // par também é tomá-lo, e o aluno não precisa pisar nele.
+                    _tabela[x, y] = Casa.Meu;
+                    ganhou++;
                 }
             }
-            textura.SetPixels32(pixels);
-            textura.Apply();
 
-            var titulo = Widgets.Texto("Título", Area, 17, TextAnchor.UpperCenter, Cores.Papel);
-            Widgets.Faixa(titulo.rectTransform, true, 22f);
-            titulo.text = $"a tabela inteira: {n} palavras por {n} palavras";
+            _tomadas = Contar(Casa.Meu);
+            Repintar();
 
-            var moldura = Widgets.Painel("Moldura", Area, Cores.TintaClara);
-            Widgets.Fixar(moldura, new Vector2(0.5f, 0.5f), new Vector2(0f, 4f),
-                          new Vector2(268f, 268f));
+            if (ganhou > 0)
+                Painel.Instruir($"tomou {ganhou} casinhas de uma vez", Cores.Folha);
 
-            var imagem = new GameObject("Tabela", typeof(RectTransform), typeof(Image));
-            imagem.transform.SetParent(moldura, false);
-            Widgets.Esticar((RectTransform)imagem.transform, 4f);
-            imagem.GetComponent<Image>().sprite =
-                Sprite.Create(textura, new Rect(0, 0, n, n), new Vector2(0.5f, 0.5f), 16f);
+            Conferir();
+        }
 
-            var total = (long)n * n;
-            var conta = Widgets.Texto("Conta", Area, 16, TextAnchor.LowerCenter, Cores.Luz);
-            Widgets.Faixa(conta.rectTransform, false, 44f, 4f);
-            conta.text = $"{total:n0} casinhas  ·  {cheias:n0} com risquinho  ·  " +
-                         $"{(100f * cheias / total):0.00}% preenchida";
+        void Molhar(Vector2Int c, bool[,] alcancado, Queue<Vector2Int> fila)
+        {
+            if (c.x < 0 || c.y < 0 || c.x >= _lado || c.y >= _lado) return;
+            if (alcancado[c.x, c.y]) return;
+            if (_tabela[c.x, c.y] == Casa.Meu) return;
+            alcancado[c.x, c.y] = true;
+            fila.Enqueue(c);
+        }
 
-            Painel.Instruir("é isto que Aurélio guarda no fichário");
-            Painel.Rodape("cada pontinho aceso é um par que alguém escreveu");
+        // -------------------------------------------------------------- o fecho
 
-            Resolveu("Noventa e nove por cento de nada",
-                "A tabela cresce com o QUADRADO do vocabulário: dobre as palavras\n" +
-                "e ela quadruplica — o texto do mundo nunca vai preencher.\n\n" +
-                "Guardar par por par não escala. O que vem agora é aprender\n" +
-                "uma REGRA que vale até para pares que ela nunca viu.");
+        float Fracao => (float)_tomadas / (_lado * _lado);
+
+        void Conferir()
+        {
+            if (Fracao < Meta[NivelAtual]) return;
+
+            _travado = true;
+            var pct = Mathf.RoundToInt(Fracao * 100f);
+
+            var casas = _lado * _lado;
+
+            if (NivelAtual < Niveis - 1)
+            {
+                Resolveu($"Você tomou {pct}% do arquivo",
+                    $"Nesta tabela de {_lado}×{_lado} havia {_riscos} pares escritos.\n" +
+                    $"As outras {casas - _riscos} casinhas eram vazio — e por isso\n" +
+                    "foi tão fácil tomar.\n\n" +
+                    "Aurélio vai pôr mais palavras no arquivo. Repare no que\n" +
+                    "acontece com o tanto de vazio.");
+                return;
+            }
+
+            // As três razões, calculadas e não escritas à mão: se alguém mexer nos
+            // tamanhos das rodadas, o texto acompanha em vez de mentir.
+            var casasIniciais = Rodadas3[0] * Rodadas3[0];
+            var vezesPalavras = (float)_lado / Rodadas3[0];
+            var vezesCasas = (float)casas / casasIniciais;
+            var vezesPares = _riscosDaPrimeira > 0 ? (float)_riscos / _riscosDaPrimeira : 0f;
+
+            Resolveu($"{pct}% — quase tudo era vazio",
+                $"O vocabulário foi de {Rodadas3[0]} para {_lado} palavras: " +
+                $"{vezesPalavras:0.#} vezes mais.\n" +
+                $"As casinhas foram de {casasIniciais} para {casas}: " +
+                $"{vezesCasas:0.#} vezes mais.\n" +
+                $"Os pares escritos foram de {_riscosDaPrimeira} para {_riscos}: " +
+                $"{vezesPares:0.#} vezes mais.\n\n" +
+                "Palavra nova multiplica casinha. Não traz frase junto.\n\n" +
+                $"E há um teto. O texto que o Aurélio leu tem {_paresTodos} pares\n" +
+                $"diferentes, em {_vocabularioTodo} palavras — e é tudo que ele tem.\n" +
+                $"A tabela completa, de {_vocabularioTodo}×{_vocabularioTodo} = " +
+                $"{_vocabularioTodo * _vocabularioTodo} casinhas,\n" +
+                $"teria esses mesmos {_paresTodos}.\n\n" +
+                "Não é o arquivo que é grande demais — é que ele cresce ao\n" +
+                "quadrado e o mundo não acompanha.");
         }
     }
 }

@@ -3,8 +3,13 @@
 **[▶ Jogar no navegador](https://paulo-haikai.github.io/fabrica-de-ia/)**
 
 Uma aula de 90 minutos, em forma de jogo, sobre como uma IA de linguagem
-funciona por dentro. Feita para o ensino médio, em português, sem pré-requisito
-de programação ou matemática além da que o aluno já tem.
+funciona por dentro. Em português, sem pré-requisito de programação nem de
+matemática além da que o aluno já tem.
+
+Não traz série indicada de propósito. Quem conhece a turma é quem está na
+frente dela — as bancadas foram testadas com estudantes a partir dos 12 anos,
+e cabem tanto num Fundamental II quanto num Médio, mudando só o que o professor
+amarra depois de cada uma.
 
 O aluno atravessa doze bancadas de uma oficina. Em cada uma, um artesão entrega
 uma tarefa concreta — cortar palavras em pedaços, encaixar dominós, apostar em
@@ -26,7 +31,7 @@ não há definição antes do jogo: a mecânica ensina, e o professor amarra dep
 | 3 | **O arquivo que não cabe** — Mestre Aurélio | Campo minado numa tabela de pares | Por que a tabela de todos os pares é grande demais |
 | 4 | **A mesa de corte** — Nara | 2048 com pedaços de palavra | Tokenização: por que a máquina não lê letra por letra |
 | 5 | **O mapa das palavras** — Bento | Connections: doze palavras, três grupos | Embeddings: palavras próximas em significado ficam próximas no espaço |
-| 6 | **A malha que escolhe** — Iara | Aposta em qual palavra vai acender | Um passe adiante de uma rede neural, do começo ao fim |
+| 6 | **A malha que escolhe** — Iara | Leva um pacote por dez salas armadilhadas, e vê a malha abrir no fim | Um passe adiante de uma rede neural, do começo ao fim |
 | 7 | **O tamanho do erro** — Seu Ilo | Mastermind com um número só de resposta | Função de perda: um número que não diz onde você errou |
 | 8 | **Deixar a máquina treinar** — Rosa | Angry Birds: regula a força e assiste | Gradiente descendente e taxa de aprendizado |
 | 9 | **O que ela come** — Chef Amaro | Prova cega cronometrada | Que o modelo é o que o corpus dele foi |
@@ -41,6 +46,28 @@ Cada bancada nasceu de um jogo conhecido, escolhido porque a estrutura dele já
 carrega o conceito: Campo Minado para esparsidade, 2048 para fusão de tokens,
 Mastermind para um sinal de erro sem direção, Flow Free para escassez de
 atenção, Papers Please para política emergente.
+
+---
+
+## Onde isto encosta na BNCC
+
+O jogo não foi escrito a partir da BNCC — foi escrito a partir de como uma IA de
+linguagem funciona. Mas ele encosta em quatro Competências Gerais da Educação
+Básica com bastante naturalidade, e é assim que ele costuma entrar no
+planejamento:
+
+| Competência Geral | Como aparece na aula |
+|---|---|
+| **5 — Cultura Digital** | O eixo do projeto. O aluno não *usa* uma IA: ele monta as peças dela e vê que não há mágica em etapa nenhuma. É compreensão crítica de uma tecnologia que ele já usa todo dia. |
+| **2 — Pensamento científico, crítico e criativo** | Sete das doze bancadas são hipótese e teste com recurso escasso: aposta na bancada 6, medição na 7, força na 8, dedução por evidência na 9. O aluno formula, testa e corrige. |
+| **7 — Argumentação** | As bancadas 9 e 12 terminam em pergunta que não tem resposta no jogo — "que dados essa IA leu?", "quem escolheu por ela?" — e é aí que a discussão de sala começa. |
+| **10 — Responsabilidade e cidadania** | A bancada 12 mostra que a personalidade do modelo veio de escolhas humanas repetidas. Alinhamento deixa de ser assunto técnico e vira assunto de quem decide. |
+
+**Sobre as habilidades específicas:** este README não lista códigos (EF/EM) de
+propósito. A habilidade certa depende do ano, do componente e do recorte que
+você vai dar — a mesma bancada 4 serve a Língua Portuguesa falando de morfologia
+e a Matemática falando de otimização. Escolha os códigos do seu contexto; o
+material não amarra você a um.
 
 ---
 

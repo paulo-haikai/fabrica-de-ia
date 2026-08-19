@@ -166,6 +166,20 @@ namespace FabricaDeIA.Engine
             (6, 8)
         };
 
+        /// <summary>
+        /// Quantas fichas a mais que o algoritmo guloso ainda contam como vitória.
+        ///
+        /// A meta era o resultado guloso puro, e isso pedia ao aluno que EMPATASSE
+        /// com o algoritmo — escolhendo, a cada jogada, a emenda que aparece mais
+        /// vezes, sem ver contagem nenhuma na tela. Uma emenda subótima em oito e
+        /// a rodada estava perdida, ainda que ele tivesse entendido a ideia por
+        /// completo. Era o lugar do jogo que mais exigia perfeição sem avisar.
+        ///
+        /// A folga cresce com a rodada porque o número de decisões cresce: em
+        /// quatro fusões um deslize é escolha ruim, em oito é estatística.
+        /// </summary>
+        static readonly int[] Folga = { 2, 2, 3 };
+
         public static List<Rodada4> Sortear(int semente)
         {
             var sorteio = new Mulberry32((uint)semente);
@@ -188,8 +202,9 @@ namespace FabricaDeIA.Engine
             var lista = new List<Rodada4>();
             var usadas = new HashSet<string>();
 
-            foreach (var (quantas, fusoes) in Rodadas)
+            for (var rodada = 0; rodada < Rodadas.Length; rodada++)
             {
+                var (quantas, fusoes) = Rodadas[rodada];
                 var palavras = new List<string>();
 
                 if (familias.Count > 0)
@@ -206,7 +221,8 @@ namespace FabricaDeIA.Engine
                 }
 
                 var alvo = palavras.ToArray();
-                lista.Add(new Rodada4(alvo, fusoes, Oficina.MetaGulosa(alvo, fusoes)));
+                lista.Add(new Rodada4(alvo, fusoes,
+                                      Oficina.MetaGulosa(alvo, fusoes) + Folga[rodada]));
             }
             return lista;
         }

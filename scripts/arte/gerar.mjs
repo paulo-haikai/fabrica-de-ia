@@ -21,6 +21,7 @@ import { TILES, LADO as LADO_TILE, pintarTile } from './tileset.mjs';
 import { BANCADAS, LADO as LADO_BANCADA, pintarBancada } from './bancadas.mjs';
 import { folhaDe, pessoa, LARGURA as L_PESSOA, ALTURA as A_PESSOA, DIRECOES, QUADROS } from './elenco.mjs';
 import { PECAS as PECAS_ABERTURA, pintarPeca } from './abertura.mjs';
+import { PECAS as PECAS_CORREDOR, LADO as LADO_CORREDOR, pintarPeca as pintarCorredor } from './corredor.mjs';
 
 const AQUI = dirname(fileURLToPath(import.meta.url));
 const DESTINO = join(AQUI, '..', '..', 'FabriacaAI', 'Assets', 'Resources', 'Arte');
@@ -87,6 +88,18 @@ function main() {
   const poses = ELENCO.flatMap(p => folhaDe(pessoa(p)));
   escrever('elenco.png', atlas(poses, L_PESSOA, A_PESSOA, DIRECOES * QUADROS));
 
+  // --- corredor da bancada 6 ---
+  //
+  // Atlas, e não peça solta como a abertura: aqui são dezesseis peças do mesmo
+  // tamanho, desenhadas na mesma grade, e o jogo troca de peça muitas vezes por
+  // segundo enquanto o aluno corre. Um Resources.Load por troca seria absurdo.
+  const COLUNAS_CORREDOR = 8;
+  escrever(
+    'corredor.png',
+    atlas(PECAS_CORREDOR.map(([nome]) => pintarCorredor(nome)),
+          LADO_CORREDOR, LADO_CORREDOR, COLUNAS_CORREDOR)
+  );
+
   // --- abertura ---
   //
   // Peça por peça, cada uma no seu PNG. São de tamanhos muito diferentes e o
@@ -125,10 +138,16 @@ function main() {
     abertura: {
       prefixo: 'abertura_',
       pecas: PECAS_ABERTURA.map(([nome, largura, altura]) => ({ nome, largura, altura }))
+    },
+    corredor: {
+      arquivo: 'corredor.png',
+      lado: LADO_CORREDOR,
+      colunas: COLUNAS_CORREDOR,
+      pecas: PECAS_CORREDOR.map(([nome], i) => ({ nome, indice: i }))
     }
   };
   writeFileSync(join(DESTINO, 'arte.json'), `${JSON.stringify(manifesto, null, 2)}\n`);
-  console.log(`  arte.json              ${TILES.length} tiles, ${BANCADAS.length} bancadas, ${ELENCO.length} pessoas`);
+  console.log(`  arte.json              ${TILES.length} tiles, ${BANCADAS.length} bancadas, ${ELENCO.length} pessoas, ${PECAS_CORREDOR.length} peças de corredor`);
 }
 
 // Só gera quando chamado direto; `previa.mjs` importa o ELENCO daqui.

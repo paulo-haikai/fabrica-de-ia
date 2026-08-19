@@ -5,15 +5,14 @@ using UnityEngine;
 namespace FabricaDeIA.Desafios
 {
     /// <summary>
-    /// A explicação da bancada 9 — a cozinha.
+    /// A explicação da bancada 9 — ligue os pontos.
     ///
-    /// O gesto desta bancada tem duas metades e ninguém adivinha a segunda:
-    /// clicar na amostra SELECIONA, e só depois clicar na bandeja CASA. Sem a
-    /// demonstração o aluno clica na bandeja primeiro, nada acontece, e ele
-    /// conclui que o jogo está quebrado.
+    /// Ligar pontos não precisa de tutorial; toda criança já fez isso em papel.
+    /// O que precisa de tutorial é o que está ESCRITO nos cartões — que aquele
+    /// texto esquisito foi a máquina que escreveu, e que é a única pista que
+    /// existe.
     ///
-    /// Por isso a demonstração faz o par completo: escolhe uma amostra, casa com
-    /// um prato, e desfaz.
+    /// Por isso a demonstração não ensina o gesto: aponta o vocabulário.
     /// </summary>
     public partial class DesafioCozinha
     {
@@ -21,63 +20,36 @@ namespace FabricaDeIA.Desafios
         {
             new()
             {
-                Texto = "Três máquinas escreveram estas frases — IDÊNTICAS por\n" +
-                        "dentro: mesma conta, mesmo sorteio. Só o que leram era diferente.",
-                Destaque = () => _amostras
+                Texto = "Três máquinas. Cada uma escreveu essas frases sozinha.",
+                Destaque = () => _pontosEsquerda.Count > 0 ? _pontosEsquerda[0] : null
             },
             new()
             {
-                Texto = "Embaixo está o cardápio: o que existia para ler.\n" +
-                        "Seu trabalho é dizer quem comeu o quê.",
-                Destaque = () => _bandejas
+                Texto = "Do outro lado, o que cada uma comeu — o texto que ela leu\n" +
+                        "antes de aprender a escrever.",
+                Destaque = () => _pontosDireita.Count > 0 ? _pontosDireita[0] : null
             },
             new()
             {
-                Texto = "São dois cliques. Primeiro a amostra — ela acende:",
-                Acao = EscolherAmostra,
-                Espera = 1.2f,
-                Destaque = () => _amostras
+                Texto = "A pista está nas palavras. Uma máquina que comeu o livro da\n" +
+                        "horta fala de planta e semente — não tem como não falar.",
+                Destaque = () => _mesa
             },
             new()
             {
-                Texto = "Depois o prato. Aí a aposta fica registrada na amostra.",
-                Acao = ApostarPrato,
-                Espera = 1.4f,
-                Destaque = () => _bandejas
-            },
-            new()
-            {
-                Texto = "Cada prato serve UMA máquina só — é isso que faz a dedução\n" +
-                        "fechar: acertar duas entrega a terceira.",
-                Destaque = () => _bandejas
-            },
-            new()
-            {
-                Texto = "Clicar de novo numa amostra já casada desfaz a aposta.\n" +
-                        "Mudar de ideia não custa nada. Vou desfazer a minha.",
-                Destaque = () => _amostras
-            },
-            new()
-            {
-                Texto = "A dica: não procure o ASSUNTO das frases, procure o JEITO —\n" +
-                        "comprimento, formalidade, que palavras aparecem sem precisar.",
-                Destaque = () => _amostras
+                Texto = "Pegue o pontinho da máquina e puxe o traço até a comida dela.\n" +
+                        "Errou, o traço some e você tenta de novo.",
+                Destaque = null
             }
         };
 
-        /// <summary>Primeiro clique: seleciona a máquina A.</summary>
-        void EscolherAmostra() => Abrir(0);
-
         /// <summary>
-        /// Segundo clique: casa com o primeiro prato do cardápio.
+        /// A demonstração não ligou nada, então não há o que desfazer.
         ///
-        /// O primeiro, e não o certo. O cardápio está em ordem fixa e as amostras
-        /// vêm sorteadas, então esta aposta acerta por acidente em uma vez a cada
-        /// três — e como ela é desfeita, mesmo o acidente não vale nada.
+        /// Fica declarado assim mesmo: sem este método, a próxima pessoa que
+        /// acrescentar um passo com ação vai procurar onde desfazer e não vai
+        /// achar. As bancadas 5 e 7 precisaram desfazer, esta não.
         /// </summary>
-        void ApostarPrato() => Casar(0);
-
-        /// <summary>Devolve as três amostras sem aposta nenhuma.</summary>
-        protected override void AoFimDaExplicacao() => RecomecarNivel();
+        protected override void AoFimDaExplicacao() { }
     }
 }

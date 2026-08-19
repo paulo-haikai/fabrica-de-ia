@@ -10,19 +10,43 @@ using UnityEngine.UI;
 namespace FabricaDeIA.Desafios
 {
     /// <summary>
-    /// Bancada 6 — a malha de Iara: aposte no farol.
+    /// Bancada 6 — a malha de Iara. Corra pelo farol, e depois veja o farol por
+    /// dentro.
     ///
-    /// A bancada mostra UM passe adiante de uma rede neural de verdade, do começo
-    /// ao fim, e o aluno aposta em qual palavra vai acender mais forte antes de a
-    /// frente de luz chegar do outro lado. Acertando ou errando, ele viu a conta
-    /// inteira acontecer.
+    /// SEIS NÍVEIS, E OS CINCO PRIMEIROS SÃO OUTRO JOGO.
     ///
-    /// A VERSÃO ANTERIOR ERA OUTRA COISA, e estava errada. Ela pedia para
-    /// dimensionar camadas com botões de mais e menos até o número de fios cair
-    /// numa faixa. Ensinava um fato verdadeiro — parâmetro cresce
+    ///   · Níveis 1 a 5 — O CORREDOR: vinte fases à maneira de Level Devil, quatro
+    ///     por nível. O aluno leva um pacote de mensagens por uma fase comprida com
+    ///     várias saídas, e só a saída da lâmpada mais acesa aceita o pacote. As
+    ///     palavras trocam de porta enquanto ele corre. Ver DesafioMalha.Corredor.cs.
+    ///   · Nível 6 — A MALHA, exatamente como sempre foi: o passe adiante animado,
+    ///     a aposta antes de a luz atravessar, e o placar que compara com Dona
+    ///     Ciça. É o momento em que ele vê o que estava por trás das lâmpadas o
+    ///     tempo todo — cada uma delas era esta parede acendendo.
+    ///
+    /// A ORDEM É O CONTEÚDO. Correr primeiro e explicar depois é o contrário do que
+    /// uma aula costuma fazer, e é de propósito: quando a animação da malha começa,
+    /// o aluno já leu aquelas lâmpadas duzentas vezes e já apanhou de entrar na
+    /// porta errada. A animação não é a introdução de um conceito novo; é a resposta
+    /// a uma pergunta que ele já está fazendo.
+    ///
+    /// E o corredor carrega uma lição que a animação sozinha não dava: as portas
+    /// TROCAM DE LUGAR, e a lâmpada vai junto com a palavra. A resposta de uma rede
+    /// não é um endereço, é um valor — não existe a gaveta da palavra certa. Quem
+    /// decora o lugar erra; quem lê a luz acerta sempre.
+    ///
+    /// O QUE O CORREDOR CONSERTOU. A bancada só pedia aposta quando a própria rede
+    /// estava em dúvida, e pedia ANTES de qualquer evidência aparecer: com ~45% de
+    /// acerto, a primeira rodada dava 42% de vitória, e o aluno ganhava ou perdia
+    /// sem saber por quê. Era o defeito que nenhuma constante consertava, medido em
+    /// Conferencias.Malha6. No corredor a evidência está na tela em todo instante e
+    /// o erro custa um tombo, não um ponto.
+    ///
+    /// A VERSÃO DE ANTES DA ANIMAÇÃO era outra coisa ainda, e estava errada. Ela
+    /// pedia para dimensionar camadas com botões de mais e menos até o número de
+    /// fios cair numa faixa. Ensinava um fato verdadeiro — parâmetro cresce
     /// multiplicativamente — e não ensinava o que a bancada tinha que ensinar: o
-    /// que a rede FAZ. E como jogo era um mostrador para calibrar, sem tensão
-    /// nenhuma.
+    /// que a rede FAZ.
     ///
     /// O QUE A ANIMAÇÃO CORRIGE NA INTUIÇÃO COMUM. A imagem que quase todo mundo
     /// tem é de uma bolinha achando um caminho pela malha, como num pinball. Isso
@@ -55,15 +79,11 @@ namespace FabricaDeIA.Desafios
         public override string Etapa => "e6";
         public override string Titulo => "A malha que escolhe";
 
-        protected override int Niveis => Rodadas6.Length;
+        /// <summary>Cinco níveis de corredor, quatro fases cada, e um de malha.</summary>
+        protected override int Niveis => NiveisDeCorredor + 1;
 
-        /// <summary>Quantas apostas cada rodada pede, e o mínimo para passar.</summary>
-        static readonly (int apostas, int minimo)[] Rodadas6 =
-        {
-            (3, 2),
-            (4, 2),
-            (5, 3)
-        };
+        /// <summary>Quantas apostas o nível da malha pede, e o mínimo para passar.</summary>
+        static readonly (int apostas, int minimo) RodadaDaMalha = (3, 2);
 
         const int Opcoes = 3;
 
@@ -106,17 +126,50 @@ namespace FabricaDeIA.Desafios
 
         protected override void MontarNivel()
         {
-            _r = Rodadas6[NivelAtual];
+            // Níveis 1 e 2: o corredor.
+            //
+            // Ele não mexe mais na frase nem na rede. O corredor virou um jogo de
+            // plataforma puro — o boneco leva um pacote até a saída — e a máquina só
+            // aparece no fim, inteira, em vez de vazar palavra por palavra pelas
+            // portas. Espremer a rede dentro do platformer deixava o jogo pequeno e a
+            // explicação pela metade ao mesmo tempo.
+            if (NivelAtual < NiveisDeCorredor)
+            {
+                // A ordem das salas e sorteada uma vez por aula, na primeira. Sortear
+                // a cada nivel embaralharia de novo no meio, e o aluno poderia repetir
+                // uma sala que ja jogou.
+                if (NivelAtual == 0) SortearOrdem();
+
+                _salaAtual = NivelAtual * SalasPorNivel;
+                _tombosNoNivel = 0;
+                MontarSala();
+                return;
+            }
+
+            // Nível 6: a malha, como sempre foi.
+            //
+            // O histórico é zerado aqui e as FRASES prontas não. O painel de cima
+            // mostra uma linha por passe e cabem umas poucas; chegar com vinte
+            // linhas do corredor o encheria antes do primeiro passe. As frases
+            // sobrevivem porque o cartaz de fecho cita a última que ela terminou, e
+            // a melhor delas foi escrita lá atrás, correndo.
+            _noCorredor = false;
+            _r = RodadaDaMalha;
+            Semear();
             _acertos = 0;
             _passes = 0;
             _aposta = -1;
             _rodando = false;
             _linhas.Clear();
-            _prontas.Clear();
 
-            Semear();
             MontarTela();
+
+            // Prepara o primeiro passe e ABRE PELA REVELAÇÃO, em vez de cair direto
+            // na aposta. NovoPasse deixa a rede rodada e a malha desenhada; a
+            // revelação usa esse estado para animar a travessia sem cobrar nada, e
+            // só depois devolve o jogo. Ver DesafioMalha.Revelacao.cs.
             NovoPasse();
+            AbrirARevelacao();
         }
 
         /// <summary>

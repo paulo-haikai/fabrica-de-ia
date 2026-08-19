@@ -41,6 +41,16 @@ namespace FabricaDeIA.Desafios
         /// <summary>Passos disponíveis em cada rodada.</summary>
         static readonly int[] Rodadas11 = { 6, 7, 8 };
 
+        /// <summary>
+        /// Quantas escolhas o aluno vê por passo — e, por isso, quantas a
+        /// caminhada que escolhe o alvo pode usar.
+        ///
+        /// É constante, e não o número 3 escrito em dois lugares, porque foi
+        /// exatamente essa duplicidade que produziu o pior defeito da bancada:
+        /// a tela mostrava três e o sorteio do alvo caminhava por todas.
+        /// </summary>
+        const int Mostradas = 3;
+
         Bigrama _modelo;
         Mulberry32 _sorteio;
 
@@ -90,10 +100,15 @@ namespace FabricaDeIA.Desafios
         /// Sorteia início e alvo garantindo que exista caminho.
         ///
         /// Caminha pelo grafo do modelo para escolher o alvo, do mesmo jeito que a
-        /// bancada 2 faz: se foi a caminhada que produziu o alvo, então chegar
-        /// nele é possível. O que muda aqui é que o aluno não tem as peças na mão
-        /// — ele recebe três opções por vez, e algumas rodadas não levam a lugar
-        /// nenhum.
+        /// bancada 2 faz — mas com uma diferença que aqui é obrigatória: a
+        /// caminhada só anda pelas <see cref="Mostradas"/> continuações que o
+        /// aluno vai ver, e não pelo grafo inteiro. Só assim "foi a caminhada que
+        /// produziu o alvo" implica "dá para chegar nele".
+        ///
+        /// Esta frase já esteve escrita aqui quando era mentira: a caminhada usava
+        /// todas as continuações e a tela mostrava três. O alvo aparecia no alto
+        /// da tela, o caminho até ele não existia entre as cartas, e o aluno
+        /// perdia sem ter errado nada.
         /// </summary>
         void SortearRodada()
         {
@@ -118,8 +133,25 @@ namespace FabricaDeIA.Desafios
 
                 for (var i = 0; i < distancia; i++)
                 {
+                    // A CAMINHADA SÓ PODE PISAR NO QUE A TELA VAI OFERECER.
+                    //
+                    // Antes, ela sorteava entre TODAS as continuações enquanto
+                    // `DesenharEscolhas` mostra só as três mais prováveis. O alvo
+                    // saía de um caminho que o aluno não tinha como percorrer, e
+                    // a rodada nascia invencível — com o agravante de parecer
+                    // culpa dele, porque o alvo fica escrito no alto da tela.
+                    //
+                    // O `Take(3)` vem ANTES do filtro de visitadas, e a ordem é o
+                    // conserto: a tela corta as três primeiras de uma lista
+                    // filtrada apenas por `!= Fim`. Cortar depois de tirar as
+                    // visitadas daria um trio diferente do que ela mostra, e o
+                    // defeito sobreviveria pela metade. Se as três já foram
+                    // usadas, esta tentativa morre e o laço sorteia outra —
+                    // são 200.
                     var opcoes = _modelo.Continuacoes(atual)
-                                        .Where(c => c.Para != Bigrama.Fim && !visitadas.Contains(c.Para))
+                                        .Where(c => c.Para != Bigrama.Fim)
+                                        .Take(Mostradas)
+                                        .Where(c => !visitadas.Contains(c.Para))
                                         .ToList();
                     if (opcoes.Count == 0)
                     {
@@ -205,7 +237,7 @@ namespace FabricaDeIA.Desafios
         void DesenharEscolhas(List<Continuacao> opcoes)
         {
             var total = opcoes.Sum(o => o.Vezes);
-            var mostradas = opcoes.Take(3).ToList();
+            var mostradas = opcoes.Take(Mostradas).ToList();
 
             const float largura = 230f;
             for (var i = 0; i < mostradas.Count; i++)

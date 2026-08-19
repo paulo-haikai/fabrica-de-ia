@@ -17,6 +17,21 @@ namespace FabricaDeIA.Arte
         public FolhaBancadas bancadas;
         public FolhaElenco elenco;
         public FolhaAbertura abertura;
+        public FolhaCorredor corredor;
+    }
+
+    [Serializable] public class FolhaCorredor
+    {
+        public string arquivo;
+        public int lado;
+        public int colunas;
+        public PecaNomeada[] pecas;
+    }
+
+    [Serializable] public class PecaNomeada
+    {
+        public string nome;
+        public int indice;
     }
 
     [Serializable] public class FolhaAbertura
@@ -104,14 +119,33 @@ namespace FabricaDeIA.Arte
         readonly Sprite[] _tiles;
         readonly Sprite[] _bancadas;
         readonly Sprite[] _elenco;
+        readonly Sprite[] _corredor;
 
-        Folhas(Manifesto dados, Sprite[] tiles, Sprite[] bancadas, Sprite[] elenco)
+        Folhas(Manifesto dados, Sprite[] tiles, Sprite[] bancadas, Sprite[] elenco,
+               Sprite[] corredor)
         {
             Dados = dados;
             _tiles = tiles;
             _bancadas = bancadas;
             _elenco = elenco;
+            _corredor = corredor;
         }
+
+        static Folhas _unica;
+
+        /// <summary>
+        /// A folha da sessao, carregada uma vez.
+        ///
+        /// O Jogo carrega as folhas para montar o atelie e as passa de mao em mao
+        /// para quem precisa. As bancadas nao estao nessa corrente — elas nascem
+        /// dentro do painel, longe do construtor do mundo —, e a bancada 6 precisa
+        /// dos sprites do corredor. Recortar a folha de novo a cada visita seria
+        /// desperdicio bobo: e o mesmo Texture2D, ja em memoria, e o recorte custa
+        /// um Sprite.Create por peca.
+        ///
+        /// Mesmo padrao de Rede.Atual e Progresso.Atual.
+        /// </summary>
+        public static Folhas Atual => _unica ??= Carregar();
 
         public static Folhas Carregar()
         {
@@ -136,7 +170,14 @@ namespace FabricaDeIA.Arte
                                   dados.elenco.direcoes * dados.elenco.quadros,
                                   new Vector2(0.5f, 0.04f));
 
-            return new Folhas(dados, tiles, bancadas, elenco);
+            // O corredor da bancada 6. Pivô no canto inferior esquerdo, como o
+            // tileset: as peças dele são encaixadas numa grade, e pivô no meio
+            // faria toda posição virar uma conta com meio tile de correção.
+            var corredor = Recortar(dados.corredor.arquivo, dados.corredor.lado,
+                                    dados.corredor.lado, dados.corredor.colunas,
+                                    new Vector2(0f, 0f));
+
+            return new Folhas(dados, tiles, bancadas, elenco, corredor);
         }
 
         /// <summary>
@@ -159,6 +200,8 @@ namespace FabricaDeIA.Arte
                 falta = "bancadas.ordem";
             else if (dados.elenco?.pessoas == null || dados.elenco.pessoas.Length == 0)
                 falta = "elenco.pessoas";
+            else if (dados.corredor?.pecas == null || dados.corredor.pecas.Length == 0)
+                falta = "corredor.pecas";
 
             if (falta == null) return;
             throw new InvalidOperationException(
@@ -204,6 +247,15 @@ namespace FabricaDeIA.Arte
         }
 
         // ------------------------------------------------------------ acesso
+
+        /// <summary>Uma peça do corredor da bancada 6, pelo nome.</summary>
+        public Sprite Corredor(string nome)
+        {
+            var achado = Dados.corredor.pecas.FirstOrDefault(t => t.nome == nome);
+            if (achado == null)
+                throw new ArgumentException($"peça de corredor desconhecida: {nome}", nameof(nome));
+            return _corredor[achado.indice];
+        }
 
         /// <summary>Um tile de cenário pelo nome que o gerador deu a ele.</summary>
         public Sprite Tile(string nome)

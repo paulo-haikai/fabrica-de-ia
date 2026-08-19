@@ -245,7 +245,33 @@ namespace FabricaDeIA.Engine
         public static (List<string> de, List<string> para) Canto(
             Bigrama arquivo, int linhas, int colunas, Mulberry32 sorteio)
         {
-            var de = Sortear(arquivo.MaisMovimentadas().Take(16).ToList(), linhas, sorteio);
+            // SEM PALAVRA DE LIGAÇÃO NAS LINHAS — o conserto que fez a rodada 1
+            // voltar a ser dedutível.
+            //
+            // `MaisMovimentadas` devolve as palavras com mais continuações
+            // distintas, e em qualquer corpus essas são as gramaticais: aqui, "a"
+            // com 71 continuações, "o" com 43, "na" com 24. Uma linha "a" não dá
+            // o que deduzir — "a lição" está cheia, "a matemática" está vazia, e
+            // as duas são português perfeito. O aluno usava a intuição CERTA e
+            // levava "ninguém escreveu isso" na cara; metade das grades vinha com
+            // duas ou mais linhas assim.
+            //
+            // Medido em 20 mil grades, tirar as ligações não custa densidade —
+            // AUMENTA, porque as palavras de conteúdo mais movimentadas ("turma"
+            // com 47, "aluno" com 26) continuam muito conectadas e a cobertura de
+            // colunas trabalha melhor com linhas que significam alguma coisa:
+            //
+            //                          antes    depois
+            //   casinhas cheias         40%      46%
+            //   vazias em linha de ligação   41%       0%
+            //   linha com sua continuação nº1  35%      49%
+            //   grade sem nenhuma dessas       14%     6,9%
+            //
+            // Por isso não há compensação a fazer: nem mais cliques, nem grade
+            // maior, nem meta menor. A alavanca era a escolha das linhas.
+            var de = Sortear(arquivo.MaisMovimentadas()
+                                    .Where(p => !Corpus.EhLigacao(p))
+                                    .Take(16).ToList(), linhas, sorteio);
             var para = new List<string>();
 
             // Uma coluna garantida por linha. É isto que acaba com a linha morta —

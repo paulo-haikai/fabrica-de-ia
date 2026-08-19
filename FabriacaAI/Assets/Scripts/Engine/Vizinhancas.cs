@@ -155,6 +155,14 @@ namespace FabricaDeIA.Engine
         public const int PorGrupo = 4;
         public const int Grupos = 3;
 
+        /// <summary>
+        /// Tamanho máximo da palavra que pode virar peça.
+        ///
+        /// Sete letras é o que cabe folgado numa peça de 104 pixels e ainda se lê
+        /// de relance — que é o único jeito que uma peça de match-3 é lida.
+        /// </summary>
+        public const int MaximoDeLetras = 7;
+
         public static List<List<Grupo>> Sortear(Vizinhancas mapa, int semente, int rodadas = PorAula)
         {
             var sorteio = new Mulberry32((uint)semente);
@@ -162,8 +170,22 @@ namespace FabricaDeIA.Engine
             // Só palavras com vizinhança rica o bastante para a semelhança
             // significar algo. Palavra vista duas vezes tem vetor de dois
             // números, e o cosseno dela com qualquer coisa é ruído.
+            //
+            // E só palavra CURTA e de CONTEÚDO, porque desde que a bancada virou
+            // match-3 a palavra não é mais um enunciado para ler com calma: é uma
+            // peça que o aluno lê de relance, dezenas de vezes por rodada,
+            // enquanto varre o tabuleiro. "biblioteca" numa peça de 104 pixels
+            // atrapalha o jogo e não se lê do fundo da sala; e uma peça escrita
+            // "da" não diverte nem ensina ninguém.
+            //
+            // Medido no corpus da aula: sobram 39 palavras, contra 62 sem filtro
+            // nenhum. É folga apertada para três rodadas de doze — se um dia
+            // faltar, `Conferencias.Mapa5` acusa pelo `rodadas.Count`, e o
+            // conserto é afrouxar `MaximoDeLetras` para 8 (43 palavras).
             var candidatas = mapa.Palavras
                                  .Where(p => mapa.Vizinhos(p) >= 6)
+                                 .Where(p => p.Length <= MaximoDeLetras)
+                                 .Where(p => !Corpus.EhLigacao(p))
                                  .OrderBy(p => p, System.StringComparer.Ordinal)
                                  .ToList();
 

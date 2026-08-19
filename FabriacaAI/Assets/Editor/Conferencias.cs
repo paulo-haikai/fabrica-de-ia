@@ -25,42 +25,158 @@ namespace FabricaDeIA.Editor
     {
         const int Amostras = 20;
 
-        [MenuItem("Fábrica de IA/Conferir conteúdo das bancadas")]
-        public static void Conferir()
+        /// <summary>
+        /// Confere as trinta salas do acervo do corredor da bancada 6 — todas elas,
+        /// e não só as dez que uma aula joga, porque o sorteio pode pegar qualquer uma.
+        ///
+        /// A NATUREZA DESTA CONFERÊNCIA MUDOU, e vale dizer por quê. Enquanto as
+        /// salas eram escritas aqui, ela fazia uma varredura de alcance e exigia que
+        /// toda saída fosse alcançável a pé — e ganhou o pão: pegou dezesseis saídas
+        /// fora do alcance do pulo de uma vez, e uma ponte que sumia antes de dar
+        /// para atravessar.
+        ///
+        /// Agora as salas são um port do FableDevil, de Leonxlnx, que é um jogo
+        /// publicado e jogado. A solubilidade vem de lá, e a mesma varredura passaria
+        /// a mentir: ela não sabe que uma mola arremessa, que um portal teleporta,
+        /// que uma esteira empurra nem que um elevador carrega — reprovaria meia
+        /// dúzia de salas que se atravessa sem esforço. Medição que dá alarme falso
+        /// é pior que medição nenhuma, porque ensina a ignorar o alarme.
+        ///
+        /// O que sobra é o que continua sendo nosso e continua podendo quebrar no
+        /// port: cada sala precisa MONTAR sem estourar, o boneco precisa nascer em
+        /// cima de alguma coisa, e nada pode estar fora do mundo. Um erro de dígito
+        /// numa das centenas de coordenadas copiadas aparece aqui, e não numa aula.
+        /// </summary>
+        [MenuItem("Fábrica de IA/Conferir as salas da bancada 6")]
+        public static void ConferirCorredor()
         {
             var relato = new List<string>();
             var problemas = new List<string>();
+            Corredor6(relato, problemas);
 
-            Dominos2(relato, problemas);
-            Arquivo3(relato, problemas);
-            Corte4(relato, problemas);
-            Mapa5(relato, problemas);
-            Malha6(relato, problemas);
-            Treino8(relato, problemas);
-            Holofotes10(relato, problemas);
+            var texto = "CORREDOR:\n" + string.Join("\n", relato);
+            if (problemas.Count == 0) Debug.Log(texto + "\nCORREDOR: OK");
+            else Debug.LogError(texto + "\n\nCORREDOR: " + problemas.Count +
+                                " PROBLEMA(S)\n  " + string.Join("\n  ", problemas));
+        }
 
-            var texto = "CONTEUDO:\n" + string.Join("\n", relato);
-            if (problemas.Count == 0) Debug.Log(texto + "\nCONTEUDO: OK");
-            else Debug.LogError(texto + "\n\nCONTEUDO: " + problemas.Count + " PROBLEMA(S)\n  " +
-                                string.Join("\n  ", problemas));
+        static void Corredor6(List<string> relato, List<string> problemas)
+        {
+            var salas = Desafios.DesafioMalha.TodasAsSalas;
+            var truquesAoTodo = 0;
+
+            for (var i = 0; i < salas.Length; i++)
+            {
+                var sala = salas[i];
+
+                Desafios.DesafioMalha.Ret[] solidos;
+                Desafios.DesafioMalha.Armadilha[] truques;
+                Desafios.DesafioMalha.Saida saida;
+
+                try
+                {
+                    solidos = sala.Solidos();
+                    truques = sala.Truques();
+                    saida = sala.Saida();
+                }
+                catch (System.Exception e)
+                {
+                    problemas.Add($"corredor sala {i + 1} ({sala.Nome}): não monta — {e.Message}");
+                    continue;
+                }
+
+                truquesAoTodo += truques.Length;
+
+                // O boneco nasce em cima de quê? Se de nada, a sala começa com uma
+                // queda que ninguém pediu.
+                //
+                // O chão pode vir de uma ARMADILHA, e não dos sólidos da sala: a do
+                // buraco corrediço é dona do piso inteiro e o devolve como dois
+                // pedaços. Ignorar isso me fez acusar uma sala perfeitamente boa de
+                // começar no ar.
+                var chaoTodo = new List<Desafios.DesafioMalha.Ret>(solidos);
+                foreach (var t in truques)
+                {
+                    t.Zerar();
+                    var dele = t.Solidos();
+                    for (var k = 0; k < dele.Count; k++) chaoTodo.Add(dele[k]);
+                }
+
+                var apoiado = false;
+                foreach (var s in chaoTodo)
+                {
+                    if (sala.Nasce.x + 26f < s.x || sala.Nasce.x > s.Direita) continue;
+                    if (sala.Nasce.y + 32f > s.y + 4f || sala.Nasce.y + 32f < s.y - 120f) continue;
+                    apoiado = true;
+                    break;
+                }
+                if (!apoiado)
+                    problemas.Add($"corredor sala {i + 1} ({sala.Nome}): o boneco nasce " +
+                                  $"em {sala.Nasce.x:0}×{sala.Nasce.y:0} sem chão embaixo");
+
+                // A saída, e todas as posições para onde ela foge, dentro do mundo.
+                for (var d = 0; d < saida.Posicoes.Length; d++)
+                {
+                    var q = saida.Posicoes[d];
+                    if (q.x >= -10f && q.x + Desafios.DesafioMalha.Saida.L <= Desafios.DesafioMalha.Larg + 10f &&
+                        q.y >= -10f && q.y + Desafios.DesafioMalha.Saida.A <= Desafios.DesafioMalha.Alto + 10f)
+                        continue;
+
+                    problemas.Add($"corredor sala {i + 1} ({sala.Nome}): a posição {d + 1} " +
+                                  $"da saída, em {q.x:0}×{q.y:0}, está fora da tela");
+                }
+
+                if (truques.Length == 0)
+                    problemas.Add($"corredor sala {i + 1} ({sala.Nome}): nenhuma armadilha — " +
+                                  "é só andar até a porta");
+
+                relato.Add($"  sala {i + 1,2} — {sala.Nome}: {solidos.Length} sólidos, " +
+                           $"{truques.Length} armadilhas, {saida.Posicoes.Length} " +
+                           (saida.Posicoes.Length > 1 ? "posições de saída (ela foge)" : "posição de saída"));
+            }
+
+            relato.Add($"      {salas.Length} salas no acervo · {truquesAoTodo} armadilhas " +
+                       $"ao todo · a aula joga {Desafios.DesafioMalha.SalasNaAula}, " +
+                       $"{Desafios.DesafioMalha.SalasPorNivel} por nível em " +
+                       $"{Desafios.DesafioMalha.NiveisDeCorredor} níveis");
+
+            // O acervo é maior que a aula de propósito: dez salas por turma, sorteadas
+            // das trinta. O que a conferência precisa garantir é que o sorteio tem de
+            // onde tirar — se o acervo encolher abaixo do roteiro, o corredor repetiria
+            // sala ou nasceria com uma sala nula.
+            if (salas.Length < Desafios.DesafioMalha.SalasNaAula)
+                problemas.Add($"corredor: {salas.Length} salas no acervo para uma aula " +
+                              $"de {Desafios.DesafioMalha.SalasNaAula} — " +
+                              "o sorteio não tem de onde tirar");
         }
 
         // ---------------------------------------------------- bancada 6, a malha
 
         /// <summary>
-        /// Mede se a aposta na malha é um jogo — nem sorteio, nem gimme.
+        /// Mede a MALHA — a rede que o último nível da bancada 6 abre e anima.
         ///
-        /// Três coisas podem estragar esta bancada, e nenhuma delas aparece
+        /// A medição encolheu junto com a bancada, e vale dizer por quê. Enquanto o
+        /// corredor tinha uma porta por palavra candidata, esta conferência simulava
+        /// as vinte fases e exigia que as duas lâmpadas de cima se separassem — se
+        /// empatassem, o aluno não teria o que ler. Aquele desenho foi abandonado: as
+        /// portas ficavam na mesma linha do chão, o jogador esbarrava na primeira, e
+        /// o jogo virava correr para a direita.
+        ///
+        /// Agora o corredor é um platformer sem palavra nenhuma, e a rede aparece
+        /// inteira no fim. Sobrou o que sempre importou aqui, e que não aparece
         /// compilando:
         ///
-        ///   · A REDE SER RUIM. Se ela acertasse menos que contar pares, a lição do
-        ///     fim ("a malha ganha da Dona Ciça") seria mentira impressa na tela.
-        ///   · A APOSTA SER ÓBVIA. Se a vencedora fosse quase sempre muito mais
-        ///     forte que a segunda, o aluno acertaria no automático e não olharia a
-        ///     malha. Aposta sem dúvida não é aposta.
-        ///   · A FRASE TRAVAR. Decodificação gulosa entra em laço com facilidade
-        ///     ("a a a a"), e uma frase repetindo a mesma palavra faria o aluno
-        ///     concluir que a rede é quebrada em vez de limitada.
+        ///   · A REDE TEM QUE GANHAR DO BIGRAMA. Se ela acertasse menos que contar
+        ///     pares, a frase do fecho — "a malha ganha da Dona Ciça" — seria mentira
+        ///     impressa na tela.
+        ///   · A FRASE NÃO PODE TRAVAR. Decodificação gulosa entra em laço com
+        ///     facilidade ("a a a a"), e uma frase repetindo a mesma palavra faria o
+        ///     aluno concluir que a rede é quebrada em vez de limitada.
+        ///   · TEM QUE HAVER SEMENTE PARA TODO MUNDO. Com poucas frases de partida,
+        ///     trinta navegadores numa sala veem a mesma.
+        ///
+        /// As fases do corredor têm conferência própria, que é de outra natureza —
+        /// alcance, não estatística. Ver ConferirCorredor.
         /// </summary>
         static void Malha6(List<string> relato, List<string> problemas)
         {
@@ -79,49 +195,19 @@ namespace FabricaDeIA.Editor
                 problemas.Add($"malha: só {frases.Count} sementes de frase — " +
                               "trinta alunos veriam a mesma");
 
-            // Simula a POLÍTICA DA BANCADA, e não janelas cruas.
-            //
-            // A primeira versão desta medição olhava toda janela da caminhada e
-            // acusou "só 21 de 100 apostas disputadas". Estava certa sobre as
-            // janelas e errada sobre o jogo: a bancada não aposta em toda janela, ela
-            // escreve sozinha as fáceis e só pergunta quando hesita. Medir o que não
-            // ships é gastar teste para não descobrir nada.
-            const int ApostasPorFrase = 5;
-
-            var disputadas = 0;
-            var forcadas = 0;
-            var apostas = 0;
-            var sozinhas = 0;
             var travadas = 0;
-            var somaDaFolga = 0f;
             var exemplos = new List<string>();
 
-            for (var s = 0; s < Amostras; s++)
+            for (var a = 0; a < Amostras; a++)
             {
-                var frase = frases[s * 7 % frases.Count].Take(rede.Janela).ToList();
+                var frase = frases[a * 7 % frases.Count].Take(rede.Janela).ToList();
 
-                for (var aposta = 0; aposta < ApostasPorFrase; aposta++)
+                for (var passo = 0; passo < Rede.PalavrasPorFrase; passo++)
                 {
-                    var hesitou = false;
-                    for (var passo = 0; passo < Rede.MaximoSemAposta; passo++)
-                    {
-                        rede.Prever(frase);
-                        if (rede.EmDuvida()) { hesitou = true; break; }
-
-                        sozinhas++;
-                        frase.Add(rede.Palavra(rede.MaisAcesas(1)[0]));
-                    }
-
-                    if (!hesitou) rede.Prever(frase);
-
-                    apostas++;
-                    somaDaFolga += rede.Folga();
-                    if (rede.EmDuvida()) disputadas++; else forcadas++;
-
+                    rede.Prever(frase);
                     frase.Add(rede.Palavra(rede.MaisAcesas(1)[0]));
                 }
 
-                // Laço: a mesma palavra três vezes seguidas no que ela escreveu.
                 var escritas = frase.Skip(rede.Janela).ToList();
                 for (var i = 2; i < escritas.Count; i++)
                     if (escritas[i] == escritas[i - 1] && escritas[i] == escritas[i - 2])
@@ -133,26 +219,14 @@ namespace FabricaDeIA.Editor
                 if (exemplos.Count < 4) exemplos.Add(string.Join(" ", frase));
             }
 
-            // Aposta forçada é a que o teto de passos entregou sem dúvida nenhuma: a
-            // malha não hesitou em quatro passos e a bancada perguntou de qualquer
-            // jeito, para não escrever a frase inteira sozinha. Algumas são o preço
-            // do ritmo; muitas significariam que a busca por dúvida não acha nada.
-            if (forcadas * 3 > apostas)
-                problemas.Add($"malha: {forcadas} de {apostas} apostas foram forçadas pelo teto " +
-                              "— o aluno acerta no automático e não olha a malha");
+            relato.Add($"  malha (bancada 6): rede acerta {rede.Acerto:P0} · " +
+                       $"bigrama {rede.ReguaDoBigrama:P0} · {rede.Meio} neurônios · " +
+                       $"{rede.Palavras} lâmpadas · {frases.Count} sementes · " +
+                       $"travadas {travadas} de {Amostras}\n      " +
+                       string.Join($"\n      ", exemplos));
 
             if (travadas * 3 > Amostras)
                 problemas.Add($"malha: {travadas} de {Amostras} frases travaram repetindo palavra");
-
-            relato.Add($"  malha (bancada 6): rede acerta {rede.Acerto:P0} · " +
-                       $"bigrama {rede.ReguaDoBigrama:P0} · " +
-                       $"{rede.Meio} neurônios no meio · {rede.Palavras} lâmpadas\n" +
-                       $"      apostas com dúvida: {disputadas} de {apostas} " +
-                       $"(forçadas: {forcadas}) · folga média: " +
-                       $"{somaDaFolga / Mathf.Max(1, apostas):P0} · " +
-                       $"escreveu sozinha {sozinhas / (float)Amostras:0.0} palavras por frase · " +
-                       $"travadas: {travadas} de {Amostras}\n      " +
-                       string.Join("\n      ", exemplos));
         }
 
         // --------------------------------------------------- bancada 2, dominó
@@ -299,90 +373,188 @@ namespace FabricaDeIA.Editor
         // -------------------------------------------------- bancada 3, arquivo
 
         /// <summary>
-        /// Mede quantas casinhas cheias aparecem em cada uma das duas grades.
+        /// Roda o SORTEIO da bancada 3 muitas vezes e confere que o vazio se
+        /// comporta em todas as aulas, não só na média.
         ///
-        /// A rodada 1 ("o canto movimentado") TEM que ser ganhável: é ela que
-        /// ensina a ler a tabela e deixa o aluno confiante antes do tombo. A
-        /// rodada 2 ("a aposta") tem que ser quase vazia: é ela que é a lição.
+        /// Desde que o tabuleiro passou a ser sorteado, a média não basta: quem
+        /// joga é um aluno, com uma semente só, e a lição acontece dentro das três
+        /// rodadas DELE. Três coisas precisam valer em CADA aula, e as três já
+        /// falharam alguma vez:
         ///
-        /// Esta medição já derrubou um desenho: a primeira versão comparava
-        /// arquivo pequeno com arquivo grande, e os números mostraram que o
-        /// pequeno era MAIS vazio — a lição saía ao contrário. Sem medir, isso
-        /// teria chegado à sala de aula.
+        ///   · O VAZIO TEM QUE CRESCER, aula por aula. É a lição inteira, e é o que
+        ///     o aluno sente quando a rodada seguinte fica mais fácil sem ele ter
+        ///     melhorado em nada. Com 12/40/120 palavras fixas o vazio ia de 88,2%
+        ///     para 88,6% da rodada 1 para a 2 — não crescia. Com sorteio de faixa
+        ///     larga e sem alvo, voltava a não crescer, agora só para alguns alunos,
+        ///     que é pior porque não aparece testando uma vez.
+        ///   · A META TEM QUE CABER NO VAZIO. Cercar tudo é impossível, então meta
+        ///     colada no vazio disponível faz rodada invencível. Foi o defeito que
+        ///     derrubou a bancada 11, onde dois terços das rodadas não tinham
+        ///     solução.
+        ///   · O FECHO TEM QUE SER VERDADE. A tela final compara os pares da última
+        ///     rodada com os da primeira, e o aluno viu os dois números. A versão
+        ///     anterior dizia "os mesmos 510 pares" depois de ter mostrado 17.
+        ///
+        /// Espelha DesafioArquivo.Escolher(). Se um lado mudar sozinho, a medição
+        /// passa a atestar um tabuleiro que ninguém joga — já aconteceu uma vez.
         /// </summary>
         static void Arquivo3(List<string> relato, List<string> problemas)
         {
-            // Espelham DesafioArquivo. Se um lado mudar sozinho, a medição passa
-            // a atestar uma grade que ninguém joga — foi o que aconteceu da última
-            // vez, e o defeito só apareceu quando alguém jogou.
-            const int linhas = 4;
-            const int colunas = 6;
-            const int cliques = 10;
-            const int meta = 3;
+            var rodadas = new[] { 20, 60, 120 };
+            var metas = new[] { 0.60f, 0.80f, 0.90f };
+            var faixas = new[] { 40, 120, 240 };
+            var alvos = new[] { 0.87f, 0.94f, 0.975f };
+            const int tentativas = 12;
+            const int aulas = 60;
 
             var arquivo = new Bigrama(Corpus.Frases);
-            var vocabulario = arquivo.Palavras
-                                     .Where(p => p != Bigrama.Inicio && p != Bigrama.Fim)
-                                     .ToList();
+            var ordenadas = arquivo.MaisMovimentadas()
+                                   .Where(w => w != Bigrama.Inicio && w != Bigrama.Fim)
+                                   .ToList();
 
-            var canto = 0f;
-            var aposta = 0f;
-
-            for (var s = 1; s <= Amostras; s++)
+            var menorVazio = new float[rodadas.Length];
+            var maiorVazio = new float[rodadas.Length];
+            var somaVazio = new float[rodadas.Length];
+            var menorPares = new int[rodadas.Length];
+            var maiorPares = new int[rodadas.Length];
+            for (var r = 0; r < rodadas.Length; r++)
             {
-                var sorteio = new Mulberry32((uint)(s * 104729));
-                var (de, para) = Bigrama.Canto(arquivo, linhas, colunas, sorteio);
-                canto += Cheias(arquivo, de, para);
-                aposta += Cheias(arquivo,
-                                 Amostra(vocabulario, linhas, sorteio),
-                                 Amostra(vocabulario, colunas, sorteio));
+                menorVazio[r] = 1f;
+                menorPares[r] = int.MaxValue;
             }
 
-            canto /= Amostras;
-            aposta /= Amostras;
-            var total = linhas * colunas;
-            var vistas = (float)cliques / total;
+            var semCrescer = 0;
+            var semFolga = 0;
+            var fechoFalso = 0;
+            var iguais = 0;
 
-            relato.Add("  arquivo (bancada 3): grade de " + total + " casinhas, " + cliques +
-                       " cliques\n      canto movimentado: " + canto.ToString("0.0") +
-                       " cheias (" + (100f * canto / total).ToString("0") + "%) → espera achar " +
-                       (canto * vistas).ToString("0.0") +
-                       "\n      aposta de Aurélio: " + aposta.ToString("0.0") + " cheias (" +
-                       (100f * aposta / total).ToString("0") + "%) → espera achar " +
-                       (aposta * vistas).ToString("0.0"));
+            for (var a = 0; a < aulas; a++)
+            {
+                var sorteio = new Mulberry32((uint)(a * 2654435761u + 17u));
+                var vazioAnterior = -1f;
+                var paresDaPrimeira = 0;
+                var primeiraLista = new List<int>();
+                var terceiraLista = new List<int>();
 
-            // O critério antigo — "pelo menos 8 casinhas cheias" — era frouxo, e
-            // deixou passar uma grade em que o aluno mediano PERDIA: 9,2 cheias em
-            // 40 casinhas dão 2,8 acertos esperados em 12 cliques, para uma meta
-            // de 3. Passava na checagem e reprovava no teste com gente.
-            //
-            // A régua certa não é quantas casinhas estão cheias: é quantos acertos
-            // um aluno que clica sem raciocinar nenhum consegue. Ele tem que
-            // bater a meta com folga só pela grade — quem raciocina vai muito
-            // além, e quem não raciocina ainda assim aprende a ler a tabela.
-            var esperados = canto * vistas;
-            if (esperados < meta * 1.2f)
-                problemas.Add("arquivo: no canto movimentado espera-se achar só " +
-                              esperados.ToString("0.0") + " em " + cliques +
-                              " cliques, e a meta é " + meta +
-                              " — o aluno mediano perde a rodada que existe para ele ganhar");
-            if (aposta > 2f)
-                problemas.Add("arquivo: a aposta de Aurélio é fácil demais (" +
-                              aposta.ToString("0.0") + " cheias) — a lição não aparece");
+                for (var r = 0; r < rodadas.Length; r++)
+                {
+                    var lado = rodadas[r];
+                    var fundo = Mathf.Min(faixas[r], ordenadas.Count);
+                    var casas = (float)lado * lado;
+
+                    List<int> melhor = null;
+                    var melhorPares = 0;
+                    var melhorErro = float.MaxValue;
+
+                    for (var t = 0; t < tentativas; t++)
+                    {
+                        var postos = Punhado(sorteio, fundo, lado);
+                        var pares = 0;
+                        foreach (var i in postos)
+                            foreach (var j in postos)
+                                if (arquivo.Risquinhos(ordenadas[i], ordenadas[j]) > 0) pares++;
+
+                        var erro = Mathf.Abs(1f - pares / casas - alvos[r]);
+                        if (erro >= melhorErro) continue;
+                        melhorErro = erro;
+                        melhor = postos;
+                        melhorPares = pares;
+                    }
+
+                    var vazio = 1f - melhorPares / casas;
+                    somaVazio[r] += vazio;
+                    if (vazio < menorVazio[r]) menorVazio[r] = vazio;
+                    if (vazio > maiorVazio[r]) maiorVazio[r] = vazio;
+                    if (melhorPares < menorPares[r]) menorPares[r] = melhorPares;
+                    if (melhorPares > maiorPares[r]) maiorPares[r] = melhorPares;
+
+                    if (vazio < metas[r] + 0.05f) semFolga++;
+                    if (r > 0 && vazio <= vazioAnterior) semCrescer++;
+                    vazioAnterior = vazio;
+
+                    if (r == 0) { paresDaPrimeira = melhorPares; primeiraLista = melhor; }
+                    if (r == rodadas.Length - 1)
+                    {
+                        terceiraLista = melhor;
+                        // O fecho mostra "de X para Y pares". Se Y não for maior que
+                        // X, a frase "palavra nova multiplica casinha" fica sem
+                        // sustentação na tela do aluno.
+                        if (melhorPares <= paresDaPrimeira) fechoFalso++;
+                    }
+                }
+
+                // Quanto o labirinto muda de aluno para aluno: comparo esta aula com
+                // a anterior na rodada 1. Se as listas fossem sempre iguais, o
+                // sorteio não estaria sorteando nada.
+                if (a > 0 && primeiraLista.Count > 0 && terceiraLista.Count > 0 &&
+                    primeiraLista.SequenceEqual(_ultimaPrimeira)) iguais++;
+                _ultimaPrimeira = primeiraLista;
+            }
+
+            var linhas = new List<string>();
+            for (var r = 0; r < rodadas.Length; r++)
+                linhas.Add("      rodada " + (r + 1) + ": " + rodadas[r] + "×" + rodadas[r] +
+                           " sorteadas entre as " + faixas[r] + " mais movimentadas · pares " +
+                           menorPares[r] + " a " + maiorPares[r] + " · vazio " +
+                           (100f * menorVazio[r]).ToString("0.0") + "% a " +
+                           (100f * maiorVazio[r]).ToString("0.0") + "% (médio " +
+                           (100f * somaVazio[r] / aulas).ToString("0.0") + "%) · meta " +
+                           (100f * metas[r]).ToString("0") + "%");
+
+            var vocabulario = 0;
+            var paresTodos = 0;
+            foreach (var palavra in arquivo.Palavras)
+            {
+                if (palavra == Bigrama.Inicio || palavra == Bigrama.Fim) continue;
+                vocabulario++;
+                foreach (var c in arquivo.Continuacoes(palavra))
+                    if (c.Para != Bigrama.Fim) paresTodos++;
+            }
+            linhas.Add("      teto do arquivo: " + vocabulario + " palavras, " +
+                       (long)vocabulario * vocabulario + " casinhas, " + paresTodos + " pares (" +
+                       (100f * paresTodos / ((float)vocabulario * vocabulario)).ToString("0.00") + "%)");
+
+            relato.Add("  arquivo (bancada 3): conquistar o vazio · " + aulas + " aulas sorteadas\n" +
+                       string.Join("\n", linhas));
+
+            if (semCrescer > 0)
+                problemas.Add("arquivo: em " + semCrescer + " de " + aulas +
+                              " aulas o vazio não cresceu de uma rodada para a seguinte — " +
+                              "nessas, a rodada do meio não tem o que ensinar");
+            if (semFolga > 0)
+                problemas.Add("arquivo: " + semFolga + " rodadas sorteadas ficaram sem folga " +
+                              "de 5 pontos sobre a meta — o aluno não tem margem para errar");
+            if (fechoFalso > 0)
+                problemas.Add("arquivo: em " + fechoFalso + " aulas a última rodada tem MENOS " +
+                              "pares que a primeira, e o fecho promete o contrário");
+            if (iguais > aulas / 10)
+                problemas.Add("arquivo: " + iguais + " aulas sortearam o mesmo vocabulário da " +
+                              "anterior na rodada 1 — o labirinto não está variando");
+            if (paresTodos <= maiorPares[^1])
+                problemas.Add("arquivo: o fecho diz que o arquivo inteiro tem " + paresTodos +
+                              " pares, mas uma rodada sorteada chegou a " + maiorPares[^1] +
+                              " — não sobra teto nenhum para a frase final");
         }
 
-        static int Cheias(Bigrama arquivo, List<string> de, List<string> para) =>
-            de.Sum(d => para.Count(p => arquivo.Risquinhos(d, p) > 0));
+        static List<int> _ultimaPrimeira = new();
 
-        static List<string> Amostra(List<string> fonte, int quantas, Mulberry32 sorteio)
+        /// <summary>Espelha DesafioArquivo.Sortear.</summary>
+        static List<int> Punhado(Mulberry32 sorteio, int fundo, int quantos)
         {
-            var copia = new List<string>(fonte);
-            for (var i = copia.Count - 1; i > 0; i--)
+            var saco = new int[fundo];
+            for (var i = 0; i < fundo; i++) saco[i] = i;
+
+            for (var i = 0; i < quantos; i++)
             {
-                var j = (int)(sorteio.Proximo() * (i + 1));
-                (copia[i], copia[j]) = (copia[j], copia[i]);
+                var j = i + (int)(sorteio.Proximo() * (fundo - i));
+                if (j >= fundo) j = fundo - 1;
+                (saco[i], saco[j]) = (saco[j], saco[i]);
             }
-            return copia.Take(Mathf.Min(quantas, copia.Count)).ToList();
+
+            var saida = new List<int>(quantos);
+            for (var i = 0; i < quantos; i++) saida.Add(saco[i]);
+            saida.Sort();
+            return saida;
         }
 
         // ---------------------------------------------------- bancada 4, corte

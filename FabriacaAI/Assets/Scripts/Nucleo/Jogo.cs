@@ -442,6 +442,32 @@ namespace FabricaDeIA.Nucleo
             var teclado = Keyboard.current;
             if (teclado == null) return;
 
+#if UNITY_EDITOR
+            // O ATALHO DO PROFESSOR: F1 a F12 abrem a bancada de mesmo número.
+            //
+            // `AbrirDireto` já existia e já fazia a coisa certa — fecha a abertura,
+            // fecha bancada que tenha sobrado e coloca o aluno de pé no ponto de
+            // chegada, para o atalho terminar na mesma situação do caminho normal.
+            // Faltava só quem o chamasse.
+            //
+            // SÓ NO EDITOR, de propósito. O jogo publicado é aberto por link numa
+            // sala inteira ao mesmo tempo; uma tecla que pula para a bancada 12
+            // viraria a brincadeira da aula em trinta segundos. Quem precisa do
+            // atalho é quem está montando a aula, e essa pessoa está no Editor.
+            //
+            // F1-F12 e não 1-9: são doze bancadas, e as teclas de número já são
+            // usadas dentro de bancada. Teclas de função não colidem com nada.
+            for (var n = 1; n <= 12; n++)
+            {
+                var tecla = teclado[(Key)((int)Key.F1 + n - 1)];
+                if (tecla == null || !tecla.wasPressedThisFrame) continue;
+
+                Debug.Log($"atalho do Editor: abrindo a bancada e{n}");
+                AbrirDireto($"e{n}");
+                return;
+            }
+#endif
+
             // Esc sai da conversa. O Esc já fechava a moldura da bancada, e por
             // isso o aluno aprendia na primeira bancada que Esc é a tecla de sair —
             // e depois batia numa caixa de fala que não escutava tecla nenhuma além

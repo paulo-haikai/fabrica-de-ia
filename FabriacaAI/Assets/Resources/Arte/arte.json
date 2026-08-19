@@ -1,5 +1,5 @@
 {
-  "gerado": "2026-08-17T13:19:49.251Z",
+  "gerado": "2026-08-19T12:54:41.340Z",
   "tileset": {
     "arquivo": "tileset_atelie.png",
     "lado": 16,
@@ -260,6 +260,101 @@
         "nome": "companheiro_ruim",
         "largura": 24,
         "altura": 24
+      }
+    ]
+  },
+  "corredor": {
+    "arquivo": "corredor.png",
+    "lado": 16,
+    "colunas": 8,
+    "pecas": [
+      {
+        "nome": "macico",
+        "indice": 0
+      },
+      {
+        "nome": "trincado",
+        "indice": 1
+      },
+      {
+        "nome": "caindo",
+        "indice": 2
+      },
+      {
+        "nome": "espinhos",
+        "indice": 3
+      },
+      {
+        "nome": "espinhos_teto",
+        "indice": 4
+      },
+      {
+        "nome": "furos",
+        "indice": 5
+      },
+      {
+        "nome": "bloco",
+        "indice": 6
+      },
+      {
+        "nome": "bloco_preso",
+        "indice": 7
+      },
+      {
+        "nome": "parede_presa",
+        "indice": 8
+      },
+      {
+        "nome": "lampada_0",
+        "indice": 9
+      },
+      {
+        "nome": "lampada_1",
+        "indice": 10
+      },
+      {
+        "nome": "lampada_2",
+        "indice": 11
+      },
+      {
+        "nome": "lampada_3",
+        "indice": 12
+      },
+      {
+        "nome": "lampada_4",
+        "indice": 13
+      },
+      {
+        "nome": "porta_alta",
+        "indice": 14
+      },
+      {
+        "nome": "porta_baixa",
+        "indice": 15
+      },
+      {
+        "nome": "porta_alta_aberta",
+        "indice": 16
+      },
+      {
+        "nome": "porta_baixa_aberta",
+        "indice": 17
+      },
+      {
+        "nome": "mensageiro_0",
+        "indice": 18
+      },
+      {
+        "nome": "mensageiro_1",
+        "indice": 19
+      },
+      {
+        "nome": "fundo",
+        "indice": 20
+      },
+      {
+        "nome": "bruma",
+        "indice": 21
       }
     ]
   }

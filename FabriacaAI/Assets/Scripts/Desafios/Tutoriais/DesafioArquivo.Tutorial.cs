@@ -1,19 +1,21 @@
 using System.Collections.Generic;
-using System.Linq;
 using FabricaDeIA.UI;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace FabricaDeIA.Desafios
 {
     /// <summary>
-    /// A explicação da bancada 3 — o arquivo.
+    /// A explicação da bancada 3 — o paper.io do arquivo.
     ///
-    /// Esta é a única explicação que abre DUAS casinhas: uma cheia e uma vazia.
-    /// Precisa das duas. Só com a cheia o aluno acha que o arquivo é bem
-    /// abastecido; só com a vazia ele acha que a grade está quebrada. Uma depois
-    /// da outra, ele entende que a tabela tem alguns pares e um oceano de nada —
-    /// e é essa proporção que a bancada inteira existe para mostrar.
+    /// Um passo é obrigatório e os outros são luxo: dizer que ele caça o VAZIO.
+    /// Toda criança que vê uma grade com marquinhas vermelhas supõe que as
+    /// marquinhas são o objetivo — é o que Campo Minado, caça-palavras e caça ao
+    /// tesouro ensinaram a vida inteira. Aqui é o contrário, e sem essa frase o
+    /// aluno passa a rodada perseguindo justamente o que deve evitar.
+    ///
+    /// O tutorial não demonstra o gesto: dirigir com as setas se entende no
+    /// primeiro segundo, e gastar um passo mostrando isso seria roubar do aluno a
+    /// única coisa que ele faz sozinho aqui.
     /// </summary>
     public partial class DesafioArquivo
     {
@@ -21,77 +23,35 @@ namespace FabricaDeIA.Desafios
         {
             new()
             {
-                Texto = "O fichário de Aurélio é tabela: LINHA e COLUNA são palavras,\n" +
-                        "e o cruzamento guarda quantas vezes uma veio depois da outra.",
-                Destaque = () => Area.Find("Grade") as RectTransform
+                Texto = "Esta é a tabela de pares do Aurélio. Cada casinha pergunta\n" +
+                        "se alguém já escreveu uma palavra logo depois da outra.",
+                Destaque = () => _tela != null ? (RectTransform)_tela.transform : null
             },
             new()
             {
-                Texto = "As casinhas estão fechadas. Clicar abre uma.\n" +
-                        "Veja o que tem dentro desta:",
-                Acao = AbrirUmaCheia,
-                Espera = 1.2f,
-                Destaque = () => Area.Find("Grade") as RectTransform
+                Texto = "As casinhas vermelhas são os pares que existem de verdade.\n" +
+                        "Repare em quantas são.",
+                Destaque = () => _tela != null ? (RectTransform)_tela.transform : null
             },
             new()
             {
-                Texto = "Verde com risquinhos: este par existe no arquivo.\n" +
-                        "Os risquinhos são quantas vezes ele apareceu.",
-                Destaque = () => Area.Find("Grade") as RectTransform
+                Texto = "Você não está atrás delas. Você está atrás do VAZIO:\n" +
+                        "dê a volta em torno de uma região e ela vira sua.",
+                Destaque = () => _tela != null ? (RectTransform)_tela.transform : null
             },
             new()
             {
-                Texto = "Agora esta outra:",
-                Acao = AbrirUmaVazia,
-                Espera = 1.2f,
-                Destaque = () => Area.Find("Grade") as RectTransform
-            },
-            new()
-            {
-                Texto = "Um pontinho: nada. Ninguém escreveu essas duas juntas — a\n" +
-                        "máquina não sabe nada sobre esse par.",
-                Destaque = () => Area.Find("Grade") as RectTransform
-            },
-            new()
-            {
-                Texto = "Doze cliques para achar três casinhas cheias. Dica: não\n" +
-                        "clique à esmo — leia a palavra da linha, pense no que vem depois.",
-                Destaque = null
-            },
-            new()
-            {
-                Texto = "Fecho as duas que abri. A grade é sua, são três rodadas —\n" +
-                        "no fim Aurélio mostra o tamanho do fichário inteiro.",
+                Texto = "Setas para andar. Encostar num par vermelho corta o seu\n" +
+                        "traço e você perde a volta — só isso.",
                 Destaque = null
             }
         };
 
-        /// <summary>Abre uma casinha que tem risquinho, se houver alguma na grade.</summary>
-        void AbrirUmaCheia() => AbrirPrimeira(cheia: true);
-
-        /// <summary>Abre uma casinha vazia.</summary>
-        void AbrirUmaVazia() => AbrirPrimeira(cheia: false);
-
-        void AbrirPrimeira(bool cheia)
-        {
-            foreach (var par in _celulas)
-            {
-                var (linha, coluna) = par.Value;
-                if (!par.Key.interactable) continue;
-
-                var tem = _arquivo.Risquinhos(_de[linha], _para[coluna]) > 0;
-                if (tem != cheia) continue;
-
-                Abrir(par.Key, linha, coluna);
-                return;
-            }
-        }
-
         /// <summary>
-        /// Refaz a grade. As duas casinhas que a demonstração abriu tinham que
-        /// voltar a fechar: o aluno recebe os doze cliques inteiros, e — mais
-        /// importante — não recebe duas respostas de graça.
+        /// A demonstração não moveu o bonequinho nem tomou nada, então não há o
+        /// que desfazer. Declarado para quem vier acrescentar um passo com ação
+        /// saber onde desfazer — as bancadas 5 e 7 precisaram, esta não.
         /// </summary>
-        protected override void AoFimDaExplicacao() => RecomecarNivel();
+        protected override void AoFimDaExplicacao() { }
     }
 }

@@ -42,6 +42,7 @@ sysinfo.txt
 # ---------------------------------------------------------------------------
 /Build/
 .unity-batch.log
+.unity-conteudo.log
 
 # ---------------------------------------------------------------------------
 # Dados pessoais. O jogo emite um "diploma" em PDF com o nome de quem jogou;
@@ -90,3 +91,6 @@ desktop.ini
 # commit inicial por engano e o proprio build os apaga depois.
 /FabriacaAI/Assets/Resources/PerformanceTestRun*.json
 /FabriacaAI/Assets/Resources/PerformanceTestRun*.json.meta
+
+# Deck da aula gerado a partir do artifact de slides. E entregavel, nao fonte.
+/Aula-Fabrica-de-IA.pptx
