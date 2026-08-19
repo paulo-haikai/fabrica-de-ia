@@ -46,7 +46,8 @@ namespace FabricaDeIA.Desafios
         readonly List<(Image barra, int entrada, int neuronio, float comprimento)> _fios1 = new();
         readonly List<(Image barra, int neuronio, int palavra, float comprimento)> _fios2 = new();
         readonly List<Text> _rotulosDaJanela = new();
-        readonly List<Button> _botoes = new();
+        /// <summary>As três lâmpadas mais acesas, como mostrador: caixa e rótulo.</summary>
+        readonly List<(Image caixa, Text rotulo)> _plaquetas = new();
 
         // ------------------------------------------------------------ montagem
 
@@ -58,7 +59,7 @@ namespace FabricaDeIA.Desafios
             _fios1.Clear();
             _fios2.Clear();
             _rotulosDaJanela.Clear();
-            _botoes.Clear();
+            _plaquetas.Clear();
 
             // A frase que ela escreve fica em CIMA, e cresce para baixo — uma linha
             // por passe. É o laço ficando visível: cada linha é a malha inteira
@@ -114,8 +115,8 @@ namespace FabricaDeIA.Desafios
         List<Vector2> _lugaresDoMeio = new();
 
         /// <summary>
-        /// Refaz o que muda de um passe para o outro: as conexões que vão até as três
-        /// lâmpadas apostadas, os botões, e a luz zerada.
+        /// Refaz o que muda de uma travessia para a outra: as conexões que vão até as
+        /// três lâmpadas mais acesas, o mostrador, e a luz zerada.
         ///
         /// A primeira camada e a parede NÃO são refeitas. É sempre a mesma rede — e
         /// remontá-la a cada passe faria a tela piscar, sugerindo que trocou de
@@ -138,7 +139,7 @@ namespace FabricaDeIA.Desafios
                 }
             }
 
-            MontarBotoes();
+            MontarMostrador();
             // Apaga tudo: a luz do passe anterior na tela com a janela nova em cima
             // seria a resposta velha ilustrando a pergunta nova.
             Iluminar(Fase.Entradas, 0f);
@@ -381,32 +382,48 @@ namespace FabricaDeIA.Desafios
 
         // --------------------------------------------------------------- rodapé
 
-        void MontarBotoes()
+        /// <summary>
+        /// As três lâmpadas mais acesas, em ORDEM DE FORÇA e sem clique.
+        ///
+        /// Eram botões, e o aluno apostava numa delas. Viraram plaquetas quando o
+        /// nível deixou de pedir palpite: quem decide olha as três palavras e o
+        /// placar, não os fios — e o que a malha faz não é escolher entre três, é
+        /// peneirar 318 até sobrar uma.
+        ///
+        /// Elas ficam porque é nelas que terminam os fios desenhados até a parede.
+        /// Apagá-las apagaria metade do desenho e deixaria a segunda camada saindo
+        /// para lugar nenhum.
+        /// </summary>
+        void MontarMostrador()
         {
             foreach (Transform filho in _escolhas) Destroy(filho.gameObject);
-            _botoes.Clear();
+            _plaquetas.Clear();
 
             const float largura = 250f;
             for (var i = 0; i < _candidatas.Count; i++)
             {
-                var palavra = _candidatas[i];
-                var botao = Widgets.Botao($"o{i}", _escolhas, _rede.Palavra(palavra),
-                                          Cores.Madeira, Cores.Papel, 18);
-                Widgets.Fixar((RectTransform)botao.transform, new Vector2(0.5f, 0.5f),
-                              new Vector2((i - (_candidatas.Count - 1) / 2f) * (largura + 14f), 0f),
-                              new Vector2(largura, 46f));
-                botao.onClick.AddListener(() => Apostar(palavra));
-                _botoes.Add(botao);
+                var rotulo = Widgets.Ficha($"o{i}", _escolhas, _rede.Palavra(_candidatas[i]),
+                    new Vector2((i - (_candidatas.Count - 1) / 2f) * (largura + 14f), 0f),
+                    new Vector2(largura, 46f), Cores.Madeira, Cores.Papel, 18);
+                _plaquetas.Add((rotulo.transform.parent.GetComponent<Image>(), rotulo));
             }
         }
 
+        /// <summary>A plaqueta de uma palavra, ou nula se ela não está no mostrador.</summary>
+        RectTransform PlaquetaDe(int palavra)
+        {
+            for (var i = 0; i < _candidatas.Count && i < _plaquetas.Count; i++)
+                if (_candidatas[i] == palavra) return (RectTransform)_plaquetas[i].caixa.transform;
+            return null;
+        }
+
         /// <summary>
-        /// Redesenha o que muda entre um passe e outro: o histórico, os rótulos da
-        /// janela, os botões e — depois do veredito — as porcentagens.
+        /// Redesenha o que muda entre uma travessia e outra: o histórico, os rótulos
+        /// da janela, o mostrador e — depois que a luz chega — as porcentagens.
         ///
         /// A MALHA em si não é remontada. Ela é sempre a mesma rede, e remontá-la a
-        /// cada passe faria a tela piscar e sugerir que trocou de máquina. O que
-        /// muda entre passes é só o desenho de luz dentro dela.
+        /// cada travessia faria a tela piscar e sugerir que trocou de máquina. O que
+        /// muda de uma para a outra é só o desenho de luz dentro dela.
         /// </summary>
         void Redesenhar()
         {
@@ -416,25 +433,17 @@ namespace FabricaDeIA.Desafios
             for (var p = 0; p < _rotulosDaJanela.Count && p < janela.Count; p++)
                 _rotulosDaJanela[p].text = janela[p];
 
-            var revelado = _aposta >= 0 && !_rodando;
-
-            for (var i = 0; i < _botoes.Count; i++)
+            for (var i = 0; i < _plaquetas.Count && i < _candidatas.Count; i++)
             {
                 var palavra = _candidatas[i];
-                var ganhou = palavra == _vencedora;
 
-                _botoes[i].interactable = _aposta < 0 && !_rodando && !Congelado;
-
-                var fundo = _botoes[i].GetComponent<Image>();
-                fundo.color = !revelado
-                    ? (_aposta == palavra ? Cores.Tinta : Cores.Madeira)
-                    : ganhou ? Cores.Folha
-                    : _aposta == palavra ? Cores.Brasa
+                _plaquetas[i].caixa.color = !_forcaAMostra ? Cores.Madeira
+                    : palavra == _vencedora ? Cores.Folha
                     : Cores.TintaClara;
 
-                Widgets.Rotular(_botoes[i], revelado
+                _plaquetas[i].rotulo.text = _forcaAMostra
                     ? $"{_rede.Palavra(palavra)}   {_rede.Chances[palavra] * 100f:0}%"
-                    : _rede.Palavra(palavra));
+                    : _rede.Palavra(palavra);
             }
         }
 
@@ -446,8 +455,8 @@ namespace FabricaDeIA.Desafios
             Widgets.Faixa(titulo.rectTransform, true, 18f);
             titulo.rectTransform.offsetMin = new Vector2(14f, titulo.rectTransform.offsetMin.y);
             titulo.text = _linhas.Count == 0
-                ? "a frase que ela vai escrever aparece aqui, uma linha por passe"
-                : "cada linha é a malha inteira rodando outra vez";
+                ? "a frase que ela vai escrever aparece aqui, uma linha por travessia"
+                : "cada linha é a malha inteira peneirando outra vez";
 
             // Só as duas últimas: mais que isso não cabe na faixa de 56 pixels, e as
             // antigas já fizeram o serviço de mostrar que o laço se repete.
@@ -456,18 +465,13 @@ namespace FabricaDeIA.Desafios
             var mostradas = _linhas.Skip(Mathf.Max(0, _linhas.Count - 2)).ToList();
             for (var i = 0; i < mostradas.Count; i++)
             {
-                var (janela, palavra, acertou, sozinha) = mostradas[i];
-
-                // Três estados, três cores. Sem caractere de "certo": a fonte embutida
-                // do Unity não tem glifo de visto e sairia um quadradinho vazio.
-                var cor = sozinha ? Cores.Neblina : acertou ? Cores.Folha : Cores.Papel;
+                var (janela, palavra, chance) = mostradas[i];
 
                 var linha = Widgets.UmaLinha(
-                    Widgets.Texto($"h{i}", _historico, 15, TextAnchor.UpperLeft, cor));
+                    Widgets.Texto($"h{i}", _historico, 15, TextAnchor.UpperLeft, Cores.Papel));
                 Widgets.Faixa(linha.rectTransform, true, 17f, 20f + i * 17f);
                 linha.rectTransform.offsetMin = new Vector2(26f, linha.rectTransform.offsetMin.y);
-                linha.text = $"{janela}  →  {palavra}" +
-                             (sozinha ? "     (ela tinha certeza)" : string.Empty);
+                linha.text = $"{janela}  →  {palavra}     ({chance * 100f:0}% da parede)";
             }
         }
     }
