@@ -637,12 +637,21 @@ namespace FabricaDeIA.Desafios
                 Saida = () => PortaFujona(78f, Em(884f, 416f), Em(110f, 236f)),
                 Solidos = () => new[]
                 {
-                    Piso(0f, 250f), Piso(700f, 960f), R(40f, 300f, 210f, 16f),
+                    // A prateleira PARA em 185, e a mola fica depois dela.
+                    //
+                    // Ela ia até 250 e cobria o chão inteiro da esquerda, com a mola
+                    // debaixo: o boneco quicava, batia a cabeça no fundo da prateleira
+                    // e voltava. Como a saída foge justamente para cima dela, a sala
+                    // não tinha como ser vencida. Trampolim embaixo de plataforma não
+                    // é dificuldade, é parede.
+                    Piso(0f, 250f), Piso(700f, 960f), R(40f, 300f, 145f, 16f),
                     Teto(30f), ParedeE(), ParedeD()
                 },
                 Truques = () => new Armadilha[]
                 {
-                    Pula(150f, 480f, -1000f),
+                    // Sobe 292 a partir de 480: passa 112 acima do topo da prateleira,
+                    // e sobra ar para o boneco puxar para a esquerda e cair em cima.
+                    Pula(195f, 480f, -1120f),
                     Movel(R(280f, 452f, 100f, 16f), 560f, float.NaN, 100f, 0.35f),
                     Lamina(Em(470f, 150f), Em(470f, 430f), 22f, 190f),
                     Feixe(610f, 30f, 418f, 1.9f, 0.45f, 0.4f),

@@ -126,6 +126,37 @@ namespace FabricaDeIA.Editor
                                   $"da saída, em {q.x:0}×{q.y:0}, está fora da tela");
                 }
 
+                // TRAMPOLIM TAPADO. Uma mola com sólido logo acima não é dificuldade,
+                // é parede: o boneco quica, bate a cabeça no fundo da plataforma e cai
+                // no mesmo lugar. A sala "A última" ficou invencível assim — a mola
+                // vivia debaixo da prateleira para onde a saída fugia, e ninguém
+                // percebeu porque a conferência não olhava para cima.
+                //
+                // A gravidade está repetida aqui de propósito: é `const` privada do
+                // corredor, e abri-la só para a conferência trocaria um número
+                // repetido por um campo público que o jogo não usa.
+                const float gravidade = 2150f;
+
+                foreach (var t in truques)
+                {
+                    if (t is not Desafios.DesafioMalha.Mola mola) continue;
+
+                    var subida = mola.Forca * mola.Forca / (2f * gravidade);
+                    var cabeca = mola.y - 32f - subida;
+
+                    foreach (var s in solidos)
+                    {
+                        if (s.Direita <= mola.x + 3f || s.x >= mola.x + mola.l - 3f) continue;
+                        if (s.Base > mola.y - 40f) continue;   // é chão, não teto
+                        if (s.Base < cabeca) continue;         // fica acima do voo
+
+                        problemas.Add($"corredor sala {i + 1} ({sala.Nome}): a mola em " +
+                                      $"{mola.x:0} sobe {subida:0} e esbarra no sólido de " +
+                                      $"{s.x:0}×{s.y:0} — o boneco bate a cabeça e volta");
+                        break;
+                    }
+                }
+
                 if (truques.Length == 0)
                     problemas.Add($"corredor sala {i + 1} ({sala.Nome}): nenhuma armadilha — " +
                                   "é só andar até a porta");
