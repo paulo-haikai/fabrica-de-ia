@@ -5,7 +5,7 @@ using UnityEngine;
 namespace FabricaDeIA.Engine
 {
     /// <summary>
-    /// A rede neural da bancada 6, e o passe adiante dela.
+    /// A rede neural da bancada 5, e o passe adiante dela.
     ///
     /// Os pesos vêm treinados de fora, por <c>scripts/rede/treinar.mjs</c>. Aqui
     /// só se calcula — mas se calcula de verdade: a animação da bancada lê ESTAS
@@ -53,7 +53,7 @@ namespace FabricaDeIA.Engine
         public float Acerto => _d.acerto;
         public float ReguaDoBigrama => _d.reguaBigrama;
 
-        /// <summary>A forma da rede, no formato que a bancada 7 espera ler.</summary>
+        /// <summary>A forma da rede, no formato que a bancada 6 espera ler.</summary>
         public int[] Forma => new[] { _d.meio };
 
         // --- o que o último passe deixou para trás, para a animação ler ---
@@ -138,7 +138,7 @@ namespace FabricaDeIA.Engine
                 throw new ArgumentException($"a rede precisa de {_d.janela} palavras");
 
             // Só as últimas: a janela desliza, e o que sobrou atrás dela a rede
-            // simplesmente não vê. É o limite que a bancada 10 vai retomar.
+            // simplesmente não vê. É o limite que a bancada 9 vai retomar.
             var inicio = janela.Count - _d.janela;
 
             for (var p = 0; p < _d.janela; p++)
@@ -187,22 +187,6 @@ namespace FabricaDeIA.Engine
             return vencedora;
         }
 
-        // ------------------------------------------------------------- a dúvida
-
-        /// <summary>
-        /// Abaixo desta razão a segunda colocada não tem chance de verdade.
-        ///
-        /// Vive AQUI, e não na bancada, porque a conferência de conteúdo precisa do
-        /// mesmo número. Duas cópias do limiar em lugares diferentes já custaram
-        /// caro nesta base: a tabela da bancada 8 divergiu da tabela que a
-        /// conferência media, e a medição passou a atestar uma bancada que não
-        /// existia mais.
-        /// </summary>
-        public const float Disputa = 0.35f;
-
-        /// <summary>Quantas palavras a malha pode escrever sozinha antes de perguntar.</summary>
-        public const int MaximoSemAposta = 2;
-
         /// <summary>
         /// Quantas palavras ela escreve antes de recomeçar de uma semente nova.
         ///
@@ -228,22 +212,6 @@ namespace FabricaDeIA.Engine
         /// virava piada. Cortando em quatro, o que ele lê é o que ela sabe fazer.
         /// </summary>
         public const int PalavrasPorFrase = 4;
-
-        /// <summary>
-        /// A força da segunda colocada em relação à primeira, do último passe.
-        ///
-        /// Um perto de um é empate técnico; perto de zero é a vencedora sozinha na
-        /// frente. É a medida de quanto vale olhar a malha antes de apostar.
-        /// </summary>
-        public float Folga()
-        {
-            var topo = MaisAcesas(2);
-            if (topo.Count < 2) return 0f;
-            return Chances[topo[1]] / Mathf.Max(1e-6f, Chances[topo[0]]);
-        }
-
-        /// <summary>A janela do último passe é digna de aposta?</summary>
-        public bool EmDuvida() => Folga() >= Disputa;
 
         /// <summary>
         /// As <paramref name="quantas"/> palavras mais acesas do último passe, da

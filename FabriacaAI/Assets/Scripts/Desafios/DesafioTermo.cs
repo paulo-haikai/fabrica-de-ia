@@ -73,8 +73,25 @@ namespace FabricaDeIA.Desafios
         RectTransform _area;
         RectTransform _palco;
         Text _contexto;
-        Text _contador;
+
+        // AS TRÊS PEÇAS QUE A RODADA REFAZ, guardadas por referência e não
+        // procuradas pelo nome.
+        //
+        // Era assim: `_grade` existia e nunca era atribuída, e quem precisava da
+        // grade chamava `_palco.Find("Grade")`. Custou um defeito de verdade — a
+        // faixa da resposta revelada, criada como "Resposta", não estava em
+        // nenhuma das duas buscas por nome e NUNCA ERA DESTRUÍDA. Ela ficava no
+        // palco pela bancada inteira, aparecendo no fundo entre as células das
+        // rodadas seguintes, e uma nova se empilhava a cada rodada perdida.
+        //
+        // Achar filho por string é frágil desse jeito: some sem erro, sem
+        // warning, e sem ninguém para avisar que uma peça ficou órfã. Com o campo
+        // aqui, esquecer de destruir vira uma referência pendurada que se vê ao
+        // ler a classe.
         RectTransform _grade;
+        RectTransform _teclado;
+        RectTransform _resposta;
+
         Image[,] _celulas;
         Text[,] _letras;
         readonly Dictionary<char, Image> _teclas = new();
@@ -187,10 +204,6 @@ namespace FabricaDeIA.Desafios
 
         void Update()
         {
-            // Enquanto a explicação roda, a máquina é que digita. Sem esta linha o
-            // aluno escreve por cima da demonstração.
-            if (Congelado) return;
-
             var teclado = Keyboard.current;
             if (teclado == null) return;
 

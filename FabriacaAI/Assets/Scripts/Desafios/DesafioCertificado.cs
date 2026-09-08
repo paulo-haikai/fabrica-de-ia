@@ -5,7 +5,7 @@ using UnityEngine;
 namespace FabricaDeIA.Desafios
 {
     /// <summary>
-    /// A bancada 13 — a retirada do certificado, com o Mestre da IA.
+    /// A bancada 12 — a retirada do certificado, com o Mestre da IA.
     ///
     /// Não é um minigame: é o fecho da aula, e a única estação do ateliê que não
     /// dá estrela nenhuma. O que ela tem para mostrar é a MÁQUINA, montada com o
@@ -13,7 +13,7 @@ namespace FabricaDeIA.Desafios
     ///
     /// A regra é uma peça por bancada visitada — visitada, não vencida. Isso é
     /// deliberado e é a mesma escolha que governa a progressão do salão: quem
-    /// entrou na bancada 7, apanhou e saiu sem estrela aprendeu o que a 7 tinha
+    /// entrou na bancada 6, apanhou e saiu sem estrela aprendeu o que a 7 tinha
     /// para ensinar, que é justamente o tamanho do problema. Cobrar acerto para
     /// montar a máquina transformaria a aula num teste, e ela não é.
     ///
@@ -24,7 +24,7 @@ namespace FabricaDeIA.Desafios
     /// </summary>
     public class DesafioCertificado : Desafio
     {
-        public override string Etapa => "e13";
+        public override string Etapa => "e12";
         public override string Titulo => "A máquina, e o seu certificado";
 
         /// <summary>

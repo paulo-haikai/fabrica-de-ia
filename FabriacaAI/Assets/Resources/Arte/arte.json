@@ -1,5 +1,5 @@
 {
-  "gerado": "2026-08-19T12:54:41.340Z",
+  "gerado": "2026-08-27T20:45:56.422Z",
   "tileset": {
     "arquivo": "tileset_atelie.png",
     "lado": 16,
@@ -102,8 +102,7 @@
       "e8",
       "e9",
       "e10",
-      "e11",
-      "e12"
+      "e11"
     ]
   },
   "elenco": {
@@ -139,57 +138,123 @@
       },
       {
         "id": "e4",
-        "nome": "Nara",
-        "oficio": "costureira",
+        "nome": "Bento",
+        "oficio": "cartógrafo de jardim",
         "linha": 4
       },
       {
         "id": "e5",
-        "nome": "Bento",
-        "oficio": "cartógrafo de jardim",
+        "nome": "Iara",
+        "oficio": "tecelã de circuitos",
         "linha": 5
       },
       {
         "id": "e6",
-        "nome": "Iara",
-        "oficio": "tecelã de circuitos",
+        "nome": "Seu Ilo",
+        "oficio": "afinador",
         "linha": 6
       },
       {
         "id": "e7",
-        "nome": "Seu Ilo",
-        "oficio": "afinador",
+        "nome": "Rosa",
+        "oficio": "treinadora",
         "linha": 7
       },
       {
         "id": "e8",
-        "nome": "Rosa",
-        "oficio": "treinadora",
+        "nome": "Chef Amaro",
+        "oficio": "cozinheiro",
         "linha": 8
       },
       {
         "id": "e9",
-        "nome": "Chef Amaro",
-        "oficio": "cozinheiro",
+        "nome": "Lumi",
+        "oficio": "acendedora de lampiões",
         "linha": 9
       },
       {
         "id": "e10",
-        "nome": "Lumi",
-        "oficio": "acendedora de lampiões",
+        "nome": "Vovó Zi",
+        "oficio": "contadora de histórias",
         "linha": 10
       },
       {
         "id": "e11",
-        "nome": "Vovó Zi",
-        "oficio": "contadora de histórias",
+        "nome": "Sereno",
+        "oficio": "guardião do ateliê",
         "linha": 11
       },
       {
-        "id": "e12",
-        "nome": "Sereno",
-        "oficio": "guardião do ateliê",
+        "id": "r0",
+        "nome": "requerente",
+        "oficio": "",
         "linha": 12
+      },
+      {
+        "id": "r1",
+        "nome": "requerente",
+        "oficio": "",
+        "linha": 13
+      },
+      {
+        "id": "r2",
+        "nome": "requerente",
+        "oficio": "",
+        "linha": 14
+      },
+      {
+        "id": "r3",
+        "nome": "requerente",
+        "oficio": "",
+        "linha": 15
+      },
+      {
+        "id": "r4",
+        "nome": "requerente",
+        "oficio": "",
+        "linha": 16
+      },
+      {
+        "id": "r5",
+        "nome": "requerente",
+        "oficio": "",
+        "linha": 17
+      },
+      {
+        "id": "r6",
+        "nome": "requerente",
+        "oficio": "",
+        "linha": 18
+      },
+      {
+        "id": "r7",
+        "nome": "requerente",
+        "oficio": "",
+        "linha": 19
+      },
+      {
+        "id": "r8",
+        "nome": "requerente",
+        "oficio": "",
+        "linha": 20
+      },
+      {
+        "id": "r9",
+        "nome": "requerente",
+        "oficio": "",
+        "linha": 21
+      },
+      {
+        "id": "r10",
+        "nome": "requerente",
+        "oficio": "",
+        "linha": 22
+      },
+      {
+        "id": "r11",
+        "nome": "requerente",
+        "oficio": "",
+        "linha": 23
       }
     ]
   },

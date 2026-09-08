@@ -28,24 +28,24 @@ não há definição antes do jogo: a mecânica ensina, e o professor amarra dep
 |---|---------|-------------------|-------------------|
 | 1 | **Adivinhe a palavra** — Tico | Termo/Wordle em duas metades | Que informação é aquilo que corta possibilidades |
 | 2 | **O dominó das palavras** — Dona Ciça | Encaixa peças de duas pontas até formar uma frase | Bigramas: prever a próxima palavra pela anterior |
-| 3 | **O arquivo que não cabe** — Mestre Aurélio | Campo minado numa tabela de pares | Por que a tabela de todos os pares é grande demais |
+| 3 | **O arquivo que não cabe** — Mestre Aurélio | paper.io: conquista o VAZIO da tabela de pares | Por que a tabela de todos os pares é grande demais |
 | 4 | **A mesa de corte** — Nara | 2048 com pedaços de palavra | Tokenização: por que a máquina não lê letra por letra |
-| 5 | **O mapa das palavras** — Bento | Connections: doze palavras, três grupos | Embeddings: palavras próximas em significado ficam próximas no espaço |
+| 5 | **O mapa das palavras** — Bento | Candy Crush: estoura trincas de palavras vizinhas | Embeddings: palavras próximas em significado ficam próximas no espaço |
 | 6 | **A malha que escolhe** — Iara | Leva um pacote por dez salas armadilhadas, e vê a malha abrir no fim | Um passe adiante de uma rede neural, do começo ao fim |
-| 7 | **O tamanho do erro** — Seu Ilo | Mastermind com um número só de resposta | Função de perda: um número que não diz onde você errou |
+| 7 | **O tamanho do erro** — Seu Ilo | Dinossauro do Chrome: calibra o robô e assiste | Margem de erro: ajusta o número, vê o erro acontecer, ajusta de novo |
 | 8 | **Deixar a máquina treinar** — Rosa | Angry Birds: regula a força e assiste | Gradiente descendente e taxa de aprendizado |
-| 9 | **O que ela come** — Chef Amaro | Prova cega cronometrada | Que o modelo é o que o corpus dele foi |
+| 9 | **O que ela come** — Chef Amaro | Ligue os pontos: máquina de um lado, o que ela leu do outro | Que o modelo é o que o corpus dele foi |
 | 10 | **Onde ela olha** — Lumi | Duas lâmpadas para sete palavras | Atenção: gastar foco onde importa |
 | 11 | **Fazer ela falar** — Vovó Zi | Labirinto de três escolhas por passo | Amostragem, temperatura e por que ela às vezes inventa |
-| 12 | **Ensinar modos a ela** — Sereno | Papers, Please: julga caso a caso | Alinhamento: suas decisões viraram uma política |
+| 12 | **Quem ela deixa passar** — Sereno | Papers, Please: três dias de guichê, e depois a máquina assume | Viés: as decisões dele viraram a regra, e a regra virou política pública |
 
 No fim, o balcão do **certificado** emite um diploma em PDF gerado dentro do
 próprio navegador — nada é enviado a servidor nenhum.
 
 Cada bancada nasceu de um jogo conhecido, escolhido porque a estrutura dele já
-carrega o conceito: Campo Minado para esparsidade, 2048 para fusão de tokens,
-Mastermind para um sinal de erro sem direção, Flow Free para escassez de
-atenção, Papers Please para política emergente.
+carrega o conceito: paper.io para esparsidade, 2048 para fusão de tokens,
+Level Devil para a informação que atravessa peneira atrás de peneira, Flow Free
+para escassez de atenção, Papers Please para viés e política emergente.
 
 ---
 
@@ -59,13 +59,13 @@ planejamento:
 | Competência Geral | Como aparece na aula |
 |---|---|
 | **5 — Cultura Digital** | O eixo do projeto. O aluno não *usa* uma IA: ele monta as peças dela e vê que não há mágica em etapa nenhuma. É compreensão crítica de uma tecnologia que ele já usa todo dia. |
-| **2 — Pensamento científico, crítico e criativo** | Sete das doze bancadas são hipótese e teste com recurso escasso: aposta na bancada 6, medição na 7, força na 8, dedução por evidência na 9. O aluno formula, testa e corrige. |
-| **7 — Argumentação** | As bancadas 9 e 12 terminam em pergunta que não tem resposta no jogo — "que dados essa IA leu?", "quem escolheu por ela?" — e é aí que a discussão de sala começa. |
-| **10 — Responsabilidade e cidadania** | A bancada 12 mostra que a personalidade do modelo veio de escolhas humanas repetidas. Alinhamento deixa de ser assunto técnico e vira assunto de quem decide. |
+| **2 — Pensamento científico, crítico e criativo** | Sete das doze bancadas são hipótese e teste com recurso escasso: aposta na bancada 5, medição na 7, força na 8, dedução por evidência na 9. O aluno formula, testa e corrige. |
+| **7 — Argumentação** | As bancada 8 e 12 terminam em pergunta que não tem resposta no jogo — "que dados essa IA leu?", "quem escolheu por ela?" — e é aí que a discussão de sala começa. |
+| **10 — Responsabilidade e cidadania** | A bancada 11 põe o aluno num guichê público, com cota e relógio, e treina um modelo com as decisões que ele tomou apressado. Ele vê a regra dele decidir quem entra — e depois a mesma regra sendo vendida para seleção de emprego e entrada no país. Viés algorítmico deixa de ser assunto técnico e vira assunto de quem decide o que pode ser automatizado. |
 
 **Sobre as habilidades específicas:** este README não lista códigos (EF/EM) de
 propósito. A habilidade certa depende do ano, do componente e do recorte que
-você vai dar — a mesma bancada 4 serve a Língua Portuguesa falando de morfologia
+você vai dar — a mesma bancada 3 serve a Língua Portuguesa falando de vocabulário
 e a Matemática falando de otimização. Escolha os códigos do seu contexto; o
 material não amarra você a um.
 

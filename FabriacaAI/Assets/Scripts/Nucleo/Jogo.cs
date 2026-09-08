@@ -211,7 +211,7 @@ namespace FabricaDeIA.Nucleo
                 // chama quando há algo a retirar, ou seja, quando as doze
                 // acabaram. Antes disso fica quieto, para não competir com a
                 // bancada que o aluno realmente precisa achar agora.
-                var chama = bancada.Etapa == "e13"
+                var chama = bancada.Etapa == "e12"
                     ? !Progresso.Atual.TodasTentadas
                     : Progresso.Atual.Tentada(bancada.Etapa);
 
@@ -325,7 +325,7 @@ namespace FabricaDeIA.Nucleo
                 // O balcão do certificado fica de fora do registro: ele não é
                 // uma das doze, não dá estrela, e anotá-lo faria a folha do aluno
                 // dizer "visitadas: 13 de 12".
-                if (etapa != "e13")
+                if (etapa != "e12")
                     Progresso.Atual.Concluir(etapa, estrelas, desafio.Segundos);
                 Encerrar();
             };
@@ -359,7 +359,7 @@ namespace FabricaDeIA.Nucleo
             // Do balcão do certificado se sai para a formatura, sempre — com a
             // aula completa ou pela metade. A folha registra o que a pessoa fez,
             // e quem parou na sétima bancada fez sete bancadas de trabalho.
-            if (etapa == "e13" && mestre != null)
+            if (etapa == "e12" && mestre != null)
             {
                 _estado = Estado.Conversando;
                 _hud.Falar($"{mestre.Nome}, {mestre.Oficio}",
@@ -451,7 +451,7 @@ namespace FabricaDeIA.Nucleo
             // Faltava só quem o chamasse.
             //
             // SÓ NO EDITOR, de propósito. O jogo publicado é aberto por link numa
-            // sala inteira ao mesmo tempo; uma tecla que pula para a bancada 12
+            // sala inteira ao mesmo tempo; uma tecla que pula para a bancada 11
             // viraria a brincadeira da aula em trinta segundos. Quem precisa do
             // atalho é quem está montando a aula, e essa pessoa está no Editor.
             //

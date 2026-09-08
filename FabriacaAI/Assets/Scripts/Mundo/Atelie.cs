@@ -62,18 +62,26 @@ namespace FabricaDeIA.Mundo
             "#......................................#",
             "#....S.........S..........S........S...#",
             "#.....................................~#",
-            "#..P.......a..........b..........c.....#",
+            "#..P.......a..........b................#",
             "#......................................#",
             "########################################"
         };
 
         /// <summary>
-        /// A ordem das estações no mapa. O "d" no fim é o balcão do
-        /// certificado: entra como posto para o aluno poder chegar nele e
-        /// conversar, mas não conta como bancada em lugar nenhum — quem
-        /// conta bancada percorre e1..e12 explicitamente.
+        /// A ordem das estações no mapa, e é a POSIÇÃO NESTA STRING que dá o
+        /// número da etapa — o caractere da planta é só um crachá.
+        ///
+        /// O "d" no fim é o balcão do certificado: entra como posto para o aluno
+        /// poder chegar nele e conversar, mas não conta como bancada em lugar
+        /// nenhum — quem conta bancada percorre e1..e11 explicitamente.
+        ///
+        /// O "c" SAIU JUNTO COM A BANCADA DAS FICHAS, e saiu do fim da fila em vez
+        /// do meio. Tirar o "4" deixaria um buraco no meio da grade de três
+        /// colunas; tirando o último, a grade fica 3-3-3-2 e continua parecendo um
+        /// salão arrumado. Quem mudou de móvel foi todo mundo da quarta em diante,
+        /// e isso a renumeração da arte já resolveu.
         /// </summary>
-        const string Codigos = "123456789abcd";
+        const string Codigos = "123456789abd";
 
         public static readonly int LarguraTiles = Planta[0].Length;
         public static readonly int AlturaTiles = Planta.Length;

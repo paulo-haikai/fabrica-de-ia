@@ -10,19 +10,33 @@ using UnityEngine.UI;
 namespace FabricaDeIA.Desafios
 {
     /// <summary>
-    /// Bancada 6 — a malha de Iara. Corra pelo farol, e depois veja o farol por
+    /// Bancada 5 — a malha de Iara. Corra pelo farol, e depois veja o farol por
     /// dentro.
     ///
-    /// SEIS NÍVEIS, E OS CINCO PRIMEIROS SÃO OUTRO JOGO.
+    /// TRÊS NÍVEIS, E OS DOIS PRIMEIROS SÃO OUTRO JOGO.
     ///
     ///   · Níveis 1 e 2 — O CORREDOR: dez salas à maneira de Level Devil, cinco por
     ///     nível, sorteadas de um acervo de trinta. O aluno leva um pacote de
     ///     informação até a saída, e cada sala testa de novo se ele passa. Ver
     ///     DesafioMalha.Corredor.cs.
-    ///   · Nível 3 — A MALHA, e ela não pede nada: roda inteira uma vez por palavra
-    ///     da frase, narrada, e escreve. É o momento em que ele vê o que as dez salas
-    ///     eram por dentro — peneira atrás de peneira, e só o que sobrevive a todas
-    ///     chega do outro lado.
+    ///   · Nível 3 — A MALHA, e ela não pede nada: roda inteira UMA VEZ, narrada, e
+    ///     escreve UMA palavra. É o momento em que ele vê o que as dez salas eram por
+    ///     dentro — peneira atrás de peneira, e só o que sobrevive a todas chega do
+    ///     outro lado.
+    ///
+    /// UMA TRAVESSIA, E NÃO QUATRO. A malha rodava uma vez por palavra da frase, e
+    /// entre uma e outra o aluno clicava "a próxima palavra". A segunda travessia não
+    /// ensinava nada que a primeira já não tivesse ensinado — é a MESMA animação com
+    /// outra janela — e cobrava do aluno a atenção que o fecho da aula precisava
+    /// inteira. Agora a luz atravessa uma vez, e a bancada acaba.
+    ///
+    /// E ELA PASSA NOS DOIS CAMINHOS. Quem vence as dez salas cai na animação; quem
+    /// aperta sair no meio do corredor também a vê, uma vez, antes de a moldura
+    /// fechar. Trancar a animação atrás de dez salas de plataforma significava que o
+    /// aluno que não dá conta do platformer saía da aula sem nunca ter visto uma rede
+    /// neural — e a rede é o que esta bancada tem para ensinar; o corredor é a
+    /// alegoria dela. O que a desistência custa é a ESTRELA, não a lição. Ver
+    /// <see cref="Desistir"/> e <see cref="Estrelas"/>.
     ///
     /// A ORDEM É O CONTEÚDO. Correr primeiro e explicar depois é o contrário do que
     /// uma aula costuma fazer, e é de propósito: quando a animação da malha começa,
@@ -78,44 +92,39 @@ namespace FabricaDeIA.Desafios
     /// </summary>
     public partial class DesafioMalha : DesafioEmNiveis
     {
-        public override string Etapa => "e6";
+        public override string Etapa => "e5";
         public override string Titulo => "A malha que escolhe";
 
         /// <summary>Dois níveis de corredor, cinco salas cada, e um de malha.</summary>
         protected override int Niveis => NiveisDeCorredor + 1;
 
-        /// <summary>
-        /// Quantas vezes a malha roda inteira no nível do fecho: UMA POR PALAVRA da
-        /// frase que ela escreve.
-        ///
-        /// Amarrado a <see cref="Rede.PalavrasPorFrase"/> e não a um número solto,
-        /// porque é isso que ele significa: o nível dura exatamente uma frase dela,
-        /// e no fim o cartaz cita a frase que acabou de nascer na tela. Solto, um
-        /// dos dois um dia mudaria e o cartaz passaria a citar meia frase.
-        /// </summary>
-        const int TravessiasDaMalha = Rede.PalavrasPorFrase;
-
         const int Opcoes = 3;
 
         Rede _rede;
 
-        /// <summary>A frase que a malha está escrevendo, palavra por palavra.</summary>
+        /// <summary>A semente de três palavras, mais a que a malha escreveu.</summary>
         readonly List<string> _frase = new();
+
         /// <summary>
-        /// Uma linha por travessia: a janela que entrou, a palavra que sobreviveu à
-        /// peneira, e com que força ela acendeu.
+        /// A travessia que aconteceu: a janela que entrou, a palavra que sobreviveu à
+        /// peneira, e com que força ela acendeu. Nula até a luz chegar do outro lado.
+        ///
+        /// Era uma LISTA, com uma linha por travessia, de quando a malha rodava
+        /// quatro vezes seguidas. Roda uma só, e lista de um item é lista de mentira.
         /// </summary>
-        readonly List<(string janela, string palavra, float chance)> _linhas = new();
-
-        /// <summary>Palavras que ELA escreveu na frase atual, fora as três da semente.</summary>
-        int _geradas;
-
-        /// <summary>As frases que ela terminou nesta rodada.</summary>
-        readonly List<string> _prontas = new();
+        (string janela, string palavra, float chance)? _linha;
 
         List<int> _candidatas = new();
-        int _passes;
-        bool _rodando;
+
+        /// <summary>
+        /// A malha já foi ao ar? Verdadeiro do instante em que o cartaz da revelação
+        /// abre em diante — durante a animação, e depois dela.
+        ///
+        /// É o que separa os dois sentidos de "sair": o primeiro pedido de saída
+        /// ainda deve a lição ao aluno e chama a animação; do segundo em diante ele
+        /// já viu (ou está vendo) e sair encerra de verdade.
+        /// </summary>
+        bool _malhaNoAr;
 
         /// <summary>Depois da travessia, o mostrador mostra a força de cada lâmpada.</summary>
         bool _forcaAMostra;
@@ -127,7 +136,7 @@ namespace FabricaDeIA.Desafios
             _rede = Rede.Atual;
             _sorteio = new Mulberry32((uint)Rodadas.Semente());
 
-            // A forma da rede atravessa para a bancada 7, que vai perguntar ao aluno
+            // A forma da rede atravessa para a bancada 6, que vai perguntar ao aluno
             // quantos desses números ele daria conta de girar à mão. Agora é a forma
             // da rede DE VERDADE, e não a de um tear de faz de conta.
             Progresso.Atual.camadas = _rede.Forma;
@@ -157,28 +166,54 @@ namespace FabricaDeIA.Desafios
             }
 
             // Nível 3: a malha.
-            //
-            // O histórico é zerado aqui e as FRASES prontas não. O painel de cima
-            // mostra uma linha por travessia e cabem umas poucas. As frases
-            // sobrevivem porque o cartaz de fecho cita a última que ela terminou.
+            AbrirAMalha(despedida: false);
+        }
+
+        /// <summary>
+        /// Põe a malha na tela e abre a revelação. É o nível 3 — e também é o que o
+        /// aluno vê quando pede para sair antes de chegar nele.
+        /// </summary>
+        /// <param name="despedida">
+        /// Verdadeiro quando isto é um ATALHO: o aluno apertou sair no corredor e vai
+        /// ver a animação a caminho da porta. A diferença é só de moldura — o contador
+        /// de níveis some, porque contar rodadas para quem já decidiu ir embora é
+        /// cobrar uma dívida que ele não vai pagar.
+        /// </param>
+        void AbrirAMalha(bool despedida)
+        {
+            _malhaNoAr = true;
+
+            // Desligar o corredor ANTES de tocar na tela: o laço de física roda em
+            // Update, e no quadro seguinte ele leria um palco meio destruído.
             _noCorredor = false;
+            _travado = true;
+
+            // No caminho normal quem limpa a área é DesafioEmNiveis, antes de chamar
+            // MontarNivel; no atalho não há ninguém, e a sala inteira ainda está lá.
+            // Limpar duas vezes não custa nada e faz este método bastar-se sozinho.
+            foreach (Transform filho in Area) Destroy(filho.gameObject);
+
+            if (despedida) Painel.MarcarPasso(string.Empty);
+            Painel.Acao(null, null);
+            // Senão o "tombos: 7" da última sala fica pendurado embaixo da revelação.
+            Painel.Instruir(string.Empty);
+
             Semear();
-            _passes = 0;
-            _rodando = false;
-            _linhas.Clear();
+            _linha = null;
 
             MontarTela();
 
-            // Prepara a primeira travessia e ABRE PELA REVELAÇÃO. PrepararPasse
-            // deixa a rede rodada e a malha desenhada sem animar nada; a revelação
-            // usa esse estado para narrar a filtragem devagar, por cima de um cartaz.
-            // Ver DesafioMalha.Revelacao.cs.
+            // Prepara a travessia e ABRE PELA REVELAÇÃO. PrepararPasse deixa a rede
+            // rodada e a malha desenhada sem animar nada; a revelação usa esse estado
+            // para narrar a filtragem devagar, por cima de um cartaz. Ver
+            // DesafioMalha.Revelacao.cs.
             PrepararPasse();
             AbrirARevelacao();
         }
 
         /// <summary>
-        /// Escolhe as três palavras com que a malha começa.
+        /// Escolhe as três palavras com que a malha começa. Roda uma vez por visita,
+        /// porque a malha atravessa uma vez por visita.
         ///
         /// Saem do começo de uma frase real do corpus, porque três palavras
         /// sorteadas soltas dariam uma janela que ninguém escreveu — e a rede
@@ -196,7 +231,6 @@ namespace FabricaDeIA.Desafios
 
             _frase.Clear();
             for (var i = 0; i < _rede.Janela; i++) _frase.Add(escolhida[i]);
-            _geradas = 0;
         }
 
         // ------------------------------------------------------------- travessia
@@ -214,21 +248,12 @@ namespace FabricaDeIA.Desafios
         /// </summary>
         void PrepararPasse()
         {
-            // A frase terminou: guarda e semeia outra. Deixar correr além disto era
-            // o que produzia a frase sem sentido do cartaz final — ver o número
-            // medido em Rede.PalavrasPorFrase.
-            if (_geradas >= Rede.PalavrasPorFrase)
-            {
-                _prontas.Add(string.Join(" ", _frase));
-                Semear();
-            }
-
             _vencedora = _rede.Prever(_frase);
             _candidatas = _rede.MaisAcesas(Opcoes);
             _forcaAMostra = false;
 
-            Painel.MarcarPasso(NivelAtual + 1, Niveis,
-                               $"travessia {_passes + 1} de {TravessiasDaMalha}");
+            // O contador do cabeçalho não ganha mais um "travessia 2 de 4": é uma só,
+            // e contar até um é anunciar um laço que não existe.
             Painel.Acao(null, null);
 
             RefazerSaida();
@@ -237,47 +262,12 @@ namespace FabricaDeIA.Desafios
 
         int _vencedora;
 
-        /// <summary>
-        /// Prepara a próxima janela e solta a luz nela.
-        ///
-        /// A trava de <c>_rodando</c> não é zelo: a animação leva quase três
-        /// segundos, e dois cliques seguidos no botão soltariam duas frentes de luz
-        /// na mesma malha, cada uma escrevendo uma palavra.
-        /// </summary>
-        void Travessia()
-        {
-            if (_rodando) return;
-            PrepararPasse();
-            StartCoroutine(Acendendo());
-        }
-
-        /// <summary>
-        /// A frente de luz, em quatro tempos.
-        ///
-        /// A ordem é o conteúdo: a janela entra INTEIRA, a luz é testada fio a fio,
-        /// o meio resume o que sobrou (com pedaços apagados), e só então a parede
-        /// acende. Se o resultado viesse antes do fim, o aluno leria a palavra e não
-        /// olharia a peneira — que é a única coisa que esta bancada tem para mostrar.
-        /// </summary>
-        IEnumerator Acendendo()
-        {
-            _rodando = true;
-
-            Painel.Instruir("a janela entra inteira, como números", Cores.Luz);
-            yield return Percorrer(0f, 1f, 0.45f, f => Iluminar(Fase.Entradas, f));
-
-            Painel.Instruir("cada fio testa de novo o que chegou", Cores.Luz);
-            yield return Percorrer(0f, 1f, 1.15f, f => Iluminar(Fase.Travessia, f));
-
-            Painel.Instruir("o que não passou na peneira vira zero", Cores.Luz);
-            yield return Percorrer(0f, 1f, 0.40f, f => Iluminar(Fase.Meio, f));
-
-            Painel.Instruir("do outro lado sobra o que atravessou tudo", Cores.Luz);
-            yield return Percorrer(0f, 1f, 0.75f, f => Iluminar(Fase.Parede, f));
-
-            _rodando = false;
-            Revelar();
-        }
+        // A ANIMAÇÃO RÁPIDA FOI EMBORA. Havia duas: uma lenta e narrada, para a
+        // primeira travessia, e uma encurtada — Travessia() e Acendendo() — para as
+        // repetições, porque quem já viu a filtragem três vezes não quer esperar os
+        // quatro tempos completos de novo. Sem repetição não há o que encurtar, e a
+        // única que sobra é a lenta, em DesafioMalha.Revelacao.cs. Duas animações
+        // para o mesmo acontecimento também eram duas narrações para manter em pé.
 
         /// <summary>Interpola de a até b em tempo REAL, chamando <paramref name="pintar"/>.</summary>
         static IEnumerator Percorrer(float a, float b, float segundos, System.Action<float> pintar)
@@ -293,11 +283,13 @@ namespace FabricaDeIA.Desafios
         }
 
         /// <summary>
-        /// A palavra que sobreviveu entra na frase, e o laço recomeça.
+        /// A palavra que sobreviveu entra na frase, e a bancada vai para o fecho.
         ///
-        /// É o laço de verdade: ela escreve o que sobrou da peneira, lê de novo o
-        /// que acabou de escrever, e a janela seguinte já é outra pergunta. A frase
-        /// que se forma é dela — ninguém a escreveu antes.
+        /// Aqui era o LAÇO: a palavra entrava na frase, a janela seguinte já era
+        /// outra pergunta, e o botão convidava à travessia seguinte. O laço saiu — ver
+        /// o cabeçalho desta classe. O que ele mostrava, que a palavra escrita volta
+        /// para a entrada como parte da pergunta seguinte, passou a ser DITO no cartaz
+        /// de fecho, onde cabe sem cobrar mais três voltas de animação do aluno.
         /// </summary>
         void Revelar()
         {
@@ -307,46 +299,111 @@ namespace FabricaDeIA.Desafios
             _forcaAMostra = true;
             Widgets.Marcar(PlaquetaDe(_vencedora), true);
 
-            _linhas.Add((string.Join(" ", _frase.Skip(_frase.Count - _rede.Janela)),
-                         palavra, chance));
+            // A janela é gravada ANTES de a palavra entrar na frase: o que a faixa de
+            // cima mostra é a pergunta que a malha respondeu, não a que viria depois.
+            _linha = (string.Join(" ", _frase.Skip(_frase.Count - _rede.Janela)),
+                      palavra, chance);
 
             _frase.Add(palavra);
-            _geradas++;
-            _passes++;
 
             Painel.Instruir($"sobrou “{palavra}” — {chance * 100f:0}% de toda a luz da parede",
                             Cores.Folha);
             Redesenhar();
-
-            if (_passes >= TravessiasDaMalha)
-            {
-                Painel.Acao("ver o resultado", Fechar);
-                return;
-            }
-            Painel.Acao("a próxima palavra", Travessia);
+            Painel.Acao("ver o resultado", Fechar);
         }
 
+        /// <summary>
+        /// O cartaz de fecho, e ele fala de UMA palavra — porque foi uma que ela
+        /// escreveu.
+        ///
+        /// A versão anterior citava a frase inteira e se chamava "e a frase é dela".
+        /// Era verdade enquanto a malha rodava quatro vezes seguidas e escrevia as
+        /// quatro palavras. Com uma travessia só, três das quatro vieram de um texto
+        /// que gente escreveu — vender a frase como dela seria mentir na última tela
+        /// da bancada, e o aluno que prestou atenção veria a mentira.
+        ///
+        /// O que precisa sobreviver ao corte é o PREÇO: aquela palavra única custou a
+        /// malha inteira rodando do zero, e sobrou de 318 lâmpadas acesas ao mesmo
+        /// tempo. E a comparação com a bancada 2, que é o que dá tamanho ao número.
+        ///
+        /// Não passa por <c>Resolveu</c>, e é de propósito. O nível deixou de cobrar
+        /// palpite, e estrela de demonstração é estrela por sorte: quem assistiu não
+        /// fez nada, e pagar por assistir ensinaria que a bancada se vence esperando.
+        /// A estrela é do corredor, que é onde a mão dele trabalhou — ver
+        /// <see cref="Estrelas"/>. Encerrar daqui também evita o pior efeito
+        /// colateral do atalho de saída: por <c>Resolveu</c>, o botão do cartaz cairia
+        /// em <c>Proximo</c>, que devolveria ao corredor o aluno que pediu para sair.
+        /// </summary>
         void Fechar()
         {
-            // A frase da tela, que a esta altura está inteira: são TravessiasDaMalha
-            // travessias e PalavrasPorFrase palavras, e os dois são o mesmo número.
-            // O `_prontas` cobre o caso de o aluno ter chegado aqui com uma frase já
-            // fechada atrás — "a frase é dela" com uma palavra não convence ninguém.
-            var frase = _geradas > 0 ? string.Join(" ", _frase)
-                      : _prontas.Count > 0 ? _prontas[^1]
-                      : string.Join(" ", _frase);
+            var semente = string.Join(" ", _frase.Take(_rede.Janela));
+            var palavra = _frase[^1];
+            var chance = _rede.Chances[_vencedora];
 
-            // Sem Falhou: não há o que errar aqui. O nível deixou de cobrar palpite,
-            // e cobrar estrela de quem assistiu a uma demonstração seria cobrar por
-            // sorte. A estrela é do corredor, que é onde a mão dele trabalhou.
-            Resolveu($"{TravessiasDaMalha} travessias — e a frase é dela",
-                $"“{frase}”\n\n" +
-                "Ninguém escreveu isso. Cada palavra custou a malha INTEIRA rodando\n" +
-                "outra vez, do zero: a janela entra, é testada fio a fio, o que não\n" +
-                "passa vira zero, e o que sobrevive volta para a entrada como parte\n" +
-                "da pergunta seguinte.\n\n" +
-                Comparacao());
+            // O rodapé continua em "a máquina por dentro", posto pela revelação. O
+            // "a peça está pronta" das outras bancadas não serve aos dois caminhos:
+            // para quem pediu para sair no meio do corredor, a peça não está pronta.
+            Cartaz("Uma palavra, e a malha inteira por trás dela",
+                $"As três primeiras palavras ela leu de um texto: “{semente}”.\n" +
+                $"A quarta não estava escrita em lugar nenhum: “{palavra}”.\n\n" +
+                "Essa uma palavra custou a MALHA INTEIRA rodando do zero. A janela\n" +
+                "entra como números, cada fio testa de novo o que chegou, o que não\n" +
+                "passa vira zero — e no fim as 318 lâmpadas da parede acenderam\n" +
+                $"juntas. “{palavra}” é a que sobrou: {chance * 100f:0}% de toda a luz.\n\n" +
+                "Para escrever a palavra seguinte, tudo isso acontece OUTRA VEZ, do\n" +
+                "zero, com essa palavra já fazendo parte da pergunta.\n\n" +
+                Comparacao(),
+                "voltar ao ateliê",
+                () => Encerrar(Estrelas()));
         }
+
+        // ------------------------------------------------------------ sair e valer
+
+        /// <summary>
+        /// Sair — e a malha ainda assim passa uma vez.
+        ///
+        /// O primeiro pedido de saída, vindo do corredor, não fecha a moldura: ele
+        /// pula para a animação. É a única coisa que esta bancada precisa ter
+        /// mostrado, e um aluno que travou na sala 4 do platformer sairia da aula sem
+        /// ter visto uma rede neural — que é o assunto do dia, e não o pulo duplo.
+        ///
+        /// Do segundo pedido em diante, encerra de verdade. Vale para o Esc apertado
+        /// NO MEIO da animação: quem pede para sair duas vezes está pedindo para sair,
+        /// e prender o aluno numa tela que ele já recusou seria transformar a lição em
+        /// castigo. <see cref="_malhaNoAr"/> sobe no instante em que a revelação abre,
+        /// então também não há como ver a animação duas vezes.
+        ///
+        /// Reentrada não é problema: <c>Encerrar</c> desinscreve <c>Painel.Fechou</c> e
+        /// destrói a moldura, então o Esc do quadro seguinte não acha mais ninguém.
+        /// </summary>
+        protected override void Desistir()
+        {
+            if (_malhaNoAr)
+            {
+                Encerrar(Estrelas());
+                return;
+            }
+            AbrirAMalha(despedida: true);
+        }
+
+        /// <summary>
+        /// Três estrelas para quem atravessou as DEZ salas, e zero para todo o resto.
+        ///
+        /// Nada de meias estrelas por nível: o corredor é uma coisa só, e a bancada
+        /// pergunta se o pacote chegou. Cinco salas de dez é o pacote no meio do
+        /// caminho.
+        ///
+        /// Amarrado às SALAS, e não ao <c>Resolvidos</c> de DesafioEmNiveis, por dois
+        /// motivos. O primeiro é que o nível da malha resolvia sozinho e inflava a
+        /// conta — assistir à animação valia uma estrela. O segundo é que os cartazes
+        /// do corredor distinguem passar limpo de passar tropeçando, e essa distinção
+        /// é RECADO, não nota: tombar é de graça neste jogo, e a bancada avisa isso no
+        /// primeiro minuto. Cobrar tombo na estrela seria desmentir o próprio aviso.
+        ///
+        /// A animação da malha não dá estrela por si em nenhum dos dois caminhos —
+        /// estrela de demonstração é estrela por sorte. Ver <see cref="Fechar"/>.
+        /// </summary>
+        protected override int Estrelas() => VenceuOCorredor ? 3 : 0;
 
         /// <summary>
         /// O número que amarra a bancada 2 nesta.

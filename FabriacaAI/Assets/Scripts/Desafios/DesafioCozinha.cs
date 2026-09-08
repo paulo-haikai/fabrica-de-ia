@@ -7,7 +7,7 @@ using UnityEngine;
 namespace FabricaDeIA.Desafios
 {
     /// <summary>
-    /// Bancada 9 — a cozinha do Chef Amaro.
+    /// Bancada 8 — a cozinha do Chef Amaro.
     ///
     /// Inspiração: LIGUE OS PONTOS. De um lado as máquinas, do outro o que cada
     /// uma comeu. O aluno pega um pontinho e puxa um traço até o alimento certo.
@@ -29,7 +29,7 @@ namespace FabricaDeIA.Desafios
     /// </summary>
     public partial class DesafioCozinha : DesafioEmNiveis
     {
-        public override string Etapa => "e9";
+        public override string Etapa => "e8";
         public override string Titulo => "O que ela come";
 
         protected override int Niveis => 3;

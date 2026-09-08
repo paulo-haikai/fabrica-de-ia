@@ -26,8 +26,9 @@ export const QUADROS = 4;
 /**
  * Fisionomia de uma pessoa. Tudo que muda de um mestre para o outro cabe aqui.
  */
-export function pessoa({ pele = 0, cabelo = 0, corte = 'curto', roupa = 0, acessorio = 'nenhum' }) {
-  return { pele, cabelo, corte, roupa, acessorio };
+export function pessoa({ pele = 0, cabelo = 0, corte = 'curto', roupa = 0, acessorio = 'nenhum',
+                         avental = true }) {
+  return { pele, cabelo, corte, roupa, acessorio, avental };
 }
 
 // ------------------------------------------------------------------ peças
@@ -151,10 +152,16 @@ function corpo(t, p, dir, y, bracoAtras) {
   t.linhaH(4, y + 6, 8, som);
 
   // Avental: marca que é gente que trabalha com as mãos.
-  t.retangulo(6, y + 2, 4, 5, P.papel);
-  t.linhaH(6, y + 2, 4, clarear(P.papel, 0.3));
-  t.ponto(5, y + 1, P.papel);
-  t.ponto(10, y + 1, P.papel);
+  //
+  // Deixou de ser obrigatório por causa da bancada 11: quem chega ao guichê da
+  // prefeitura não é do ateliê, e um avental em todo mundo dizia justamente o
+  // contrário. Os treze mestres continuam com ele por omissão do parâmetro.
+  if (p.avental) {
+    t.retangulo(6, y + 2, 4, 5, P.papel);
+    t.linhaH(6, y + 2, 4, clarear(P.papel, 0.3));
+    t.ponto(5, y + 1, P.papel);
+    t.ponto(10, y + 1, P.papel);
+  }
 
   // Braços: um vai à frente e o outro atrás, conforme o passo.
   const alturaBraco = 5;

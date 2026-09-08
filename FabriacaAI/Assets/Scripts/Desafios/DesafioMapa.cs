@@ -8,7 +8,7 @@ using UnityEngine;
 namespace FabricaDeIA.Desafios
 {
     /// <summary>
-    /// Bancada 5 — o mapa de Bento.
+    /// Bancada 4 — o mapa de Bento.
     ///
     /// Inspiração: CANDY CRUSH. Uma grade de peças, troca entre vizinhas, três
     /// em linha estouram, o que está em cima cai e entra peça nova. Qualquer
@@ -42,7 +42,7 @@ namespace FabricaDeIA.Desafios
     /// </summary>
     public partial class DesafioMapa : DesafioEmNiveis
     {
-        public override string Etapa => "e5";
+        public override string Etapa => "e4";
         public override string Titulo => "O mapa das palavras";
 
         protected override int Niveis => _rodadas?.Count ?? Mapas.PorAula;
@@ -78,8 +78,6 @@ namespace FabricaDeIA.Desafios
         int _meta;
         int _jogadas;
         (int coluna, int linha)? _escolhida;
-        (int coluna, int linha)? _arrastando;
-        bool _trocouArrastando;
         bool _travado;
 
         protected override void Preparar()
@@ -168,9 +166,12 @@ namespace FabricaDeIA.Desafios
         {
             if (_travado) return;
 
-            // O botão dispara o clique ao soltar, inclusive quando o gesto foi um
-            // arrastar que JÁ trocou as peças. Sem esta guarda, um arrastar valeria
-            // por dois: a troca e mais uma seleção solta em cima dela.
+            // O Unity só dispara o clique de um botão quando o dedo solta EM CIMA
+            // de onde apertou. Isso quase sempre livra este método de ver dois
+            // toques por um arrastar — mas não no caso de o gesto sair da peça de
+            // origem e voltar a ela antes de soltar: aí o clique dispara de
+            // verdade, em cima de uma troca que já aconteceu. Sem esta guarda,
+            // esse ida-e-volta valeria por dois: a troca e mais uma seleção solta.
             if (_trocouArrastando) { _trocouArrastando = false; return; }
 
             if (_escolhida == null)
@@ -216,45 +217,6 @@ namespace FabricaDeIA.Desafios
 
             StartCoroutine(Resolver(trincas));
         }
-
-        // ---------------------------------------------------------- arrastar
-        //
-        // O gesto do gênero. Quem já jogou match-3 aperta numa peça e puxa para o
-        // lado; não achar isso faz o jogo parecer quebrado antes de o aluno
-        // descobrir que aqui se joga com dois toques. Os dois caminhos convivem:
-        // o arrastar para quem já sabe, o toque duplo para trackpad ruim e para
-        // quem nunca jogou.
-
-        void Pegar(int coluna, int linha)
-        {
-            if (_travado) return;
-            _arrastando = (coluna, linha);
-            _trocouArrastando = false;
-        }
-
-        /// <summary>O ponteiro entrou noutra peça com o botão apertado.</summary>
-        void Arrastar(int coluna, int linha)
-        {
-            if (_travado || _arrastando == null) return;
-
-            var (ac, al) = _arrastando.Value;
-            if (Mathf.Abs(ac - coluna) + Mathf.Abs(al - linha) != 1) return;
-
-            // Reaproveita o caminho do toque: seleciona a de origem e "toca" na
-            // vizinha. Assim arrastar e tocar não podem divergir de regra — é uma
-            // regra só, com duas entradas.
-            _escolhida = (ac, al);
-            _arrastando = null;
-            Tocar(coluna, linha);
-
-            // A marca vem DEPOIS da troca, e não antes: `Tocar` começa checando
-            // esta mesma bandeira, então marcá-la antes faria a troca ser engolida
-            // pela própria guarda. Ela existe só para o clique que ainda vai
-            // chegar quando o dedo soltar não valer por uma segunda jogada.
-            _trocouArrastando = true;
-        }
-
-        void Soltar() => _arrastando = null;
 
         /// <summary>
         /// Troca duas casas — a grade E o objeto que está em cima dela.
@@ -342,7 +304,7 @@ namespace FabricaDeIA.Desafios
         ///
         /// Um tabuleiro de match-3 pode fechar sem nenhuma troca que estoure, e
         /// aí o aluno fica clicando para sempre num jogo que não responde. É a
-        /// mesma família de defeito que tornava a bancada 11 invencível — rodada
+        /// mesma família de defeito que tornava a bancada 10 invencível — rodada
         /// sem saída, com a diferença de que aqui ela não parece culpa dele, o
         /// que é pior: parece jogo quebrado.
         ///

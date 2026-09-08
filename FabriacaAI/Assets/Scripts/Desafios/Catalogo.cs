@@ -30,30 +30,42 @@ namespace FabricaDeIA.Desafios
         /// </summary>
         public static System.Collections.Generic.IEnumerable<string> Registradas()
         {
-            for (var n = 1; n <= 12; n++)
+            for (var n = 1; n <= Bancadas; n++)
             {
                 var etapa = $"e{n}";
                 if (TipoDe(etapa) != null) yield return etapa;
             }
         }
 
+        /// <summary>
+        /// Quantas bancadas a aula tem. O balcão do certificado NÃO entra: ele é a
+        /// etapa seguinte (<c>e12</c>), fica aberto desde o começo e não dá estrela.
+        ///
+        /// Eram doze. A bancada das fichas — o match-3 de corte de texto — saiu, e
+        /// as de baixo subiram um número. Este é o único lugar do código que
+        /// precisa saber o total; quem conta bancada ou estrela pergunta aqui.
+        /// </summary>
+        public const int Bancadas = 11;
+
+        /// <summary>Três estrelas por bancada.</summary>
+        public const int EstrelasPossiveis = Bancadas * 3;
+
         static System.Type TipoDe(string etapa) => etapa switch
         {
             // O balcão do certificado. Não é minigame e não dá estrela;
             // entra aqui porque é assim que o salão abre qualquer estação.
-            "e13" => typeof(DesafioCertificado),
+            "e12" => typeof(DesafioCertificado),
             "e1" => typeof(DesafioTermo),
             "e2" => typeof(DesafioDominos),
             "e3" => typeof(DesafioArquivo),
-            "e4" => typeof(DesafioFichas),
-            "e5" => typeof(DesafioMapa),
-            "e6" => typeof(DesafioMalha),
-            "e7" => typeof(DesafioErro),
-            "e8" => typeof(DesafioTreino),
-            "e9" => typeof(DesafioCozinha),
-            "e10" => typeof(DesafioHolofotes),
-            "e11" => typeof(DesafioFala),
-            "e12" => typeof(DesafioAlinhar),
+            "e4" => typeof(DesafioMapa),
+            "e5" => typeof(DesafioMalha),
+            "e6" => typeof(DesafioErro),
+            "e7" => typeof(DesafioTreino),
+            "e8" => typeof(DesafioCozinha),
+            "e9" => typeof(DesafioHolofotes),
+            "e10" => typeof(DesafioFala),
+            "e11" => typeof(DesafioAlinhar),
             _ => null
         };
     }

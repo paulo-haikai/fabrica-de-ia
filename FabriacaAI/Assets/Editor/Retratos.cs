@@ -29,12 +29,12 @@ namespace FabricaDeIA.Editor
             Nucleo.Retrato.TirarTodas(Pasta);
         }
 
-        [MenuItem("Fábrica de IA/Retrato/Bancada 8 — treinando")]
+        [MenuItem("Fábrica de IA/Retrato/Bancada 7 — treinando")]
         public static void Treinando()
         {
             if (!Pronto()) return;
             // "médio" é o passo que converge; a curva desce e assenta.
-            Nucleo.Retrato.TirarJogando("e8", Pasta, new[] { "médio" }, 0f, 2.2f, "e8-treinando");
+            Nucleo.Retrato.TirarJogando("e7", Pasta, new[] { "médio" }, 0f, 2.2f, "e8-treinando");
         }
 
         [MenuItem("Fábrica de IA/Retrato/Bancada 2 — corrente montada")]
@@ -53,22 +53,6 @@ namespace FabricaDeIA.Editor
             Nucleo.Retrato.TirarAbertura(Pasta, new[] { 2f, 7f, 8.7f, 12f });
         }
 
-        [MenuItem("Fábrica de IA/Retrato/Tutorial da bancada 1")]
-        public static void Tutorial1()
-        {
-            if (!Pronto()) return;
-            // Passo 1, e depois o passo 3, que é onde a máquina joga de verdade.
-            Nucleo.Retrato.TirarJogando("e1", Pasta, new string[0], 0f, 0.5f, "tut-e1-1");
-        }
-
-        [MenuItem("Fábrica de IA/Retrato/Tutorial da bancada 1 — demonstrando")]
-        public static void Tutorial1Demo()
-        {
-            if (!Pronto()) return;
-            Nucleo.Retrato.TirarJogando("e1", Pasta, new[] { "entendi", "entendi" },
-                                        0.4f, 2.2f, "tut-e1-3");
-        }
-
         [MenuItem("Fábrica de IA/Retrato/Ateliê")]
         public static void Atelie()
         {
@@ -81,58 +65,6 @@ namespace FabricaDeIA.Editor
         {
             if (!Pronto()) return;
             Nucleo.Retrato.TestarFechamento();
-        }
-
-        /// <summary>
-        /// Fotografa o passo em que a máquina acabou de treinar sozinha: é o
-        /// momento da aula em que a curva do erro desce na tela, e o único jeito
-        /// de conferir se a moldura acertou o gráfico é olhando.
-        /// </summary>
-        [MenuItem("Fábrica de IA/Retrato/Tutorial da bancada 8 — a curva descendo")]
-        public static void Tutorial8Demo()
-        {
-            if (!Pronto()) return;
-            Nucleo.Retrato.EsquecerTutorial("e8");
-            Nucleo.Retrato.TirarJogando("e8", Pasta,
-                new[] { "entendi", "entendi" }, 0.5f, 1.2f, "tut-e8-demo");
-        }
-
-        /// <summary>
-        /// Fotografa a bancada 6 com a frente de luz no MEIO da travessia.
-        ///
-        /// O instante importa: no começo a malha está apagada e no fim está toda
-        /// acesa — as duas fotos parecem corretas. O defeito de layout, se existir,
-        /// aparece justamente quando as conexões estão meio crescidas, porque é aí
-        /// que se vê se elas saem do ponto certo e chegam no ponto certo.
-        ///
-        /// Entra pelo tutorial porque é ele que dispara a aposta sozinho: dois
-        /// "entendi" e o passo 3 roda a demonstração.
-        /// </summary>
-        [MenuItem("Fábrica de IA/Retrato/Bancada 6 — a luz atravessando")]
-        public static void MalhaAtravessando()
-        {
-            if (!Pronto()) return;
-            Nucleo.Retrato.EsquecerTutorial("e6");
-            Nucleo.Retrato.TirarJogando("e6", Pasta,
-                new[] { "entendi", "entendi" }, 0.5f, 1.25f, "malha-travessia");
-        }
-
-        [MenuItem("Fábrica de IA/Retrato/Bancada 6 — a parede acesa")]
-        public static void MalhaParede()
-        {
-            if (!Pronto()) return;
-            Nucleo.Retrato.EsquecerTutorial("e6");
-            Nucleo.Retrato.TirarJogando("e6", Pasta,
-                new[] { "entendi", "entendi" }, 0.5f, 3.2f, "malha-parede");
-        }
-
-        [MenuItem("Fábrica de IA/Retrato/Tutorial da bancada 10 — no escuro")]
-        public static void Tutorial10Demo()
-        {
-            if (!Pronto()) return;
-            Nucleo.Retrato.EsquecerTutorial("e10");
-            Nucleo.Retrato.TirarJogando("e10", Pasta,
-                new[] { "entendi", "entendi" }, 0.6f, 1.2f, "tut-e10-demo");
         }
 
         /// <summary>
@@ -179,11 +111,19 @@ namespace FabricaDeIA.Editor
             Nucleo.Retrato.TestarDigitacao();
         }
 
-        [MenuItem("Fábrica de IA/Testar tutoriais das bancadas")]
-        public static void TestarTutoriais()
+        /// <summary>
+        /// Confere que a bancada dos holofotes aceita o clique nas palavras.
+        ///
+        /// Sem número no rótulo de propósito: a bancada já mudou de posição uma
+        /// vez, e um item de menu que promete "bancada 10" vira mentira na
+        /// renumeração seguinte. Quem descobre a etapa é o teste, perguntando ao
+        /// próprio desafio.
+        /// </summary>
+        [MenuItem("Fábrica de IA/Testar o clique dos holofotes")]
+        public static void TestarHolofotes()
         {
             if (!Pronto()) return;
-            Nucleo.Retrato.TestarTutoriais();
+            Nucleo.Retrato.TestarHolofotes();
         }
 
         static bool Pronto()

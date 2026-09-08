@@ -77,7 +77,7 @@ namespace FabricaDeIA.Nucleo
             var feitas = p.Concluidas;
             var linha = feitas == 12
                 ? "percorreu as DOZE bancadas da Fábrica de IA, da adivinhação de"
-                : $"trabalhou em {feitas} das doze bancadas da Fábrica de IA, da adivinhação de";
+                : $"trabalhou em {feitas} das onze bancadas da Fábrica de IA, da adivinhação de";
 
             pdf.TextoCentrado(linha, Centro, 224f, 11.5f, Pdf.Normal, Tinta);
             pdf.TextoCentrado("palavras até o alinhamento de respostas, construindo em cada uma",

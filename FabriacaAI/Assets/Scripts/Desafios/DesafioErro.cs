@@ -7,7 +7,7 @@ using UnityEngine;
 namespace FabricaDeIA.Desafios
 {
     /// <summary>
-    /// Bancada 7 — o robô de Seu Ilo.
+    /// Bancada 6 — o robô de Seu Ilo.
     ///
     /// Inspiração: A CORRIDA DO DINOSSAURO do Chrome sem internet. Todo aluno já
     /// jogou, e ninguém precisa explicar o que é desviar de obstáculo.
@@ -32,7 +32,7 @@ namespace FabricaDeIA.Desafios
     /// </summary>
     public partial class DesafioErro : DesafioEmNiveis
     {
-        public override string Etapa => "e7";
+        public override string Etapa => "e6";
         public override string Titulo => "O tamanho do erro";
 
         protected override int Niveis => Rodadas7.Length;
@@ -362,7 +362,7 @@ namespace FabricaDeIA.Desafios
         ///
         /// É piada, e é piada com endereço: ele agradece dizendo que está QUASE
         /// falando sozinho — e "quase" é a palavra honesta, porque falar sozinho é
-        /// exatamente a bancada 11. A 7 treinou o pulo dele; a fala vem depois, e
+        /// exatamente a bancada 10. A 7 treinou o pulo dele; a fala vem depois, e
         /// o aluno vai treinar aquela também.
         ///
         /// A métrica é capenga de propósito. Robô que acabou de aprender a pular

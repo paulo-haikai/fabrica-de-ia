@@ -11,7 +11,7 @@ namespace FabricaDeIA.Desafios
     /// O desenho da bancada 1 — a grade, o teclado, a revelação e as telas de
     /// fecho.
     ///
-    /// Separado da lógica de rodada pelo mesmo motivo que na bancada 6: o
+    /// Separado da lógica de rodada pelo mesmo motivo que na bancada 5: o
     /// arquivo tinha passado de seiscentas linhas e as duas metades mudam por
     /// razões diferentes. Regra de jogo muda quando a lição muda; layout muda
     /// quando alguém joga numa tela de outro tamanho. Misturadas, toda mexida
@@ -65,10 +65,15 @@ namespace FabricaDeIA.Desafios
 
         void MontarGrade(int colunas)
         {
-            var antiga = _palco.Find("Grade");
-            if (antiga != null) Destroy(antiga.gameObject);
+            if (_grade != null) Destroy(_grade.gameObject);
+
+            // A faixa da rodada anterior sai JUNTO com a grade dela. As duas são a
+            // mesma coisa — o tabuleiro de uma rodada — e separá-las foi o que
+            // deixou a resposta revelada sobreviver à rodada que a revelou.
+            LimparResposta();
 
             var grade = Widgets.Painel("Grade", _palco, Color.clear);
+            _grade = grade;
             var lado = LadoDaCelula(colunas);
             const float folga = FolgaDaGrade;
             Widgets.Fixar(grade, new Vector2(0.5f, 0.5f), Vector2.zero,
@@ -108,11 +113,11 @@ namespace FabricaDeIA.Desafios
         /// </summary>
         void MontarTeclado()
         {
-            var antigo = _area.Find("Teclado");
-            if (antigo != null) Destroy(antigo.gameObject);
+            if (_teclado != null) Destroy(_teclado.gameObject);
 
             _teclas.Clear();
             var teclado = Widgets.Painel("Teclado", _area, Color.clear);
+            _teclado = teclado;
             Widgets.Faixa(teclado, false, AlturaTeclado);
 
             string[] fileiras = { "qwertyuiop", "asdfghjkl", "zxcvbnm" };
@@ -162,12 +167,14 @@ namespace FabricaDeIA.Desafios
         /// </summary>
         void RevelarResposta(string resposta)
         {
-            if (_palco.Find("Grade") is not RectTransform grade) return;
+            if (_grade == null) return;
+            LimparResposta();
 
             var lado = LadoDaCelula(resposta.Length);
             var faixa = Widgets.Painel("Resposta", _palco, Cores.TintaOpaca);
+            _resposta = faixa;
             Widgets.Fixar(faixa, new Vector2(0.5f, 0.5f), Vector2.zero,
-                          new Vector2(grade.sizeDelta.x + 20f, lado + 20f));
+                          new Vector2(_grade.sizeDelta.x + 20f, lado + 20f));
             faixa.SetAsLastSibling();
 
             var texto = Widgets.Texto("Palavra", faixa, Mathf.RoundToInt(lado * 0.6f),
@@ -180,6 +187,22 @@ namespace FabricaDeIA.Desafios
 
             Widgets.Surgir(faixa, 0.18f, 0.9f);
             Widgets.Lampejo(faixa, Cores.Brasa, 0.4f, 0.45f);
+        }
+
+        /// <summary>
+        /// Tira a faixa da resposta revelada, se houver uma.
+        ///
+        /// Chamada nos três lugares em que o tabuleiro deixa de valer: ao montar a
+        /// grade da rodada seguinte, ao revelar outra resposta, e ao abrir o
+        /// placar. O último importa: a última rodada perdida não passa por
+        /// MontarGrade nenhuma, e sem esta chamada a palavra ficaria por baixo do
+        /// placar até o aluno sair da bancada.
+        /// </summary>
+        void LimparResposta()
+        {
+            if (_resposta == null) return;
+            Destroy(_resposta.gameObject);
+            _resposta = null;
         }
 
         void MarcarTecla(char letra, Cor cor)
@@ -235,6 +258,7 @@ namespace FabricaDeIA.Desafios
         void MostrarPlacar()
         {
             _mostrandoPlacar = true;
+            LimparResposta();
 
             var painel = Widgets.Painel("Placar", _area, Cores.TintaOpaca);
             Widgets.Esticar(painel);

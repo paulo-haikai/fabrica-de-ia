@@ -233,52 +233,6 @@ namespace FabricaDeIA.UI
             _acao.GetComponentInChildren<Text>().color = pode ? Cores.Papel : Cores.Neblina;
         }
 
-        RectTransform _bloqueio;
-        Button _tutorial;
-
-        /// <summary>
-        /// Impede o aluno de mexer no minigame enquanto a explicação roda.
-        ///
-        /// Um véu invisível sobre a área de conteúdo, e a ação principal desligada.
-        /// Sem isto, ele clica no tabuleiro no meio da demonstração e a frase
-        /// seguinte comenta um estado que já mudou.
-        /// </summary>
-        public void Bloquear(bool bloquear)
-        {
-            if (_bloqueio == null)
-            {
-                _bloqueio = Widgets.Painel("Bloqueio", Conteudo, new Color(0f, 0f, 0f, 0f));
-                Widgets.Esticar(_bloqueio);
-            }
-            _bloqueio.gameObject.SetActive(bloquear);
-            // Por cima de tudo o que o minigame montou.
-            if (bloquear) _bloqueio.SetAsLastSibling();
-            _acao.interactable = !bloquear;
-        }
-
-        /// <summary>
-        /// Põe o botão de rever a explicação no cabeçalho. Aparece só depois de o
-        /// aluno ter visto o tutorial uma vez.
-        /// </summary>
-        public void OferecerTutorial(Action aoPedir)
-        {
-            if (_tutorial == null)
-            {
-                _tutorial = Widgets.Botao("Tutorial", _raiz, "? tutorial",
-                                          Cores.TintaClara, Cores.Neblina, 14);
-                Widgets.Fixar((RectTransform)_tutorial.transform, new Vector2(1f, 1f),
-                              new Vector2(-(Margem + 190f), -(AlturaCabecalho / 2f)),
-                              new Vector2(108f, AlvoMinimo - 10f));
-            }
-            _tutorial.gameObject.SetActive(true);
-            _tutorial.onClick.RemoveAllListeners();
-            _tutorial.onClick.AddListener(() =>
-            {
-                _tutorial.gameObject.SetActive(false);
-                aoPedir();
-            });
-        }
-
         void Update()
         {
             var teclado = Keyboard.current;

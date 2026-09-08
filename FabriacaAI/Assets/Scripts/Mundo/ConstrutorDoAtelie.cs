@@ -199,7 +199,7 @@ namespace FabricaDeIA.Mundo
         /// De que etapa vem a ARTE de uma estação.
         ///
         /// Quase sempre é a dela mesma. A exceção é o balcão do certificado
-        /// (e13), que entrou no salão antes de o gerador de arte ganhar um móvel
+        /// (e12), que entrou no salão antes de o gerador de arte ganhar um móvel
         /// e um retrato para ele: por enquanto ele empresta os da última bancada.
         ///
         /// Emprestar, e não deixar passar: `Folhas.Bancada` e `Folhas.Pessoa`
@@ -208,7 +208,7 @@ namespace FabricaDeIA.Mundo
         /// jogo num mundo vazio. Um móvel repetido é um defeito visível e
         /// pequeno; um ateliê que não nasce é o jogo inteiro.
         /// </summary>
-        static string ArteDe(string etapa) => etapa == "e13" ? "e12" : etapa;
+        static string ArteDe(string etapa) => etapa == "e12" ? "e11" : etapa;
 
         /// <summary>
         /// O mestre fica ao lado da própria bancada, virado para o corredor por

@@ -43,6 +43,8 @@ sysinfo.txt
 /Build/
 .unity-batch.log
 .unity-conteudo.log
+.unity-conferencia.log
+.unity-guiche.log
 
 # ---------------------------------------------------------------------------
 # Dados pessoais. O jogo emite um "diploma" em PDF com o nome de quem jogou;
@@ -73,6 +75,14 @@ sysinfo.txt
 # Ferramentas locais
 # ---------------------------------------------------------------------------
 .claude/
+
+# Capturas geradas por Assets/Editor/Retratos.cs — saida de verificacao, nao
+# fonte. O jogo as reproduz a qualquer momento.
+/Retratos/
+/FabriacaAI/Retratos/
+
+# Arte-fonte do logo. O que o jogo carrega e Assets/Art/Ludotopia.png.
+/Ludotopia_logo_final.png
 Thumbs.db
 desktop.ini
 .DS_Store

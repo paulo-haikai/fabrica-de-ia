@@ -107,9 +107,6 @@ namespace FabricaDeIA.Nucleo
 
         IEnumerator Digitando(Jogo jogo)
         {
-            // Marca o tutorial como visto: aqui o assunto é o teclado, e seis
-            // passos de explicação só atrasariam a prova.
-            Progresso.Atual.MarcarTutorial("e1");
             jogo.AbrirDireto("e1");
             yield return null;
             yield return null;
@@ -230,147 +227,6 @@ namespace FabricaDeIA.Nucleo
         }
 
         /// <summary>
-        /// Faz o jogo esquecer que já explicou uma bancada, para o tutorial nascer
-        /// de novo na próxima visita. Existe só para a conferência: sem isto, uma
-        /// foto de tutorial só sai na primeira execução da vida do PlayerPrefs.
-        /// </summary>
-        public static void EsquecerTutorial(string etapa) =>
-            Progresso.Atual.tutoriaisVistos.Remove(etapa);
-
-        /// <summary>
-        /// Roda os doze tutoriais do começo ao fim, apertando "entendi" até o
-        /// último passo, e reclama de qualquer exceção pelo caminho.
-        ///
-        /// Este é o teste que o compilador não pode fazer. Um roteiro de tutorial
-        /// é uma lista de <c>Action</c>s que mexem no tabuleiro por fora do fluxo
-        /// normal do jogo — chamar <c>Encaixar</c> sem clique, medir sem o aluno
-        /// ter medido, avançar um caso que já era o último. Nada disso quebra a
-        /// compilação; tudo isso quebra em execução, e sempre no meio de uma
-        /// demonstração, que é o pior lugar possível para quebrar.
-        ///
-        /// Por isso o teste apalpa três coisas: que a explicação NASCE (a bancada
-        /// que esqueceu o roteiro reprova), que ela chega ao fim sem estourar, e
-        /// que ao terminar ela SAI da tela deixando a bancada jogável.
-        /// </summary>
-        public static void TestarTutoriais()
-        {
-            var jogo = FindFirstObjectByType<Jogo>();
-            if (jogo == null)
-            {
-                Debug.LogError("TUTORIAL: o jogo não está rodando");
-                return;
-            }
-            var carregador = jogo.gameObject.GetComponent<Retrato>()
-                          ?? jogo.gameObject.AddComponent<Retrato>();
-            carregador.StartCoroutine(carregador.Explicando(jogo));
-        }
-
-        IEnumerator Explicando(Jogo jogo)
-        {
-            var falhas = 0;
-            var estouros = 0;
-            void Ouvir(string recado, string pilha, LogType tipo)
-            {
-                if (tipo == LogType.Exception || tipo == LogType.Error) estouros++;
-            }
-
-            Application.logMessageReceived += Ouvir;
-
-            foreach (var etapa in Desafios.Catalogo.Registradas())
-            {
-                // Esquecer que já viu é o que faz o tutorial nascer de novo. Sem
-                // isto o teste passaria trivialmente na segunda execução.
-                Progresso.Atual.tutoriaisVistos.Remove(etapa);
-
-                var antes = estouros;
-                jogo.AbrirDireto(etapa);
-                yield return null;
-                yield return null;
-
-                var tutorial = FindFirstObjectByType<UI.Tutorial>();
-                if (tutorial == null)
-                {
-                    Debug.LogError($"TUTORIAL: {etapa} abriu sem explicação");
-                    falhas++;
-                    Clicar("sair");
-                    yield return null;
-                    continue;
-                }
-
-                var passos = 0;
-                // Teto de segurança: um roteiro que não termina travaria o teste
-                // para sempre, e travado ele não reporta nada.
-                while (FindFirstObjectByType<UI.Tutorial>() != null && passos < 40)
-                {
-                    if (Avancar()) passos++;
-                    yield return null;
-                    yield return new WaitForSecondsRealtime(0.05f);
-                }
-
-                var sobrou = FindFirstObjectByType<UI.Tutorial>() != null;
-                var jogavel = FindFirstObjectByType<UI.PainelDeBancada>() != null;
-
-                if (sobrou)
-                {
-                    Debug.LogError($"TUTORIAL: {etapa} não terminou em {passos} avanços");
-                    falhas++;
-                }
-                else if (!jogavel)
-                {
-                    Debug.LogError($"TUTORIAL: {etapa} terminou e levou a bancada com ele");
-                    falhas++;
-                }
-                else if (estouros > antes)
-                {
-                    Debug.LogError($"TUTORIAL: {etapa} estourou durante a demonstração");
-                    falhas++;
-                }
-                else
-                {
-                    Debug.Log($"TUTORIAL: {etapa} explicou {passos} passos e liberou a bancada");
-                }
-
-                Clicar("sair");
-                yield return null;
-                for (var i = 0; i < 5; i++)
-                {
-                    Clicar("continuar");
-                    yield return null;
-                }
-                yield return new WaitForSecondsRealtime(0.15f);
-            }
-
-            Application.logMessageReceived -= Ouvir;
-            Debug.Log(falhas == 0 ? "TUTORIAL: OK" : $"TUTORIAL: {falhas} FALHA(S)");
-        }
-
-        /// <summary>
-        /// Aperta o botão do tutorial, se ele estiver liberado.
-        ///
-        /// Devolve false enquanto a demonstração roda — o botão fica travado de
-        /// propósito nesse intervalo, e insistir nele não adianta; o laço de fora
-        /// só precisa esperar o próximo quadro.
-        /// </summary>
-        static bool Avancar()
-        {
-            var tutorial = FindFirstObjectByType<UI.Tutorial>();
-            if (tutorial == null) return false;
-
-            foreach (var botao in tutorial.GetComponentsInChildren<UnityEngine.UI.Button>(true))
-            {
-                if (botao.name != "Avançar" || !botao.interactable) continue;
-
-                // Um estouro dentro do passo sobe pelo onClick e mataria a
-                // corrotina do teste — e uma bancada quebrada esconderia as outras
-                // onze. O log já registrou; aqui só não deixamos parar a fila.
-                try { botao.onClick.Invoke(); }
-                catch (System.Exception erro) { Debug.LogError($"TUTORIAL: passo estourou — {erro.Message}"); }
-                return true;
-            }
-            return false;
-        }
-
-        /// <summary>
         /// Prova que o botão de sair realmente fecha a bancada.
         ///
         /// Este teste existe porque o bug era invisível de dentro: o Esc e o
@@ -415,7 +271,6 @@ namespace FabricaDeIA.Nucleo
                 // completa aqui — completa, o fecho abriria a formatura em vez de
                 // devolver o aluno ao salão, e o teste mediria outra coisa.
                 Progresso.Reiniciar();
-                Progresso.Atual.MarcarTutorial(etapa);
                 Progresso.Atual.Concluir(etapa, 1);
 
                 jogo.AbrirDireto(etapa);
@@ -433,6 +288,22 @@ namespace FabricaDeIA.Nucleo
                 if (!Clicar("sair")) Debug.LogWarning("FECHAMENTO: botão sair não achado");
                 yield return null;
                 yield return null;
+
+                // A bancada 5 não fecha no primeiro pedido, E ISSO É DE PROPÓSITO:
+                // quem pede para sair no meio do corredor ainda vê a malha rodar uma
+                // vez, porque a rede neural é o assunto do dia e um aluno travado na
+                // sala 4 do platformer sairia da aula sem ter visto nenhuma. Ver
+                // DesafioMalha.Desistir.
+                //
+                // O teste continua cobrando a MESMA coisa — que a moldura saia da
+                // tela quando o aluno insiste — e não vira um cheque em branco: um
+                // segundo "sair" que também não fechasse cairia no erro abaixo,
+                // exatamente como antes.
+                if (FindFirstObjectByType<UI.PainelDeBancada>() != null && Clicar("sair"))
+                {
+                    yield return null;
+                    yield return null;
+                }
 
                 var sobrou = FindFirstObjectByType<UI.PainelDeBancada>() != null;
                 if (sobrou)
@@ -617,6 +488,252 @@ namespace FabricaDeIA.Nucleo
                 return true;
             }
             return false;
+        }
+
+        // ------------------------------------------------- o clique de verdade
+
+        /// <summary>
+        /// O que está POR CIMA do centro deste retângulo, na visão do EventSystem.
+        ///
+        /// É a pergunta que <see cref="Clicar"/> não faz. <c>Clicar</c> chama
+        /// <c>onClick.Invoke()</c>, que é acionar o BOTÃO e não dar um CLIQUE: pula
+        /// o EventSystem, pula o raycast, e portanto pula tudo o que estiver na
+        /// frente. Um véu transparente cobrindo o tabuleiro — o tipo de coisa que
+        /// deixa uma bancada inteira surda ao mouse — passa incólume por ele.
+        ///
+        /// Aqui a resposta vem do mesmo caminho que o mouse do aluno percorre, e é
+        /// por isso que ela sabe dizer "quem recebeu o clique não foi a palavra,
+        /// foi um painel por cima dela".
+        /// </summary>
+        static GameObject SobOPonto(RectTransform alvo)
+        {
+            if (alvo == null) return null;
+
+            var sistema = UnityEngine.EventSystems.EventSystem.current;
+            if (sistema == null) return null;
+
+            var cantos = new Vector3[4];
+            alvo.GetWorldCorners(cantos);
+            var centro = new Vector2((cantos[0].x + cantos[2].x) / 2f,
+                                     (cantos[0].y + cantos[2].y) / 2f);
+
+            var dados = new UnityEngine.EventSystems.PointerEventData(sistema) { position = centro };
+            var atingidos =
+                new System.Collections.Generic.List<UnityEngine.EventSystems.RaycastResult>();
+            sistema.RaycastAll(dados, atingidos);
+
+            return atingidos.Count == 0 ? null : atingidos[0].gameObject;
+        }
+
+        /// <summary>
+        /// Clica onde o aluno clicaria, e só acerta se o alvo estiver mesmo
+        /// alcançável. Devolve falso quando o ponto não acertou nada ou quando
+        /// quem estava por cima era outra coisa.
+        /// </summary>
+        static bool Apontar(RectTransform alvo)
+        {
+            var topo = SobOPonto(alvo);
+            if (topo == null || !topo.transform.IsChildOf(alvo)) return false;
+
+            var sistema = UnityEngine.EventSystems.EventSystem.current;
+            var dados = new UnityEngine.EventSystems.PointerEventData(sistema);
+            var tratador = UnityEngine.EventSystems.ExecuteEvents
+                .GetEventHandler<UnityEngine.EventSystems.IPointerClickHandler>(topo);
+            if (tratador == null) return false;
+
+            UnityEngine.EventSystems.ExecuteEvents.Execute(
+                tratador, dados, UnityEngine.EventSystems.ExecuteEvents.pointerClickHandler);
+            return true;
+        }
+
+        /// <summary>
+        /// Prova que dá para ESCOLHER UMA PALAVRA na bancada dos holofotes.
+        ///
+        /// Nasceu de um defeito que nenhuma foto mostrava e nenhum teste daqui
+        /// pegava: a bancada abria inteira, com as palavras desenhadas no lugar
+        /// certo, e o clique nelas não fazia nada. A causa não estava na bancada —
+        /// estava por CIMA dela, num painel transparente com <c>raycastTarget</c>
+        /// ligado que comia o toque. De fora, indistinguível de um jogo travado.
+        ///
+        /// A verificação certa, então, não é "o botão existe?" nem "o listener
+        /// dispara?" — as duas dariam verde com o véu no ar. É "o clique CHEGA?".
+        /// Daí <see cref="Apontar"/>, e daí este teste exigir que o raycast do
+        /// EventSystem caia dentro de cada palavra, uma por uma.
+        ///
+        /// E não para no alcance: acende uma lâmpada, confere o placar, exige que
+        /// as barras de força estejam VAZIAS antes da pergunta (cheias, elas
+        /// entregariam a resposta antes da aposta) e pergunta, exigindo que a
+        /// rodada ande.
+        /// </summary>
+        public static void TestarHolofotes()
+        {
+            var jogo = FindFirstObjectByType<Jogo>();
+            if (jogo == null)
+            {
+                Debug.LogError("HOLOFOTES: o jogo não está rodando");
+                return;
+            }
+            var carregador = jogo.gameObject.GetComponent<Retrato>()
+                          ?? jogo.gameObject.AddComponent<Retrato>();
+            carregador.StartCoroutine(carregador.Holofoteando(jogo));
+        }
+
+        IEnumerator Holofoteando(Jogo jogo)
+        {
+            var falhas = 0;
+
+            // A etapa vem do próprio desafio, e não de um "e10" escrito aqui.
+            // As bancadas já foram renumeradas uma vez; um teste que guarda o
+            // número por fora passa, no dia da renumeração, a testar calado a
+            // bancada do vizinho — e continua dando verde.
+            var sonda = new GameObject("sonda").AddComponent<Desafios.DesafioHolofotes>();
+            var etapa = sonda.Etapa;
+            Destroy(sonda.gameObject);
+
+            jogo.AbrirDireto(etapa);
+            // Dois quadros: o UGUI só resolve o layout no seguinte, e um raycast
+            // feito cedo demais erra por medir retângulos que ainda não existem.
+            yield return null;
+            yield return null;
+
+            var painel = FindFirstObjectByType<UI.PainelDeBancada>();
+            if (painel == null)
+            {
+                Debug.LogError($"HOLOFOTES: {etapa} não abriu");
+                yield break;
+            }
+
+            var frase = Achar(painel, "Frase");
+            if (frase == null)
+            {
+                Debug.LogError("HOLOFOTES: a frase não foi montada");
+                yield break;
+            }
+
+            // 1. TODA PALAVRA TEM QUE SER ALCANÇÁVEL PELO MOUSE.
+            var palavras = new System.Collections.Generic.List<RectTransform>();
+            foreach (Transform filho in frase)
+                if (filho.name.Length > 1 && filho.name[0] == 'p') palavras.Add((RectTransform)filho);
+
+            if (palavras.Count < 2)
+            {
+                Debug.LogError($"HOLOFOTES: só {palavras.Count} palavra(s) na frase");
+                yield break;
+            }
+
+            foreach (var palavra in palavras)
+            {
+                var rotulo = palavra.GetComponentInChildren<UnityEngine.UI.Text>();
+                var nome = rotulo == null ? palavra.name : rotulo.text;
+
+                var botao = palavra.GetComponent<UnityEngine.UI.Button>();
+                var pintura = palavra.GetComponent<UnityEngine.UI.Graphic>();
+
+                if (botao == null || !botao.enabled || !botao.interactable)
+                {
+                    Debug.LogError($"HOLOFOTES: “{nome}” não tem botão vivo");
+                    falhas++;
+                    continue;
+                }
+                if (pintura == null || !pintura.raycastTarget)
+                {
+                    Debug.LogError($"HOLOFOTES: “{nome}” não recebe raycast");
+                    falhas++;
+                    continue;
+                }
+
+                var topo = SobOPonto(palavra);
+                if (topo == null)
+                {
+                    Debug.LogError($"HOLOFOTES: o clique em “{nome}” não acerta nada — " +
+                                   "a palavra está fora da tela");
+                    falhas++;
+                }
+                else if (!topo.transform.IsChildOf(palavra))
+                {
+                    Debug.LogError($"HOLOFOTES: o clique em “{nome}” cai em " +
+                                   $"“{topo.name}” — há algo por cima comendo o toque");
+                    falhas++;
+                }
+            }
+
+            // 2. ACENDER UMA PALAVRA MUDA O PLACAR.
+            var antes = Placar(painel);
+            if (!Apontar(palavras[0]))
+                Debug.LogError("HOLOFOTES: a primeira palavra não aceitou o clique");
+            yield return null;
+
+            var depois = Placar(painel);
+            if (depois == antes)
+            {
+                Debug.LogError($"HOLOFOTES: acender não mudou nada — placar continua “{antes}”");
+                falhas++;
+            }
+            else if (!depois.StartsWith("acesas: 1"))
+            {
+                Debug.LogError($"HOLOFOTES: acender deu “{depois}”, e não uma lâmpada acesa");
+                falhas++;
+            }
+
+            // 3. AS BARRAS DE FORÇA COMEÇAM VAZIAS.
+            //
+            // O trilho nasce cheio, então esquecer de preenchê-lo mostra TUDO em vez
+            // de nada — e a bancada entregaria de graça a informação que a pergunta
+            // deveria comprar. Um número, e não um "parece certo".
+            var cheias = 0;
+            foreach (var miolo in painel.GetComponentsInChildren<RectTransform>(true))
+                if (miolo.name == "miolo" && miolo.sizeDelta.x > 1f) cheias++;
+
+            if (cheias > 0)
+            {
+                Debug.LogError($"HOLOFOTES: {cheias} barra(s) de força já cheias ANTES " +
+                               "de perguntar — a resposta está exposta");
+                falhas++;
+            }
+
+            // 4. PERGUNTAR FAZ A RODADA ANDAR.
+            var acao = Achar(painel, "Ação");
+            var placarAntes = Placar(painel);
+            if (acao == null || !Apontar(acao))
+            {
+                Debug.LogError("HOLOFOTES: o botão de perguntar não aceitou o clique");
+                falhas++;
+            }
+            else
+            {
+                yield return null;
+                // Ou o contador de perguntas andou, ou ela acertou e o cartaz subiu.
+                // As duas são "a rodada andou"; nenhuma das duas é "nada aconteceu".
+                var andou = Placar(painel) != placarAntes || Achar(painel, "Cartaz") != null;
+                if (!andou)
+                {
+                    Debug.LogError("HOLOFOTES: perguntar não mudou nada na tela");
+                    falhas++;
+                }
+            }
+
+            Debug.Log(falhas == 0
+                ? $"HOLOFOTES: OK — {palavras.Count} palavras alcançáveis pelo clique, " +
+                  "lâmpada acende, barras vazias antes da pergunta, pergunta anda"
+                : $"HOLOFOTES: {falhas} FALHA(S)");
+
+            Clicar("sair");
+        }
+
+        /// <summary>O primeiro descendente da moldura com este nome, ou nulo.</summary>
+        static RectTransform Achar(UI.PainelDeBancada painel, string nome)
+        {
+            foreach (var t in painel.GetComponentsInChildren<RectTransform>(true))
+                if (t.name == nome) return t;
+            return null;
+        }
+
+        /// <summary>A linha de placar da bancada, ou string vazia se não houver.</summary>
+        static string Placar(UI.PainelDeBancada painel)
+        {
+            foreach (var t in painel.GetComponentsInChildren<UnityEngine.UI.Text>(true))
+                if (t.name == "Placar") return t.text;
+            return string.Empty;
         }
 
         IEnumerator Fotografar(Jogo jogo, string etapa, string pasta, float espera,

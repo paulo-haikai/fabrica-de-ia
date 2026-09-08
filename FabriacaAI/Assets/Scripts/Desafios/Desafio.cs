@@ -1,6 +1,4 @@
 using System;
-using System.Collections.Generic;
-using FabricaDeIA.Nucleo;
 using FabricaDeIA.UI;
 using UnityEngine;
 
@@ -28,7 +26,7 @@ namespace FabricaDeIA.Desafios
         /// <summary>Estrelas de 0 a 3. Zero é desistência.</summary>
         public event Action<int> Terminou;
 
-        /// <summary>A etapa que este desafio resolve (<c>e1</c> a <c>e12</c>).</summary>
+        /// <summary>A etapa que este desafio resolve (<c>e1</c> a <c>e12</c>, com o balcão do certificado no fim).</summary>
         public abstract string Etapa { get; }
 
         /// <summary>O que aparece no cabeçalho da moldura.</summary>
@@ -38,22 +36,6 @@ namespace FabricaDeIA.Desafios
 
         /// <summary>Sobra alguma moldura na tela? Só verdadeiro enquanto joga.</summary>
         protected bool Aberto => Painel != null;
-
-        /// <summary>
-        /// Verdadeiro enquanto a explicação está no ar. As bancadas que leem
-        /// teclado precisam consultar isto antes de aceitar tecla — senão o aluno
-        /// digita no meio da demonstração.
-        /// </summary>
-        protected bool Congelado { get; private set; }
-
-        /// <summary>
-        /// Os passos da explicação desta bancada, ou nulo se ela não tiver.
-        ///
-        /// Os passos podem MEXER na bancada: as ações chamam os mesmos métodos que
-        /// o clique do aluno chamaria. É o que faz o tutorial ser uma
-        /// demonstração de verdade em vez de um texto sobre o jogo.
-        /// </summary>
-        protected virtual IReadOnlyList<Passo> Explicacao() => null;
 
         /// <summary>
         /// Segundos que o aluno passou nesta bancada, do abrir ao fechar.
@@ -66,58 +48,14 @@ namespace FabricaDeIA.Desafios
 
         float _abertaEm;
 
-        /// <summary>Monta a moldura, entrega o conteúdo ao minigame e explica.</summary>
+        /// <summary>Monta a moldura e entrega o conteúdo ao minigame.</summary>
         public void Abrir(RectTransform paiDaTela, string subtitulo)
         {
             _abertaEm = Time.realtimeSinceStartup;
             Painel = PainelDeBancada.Montar(paiDaTela, Titulo, subtitulo);
             Painel.Fechou += Desistir;
             Montar(Painel.Conteudo);
-            TalvezExplicar();
         }
-
-        /// <summary>
-        /// Roda a explicação na primeira visita, e oferece um botão nas demais.
-        ///
-        /// Na primeira vez é obrigatória e sem saída além de deixar a bancada.
-        /// Nas seguintes seria castigo: quem volta para tentar de novo a terceira
-        /// rodada não precisa reassistir seis passos. Aí a explicação fica a um
-        /// clique de distância, e não no caminho.
-        /// </summary>
-        void TalvezExplicar()
-        {
-            var passos = Explicacao();
-            if (passos == null || passos.Count == 0) return;
-
-            if (Progresso.Atual.ViuTutorial(Etapa))
-            {
-                Painel.OferecerTutorial(() => Explicar(passos));
-                return;
-            }
-            Explicar(passos);
-        }
-
-        void Explicar(IReadOnlyList<Passo> passos)
-        {
-            Congelado = true;
-            Painel.Bloquear(true);
-
-            Tutorial.Rodar(Painel.Conteudo, passos, () =>
-            {
-                Congelado = false;
-                Painel.Bloquear(false);
-                Progresso.Atual.MarcarTutorial(Etapa);
-                Painel.OferecerTutorial(() => Explicar(passos));
-                AoFimDaExplicacao();
-            });
-        }
-
-        /// <summary>
-        /// Chamado quando a explicação acaba. A bancada usa para limpar o que a
-        /// demonstração deixou na mesa e devolver o tabuleiro no ponto de partida
-        /// — o aluno tem que jogar a rodada dele, não terminar a do tutorial.
-        /// </summary>
-        protected virtual void AoFimDaExplicacao() { }
 
         /// <summary>
         /// Desenha o minigame dentro de <paramref name="area"/> — e só dentro

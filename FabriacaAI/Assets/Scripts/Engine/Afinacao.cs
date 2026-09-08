@@ -12,17 +12,25 @@ namespace FabricaDeIA.Engine
     /// que treina rede de verdade. E ela tem CURVATURA por botão: alguns pesam
     /// mais no erro que outros. Isso não é enfeite matemático, é o que faz um
     /// único passo de aprendizado nunca servir bem para todos os botões ao mesmo
-    /// tempo, e é o assunto da bancada 8.
+    /// tempo, e é o assunto da bancada 7.
     ///
-    /// Duas bancadas usam esta mesma máquina, de propósito:
+    /// NENHUMA BANCADA USA ISTO HOJE, e o registro de para onde as duas foram
+    /// vale mais que o código:
     ///
-    ///   Bancada 7 — o aluno gira os botões com a mão e vê o número subir e
-    ///   descer. Com dois botões ele consegue; com seis, desiste. A desistência é
-    ///   o conteúdo.
+    ///   Bancada 6 — era girar botões e ver um número subir e descer. Virou o
+    ///   robô corredor (ver <c>DesafioErro</c>): o aluno calibra a margem de
+    ///   erro e assiste. O erro passou a ter corpo — é o robô batendo a cara.
     ///
-    ///   Bancada 8 — a máquina gira os botões sozinha, por descida de gradiente,
-    ///   e o aluno só escolhe o tamanho do passo. É o mesmo problema, resolvido
-    ///   pela ferramenta certa.
+    ///   Bancada 7 — era a mesma máquina descendo o gradiente sozinha, com o
+    ///   aluno escolhendo o passo. Virou o estilingue (ver <c>Estilingue</c> e
+    ///   <c>DesafioTreino</c>): o passo continua sendo a única escolha do aluno,
+    ///   e o erro que a máquina minimiza é a distância até o porco.
+    ///
+    /// As duas mudanças têm a mesma causa: um número de erro abstrato não
+    /// convence ninguém de que aquilo é aprendizado. Este arquivo fica de pé
+    /// como a versão mais curta e legível da ideia — perda quadrática com
+    /// curvatura por parâmetro —, e como ponto de partida se alguma bancada
+    /// futura precisar de um mostrador de muitos botões.
     /// </summary>
     public class Mostrador
     {
@@ -135,7 +143,7 @@ namespace FabricaDeIA.Engine
         /// Roda o treino inteiro e devolve a curva de erro, passo por passo.
         ///
         /// Devolver a curva toda, em vez de só o resultado, é o que permite a
-        /// bancada 8 desenhar o gráfico — e o gráfico é a lição: passo pequeno
+        /// bancada 7 desenhar o gráfico — e o gráfico é a lição: passo pequeno
         /// desce devagar, passo grande serrilha, passo grande demais sobe.
         /// </summary>
         public List<float> Treinar(float fracaoDoPasso, int passos)
@@ -152,7 +160,7 @@ namespace FabricaDeIA.Engine
         /// <summary>
         /// A curvatura de cada botão — o quanto ele pesa no erro.
         ///
-        /// Era privada, e com isso a bancada 8 só conseguia mostrar o erro
+        /// Era privada, e com isso a bancada 7 só conseguia mostrar o erro
         /// SOMADO: uma curva única, em que "um passo bom para um botão é grande
         /// demais para outro" é uma frase que o aluno lê, não uma coisa que ele
         /// vê. Para desenhar dois vales lado a lado — um íngreme, um raso — a

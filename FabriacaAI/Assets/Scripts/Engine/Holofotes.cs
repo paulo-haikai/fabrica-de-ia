@@ -8,7 +8,7 @@ namespace FabricaDeIA.Engine
     /// Quem andou com quem: a associação entre duas palavras que aparecem na
     /// mesma frase.
     ///
-    /// Serve a bancada 10, e a razão de não ser bigrama é o assunto da bancada.
+    /// Serve a bancada 9, e a razão de não ser bigrama é o assunto da bancada.
     /// Bigrama olha um passo para trás: só sabe o que vem colado. Atenção é
     /// justamente a capacidade de olhar LONGE — em "a professora escreveu a
     /// matéria na ___", a palavra que decide a resposta é "professora", cinco
@@ -104,7 +104,7 @@ namespace FabricaDeIA.Engine
             acesas.Sum(a => Associacao(a, candidato));
     }
 
-    /// <summary>Uma rodada da bancada 10.</summary>
+    /// <summary>Uma rodada da bancada 9.</summary>
     public class Rodada10
     {
         public readonly string[] Antes;

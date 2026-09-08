@@ -6,7 +6,7 @@ using FabricaDeIA.UI;
 namespace FabricaDeIA.Desafios
 {
     /// <summary>
-    /// O desenho da grade da bancada 5.
+    /// O desenho da grade da bancada 4.
     ///
     /// A peça é PERSISTENTE: existe um objeto por casa e ele é movido, não
     /// recriado. A primeira versão destruía e remontava o tabuleiro a cada
@@ -19,6 +19,16 @@ namespace FabricaDeIA.Desafios
         const float LadoPeca = 104f;
         const float VaoPeca = 6f;
         const float TempoDeQueda = 0.17f;
+
+        /// <summary>
+        /// Quanto o dedo precisa se afastar da peça de origem, em unidades
+        /// locais do tabuleiro, para o arrastar virar troca.
+        ///
+        /// Curto demais e a mão trêmula de quem só queria clicar dispara um
+        /// arrastar sem querer; comprido demais e o gesto fica pesado. Um terço
+        /// do lado da peça é o meio-termo de sobra na literatura de match-3.
+        /// </summary>
+        const float LimiarArraste = LadoPeca * 0.35f;
 
         RectTransform _tabuleiro;
         Button[,] _pecas;
@@ -119,16 +129,40 @@ namespace FabricaDeIA.Desafios
 
             var gatilho = botao.gameObject.AddComponent<EventTrigger>();
             Adicionar(gatilho, EventTriggerType.PointerDown, () => Pegar(coluna, linha));
-            Adicionar(gatilho, EventTriggerType.PointerEnter, () => Arrastar(coluna, linha));
-            Adicionar(gatilho, EventTriggerType.PointerUp, Soltar);
+            AdicionarComDados(gatilho, EventTriggerType.BeginDrag,
+                              dados => IniciarArraste(coluna, linha, PontoLocal(dados)));
+            AdicionarComDados(gatilho, EventTriggerType.Drag,
+                              dados => Arrastando(PontoLocal(dados)));
+            Adicionar(gatilho, EventTriggerType.EndDrag, TerminarArraste);
+            Adicionar(gatilho, EventTriggerType.PointerUp, TerminarArraste);
 
             return botao;
+        }
+
+        /// <summary>
+        /// Onde o ponteiro está, em unidades locais do TABULEIRO — a mesma
+        /// régua de <see cref="Posicao"/>, e por isso do tamanho da peça
+        /// independente da escala do Canvas ou da resolução da tela.
+        /// </summary>
+        Vector2 PontoLocal(PointerEventData dados)
+        {
+            RectTransformUtility.ScreenPointToLocalPointInRectangle(
+                _tabuleiro, dados.position, dados.pressEventCamera, out var local);
+            return local;
         }
 
         static void Adicionar(EventTrigger gatilho, EventTriggerType tipo, System.Action acao)
         {
             var entrada = new EventTrigger.Entry { eventID = tipo };
             entrada.callback.AddListener(_ => acao());
+            gatilho.triggers.Add(entrada);
+        }
+
+        static void AdicionarComDados(EventTrigger gatilho, EventTriggerType tipo,
+                                      System.Action<PointerEventData> acao)
+        {
+            var entrada = new EventTrigger.Entry { eventID = tipo };
+            entrada.callback.AddListener(dados => acao((PointerEventData)dados));
             gatilho.triggers.Add(entrada);
         }
 

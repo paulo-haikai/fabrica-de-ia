@@ -289,10 +289,11 @@ namespace FabricaDeIA.UI
         /// <summary>
         /// Leva a peça até um lugar, deslizando.
         ///
-        /// Nasceu para a bancada 5, e lá não é enfeite: num match-3 a queda é o
-        /// que diz DE ONDE cada peça veio. Sem ela as peças teleportam, o
-        /// jogador perde o fio do que mudou e o tabuleiro fica ilegível — o jogo
-        /// deixa de funcionar, mesmo estando todo certo por dentro.
+        /// Nasceu para o match-3 de corte de texto, que era a bancada 4 e saiu da
+        /// aula. Lá não era enfeite: a queda é o que diz DE ONDE cada peça veio, e
+        /// sem ela as peças teleportam e o tabuleiro fica ilegível. Continua aqui
+        /// porque o gesto — levar uma peça a um lugar, deslizando — serve a
+        /// qualquer bancada que mova coisa na tela.
         ///
         /// Amortece no fim (o quadrado do tempo invertido) porque queda que
         /// desacelera parece peso, e queda linear parece planilha.

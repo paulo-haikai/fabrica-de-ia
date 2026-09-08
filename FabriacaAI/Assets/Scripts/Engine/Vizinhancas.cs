@@ -20,7 +20,7 @@ namespace FabricaDeIA.Engine
     ///
     /// Não é word2vec nem GloVe — é o avô deles, a matriz de coocorrência. E é
     /// honesto chamar isso de embedding: os vetores são reais, a semelhança é
-    /// real, e o mapa que a bancada 5 mostra sai destes números.
+    /// real, e o mapa que a bancada 4 mostra sai destes números.
     /// </summary>
     public class Vizinhancas
     {
@@ -91,7 +91,7 @@ namespace FabricaDeIA.Engine
         /// <summary>
         /// Os vizinhos mais frequentes de um lado da palavra.
         ///
-        /// É a evidência crua que a bancada 5 mostra ao aluno, e mostrar isso
+        /// É a evidência crua que a bancada 4 mostra ao aluno, e mostrar isso
         /// mudou o jogo dela de adivinhação para dedução. Sem a vizinhança à
         /// vista, ele agrupa por SIGNIFICADO e a máquina agrupou por LUGAR — e
         /// quando os dois discordam, como em "professor" e "professora", o

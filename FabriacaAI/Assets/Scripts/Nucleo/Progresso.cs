@@ -61,22 +61,11 @@ namespace FabricaDeIA.Nucleo
         /// </summary>
         public List<int> segundosFeitas = new();
 
-        /// <summary>
-        /// As bancadas cujo tutorial o aluno já viu do começo ao fim.
-        ///
-        /// Só entra aqui quem COMPLETOU: sair da bancada no meio da explicação
-        /// não conta, e o tutorial volta na próxima visita. É assim que "não se
-        /// pula" convive com "sair é sempre permitido" — ninguém fica preso, e
-        /// ninguém chega ao minigame sem ter visto como ele funciona.
-        /// </summary>
-        public List<string> tutoriaisVistos = new();
-
         // --- artefatos que atravessam a aula ---
-        public string corte;             // etapa 4: o modo de corte escolhido
-        public int[] camadas;            // etapa 6: a rede montada
-        public float melhorPerda = -1f;  // etapa 8: a menor perda alcançada
-        public string corpusEscolhido;   // etapa 9: o texto dado à máquina
-        public float[] preferencias;     // etapa 12: a persona
+        public int[] camadas;            // etapa 5: a rede montada
+        public float melhorPerda = -1f;  // etapa 7: a menor perda alcançada
+        public string corpusEscolhido;   // etapa 8: o texto dado à máquina
+        public float[] preferencias;     // etapa 11: a persona
 
         public static Progresso Atual { get; private set; } = new();
 
@@ -106,7 +95,7 @@ namespace FabricaDeIA.Nucleo
         /// A bancada está aberta para o aluno?
         ///
         /// A primeira sempre está; as outras abrem quando a anterior foi TENTADA.
-        /// A ordem importa porque a aula é uma linha só — a bancada 6 mostra a
+        /// A ordem importa porque a aula é uma linha só — a bancada 5 mostra a
         /// rede que a 5 ajudou a entender, e a 8 treina os botões que derrotaram
         /// o aluno na 7. Ver o fim antes do começo não é liberdade, é confusão.
         ///
@@ -118,26 +107,26 @@ namespace FabricaDeIA.Nucleo
         {
             if (string.IsNullOrEmpty(etapa) || etapa.Length < 2) return true;
             if (!int.TryParse(etapa.Substring(1), out var numero)) return true;
-            // Só as doze da aula têm ordem. O balcão do certificado (e13) fica
+            // Só as onze da aula têm ordem. O balcão do certificado (e12) fica
             // aberto desde o começo, de propósito: a máquina em pedaços é o que
             // dá tamanho ao que falta, e trancá-la esconderia justamente isso.
-            if (numero > 12) return true;
+            if (numero > Desafios.Catalogo.Bancadas) return true;
             return numero <= 1 || Tentada($"e{numero - 1}");
         }
 
         /// <summary>
-        /// Quantas das DOZE ele abriu, resolvendo ou não.
+        /// Quantas das ONZE ele abriu, resolvendo ou não.
         ///
-        /// Conta e1..e12 uma a uma em vez de medir o tamanho da lista: o balcão
+        /// Conta e1..e11 uma a uma em vez de medir o tamanho da lista: o balcão
         /// do certificado também é uma estação e entraria na conta, e a folha
-        /// diria "13 de 12".
+        /// diria "12 de 11".
         /// </summary>
         public int Tentadas
         {
             get
             {
                 var quantas = 0;
-                for (var i = 1; i <= 12; i++)
+                for (var i = 1; i <= Desafios.Catalogo.Bancadas; i++)
                     if (Tentada($"e{i}")) quantas++;
                 return quantas;
             }
@@ -151,24 +140,15 @@ namespace FabricaDeIA.Nucleo
         {
             get
             {
-                for (var i = 1; i <= 12; i++)
+                for (var i = 1; i <= Desafios.Catalogo.Bancadas; i++)
                     if (!Tentada($"e{i}")) return false;
                 return true;
             }
         }
 
-        public bool ViuTutorial(string etapa) => tutoriaisVistos.Contains(etapa);
-
-        public void MarcarTutorial(string etapa)
-        {
-            if (tutoriaisVistos.Contains(etapa)) return;
-            tutoriaisVistos.Add(etapa);
-            Salvar();
-        }
-
         public int Concluidas => estrelasFeitas.Count(e => e > 0);
 
-        /// <summary>Estrelas somadas, de 0 a 36.</summary>
+        /// <summary>Estrelas somadas, de 0 ao máximo de Catalogo.EstrelasPossiveis.</summary>
         public int EstrelasTotais => estrelasFeitas.Sum();
 
         /// <summary>Segundos somados em todas as bancadas.</summary>
@@ -221,7 +201,7 @@ namespace FabricaDeIA.Nucleo
         /// </summary>
         public string Proxima()
         {
-            for (var i = 1; i <= 12; i++)
+            for (var i = 1; i <= Desafios.Catalogo.Bancadas; i++)
             {
                 var etapa = $"e{i}";
                 if (!Concluida(etapa)) return etapa;

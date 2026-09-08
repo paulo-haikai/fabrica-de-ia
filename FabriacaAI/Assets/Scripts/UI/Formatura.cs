@@ -1,4 +1,5 @@
 using System;
+using FabricaDeIA.Desafios;
 using FabricaDeIA.Nucleo;
 using UnityEngine;
 using UnityEngine.UI;
@@ -64,36 +65,49 @@ namespace FabricaDeIA.UI
             var linha = Widgets.Texto("Linha", pai, 16, TextAnchor.UpperCenter, Cores.Neblina);
             Widgets.Faixa(linha.rectTransform, true, 22f, 58f);
             linha.text = p.AulaCompleta
-                ? $"doze bancadas · {p.EstrelasTotais} de 36 estrelas · " +
+                ? $"{Catalogo.Bancadas} bancadas · {p.EstrelasTotais} de " +
+                  $"{Catalogo.EstrelasPossiveis} estrelas · " +
                   $"{Diploma.Duracao(p.SegundosTotais)} de oficina"
-                : $"{p.Concluidas} de 12 bancadas · {p.EstrelasTotais} de 36 estrelas";
+                : $"{p.Concluidas} de {Catalogo.Bancadas} bancadas · " +
+                  $"{p.EstrelasTotais} de {Catalogo.EstrelasPossiveis} estrelas";
         }
 
         /// <summary>
-        /// As doze linhas do painel, em duas colunas de seis.
+        /// Uma linha por bancada, em duas colunas.
         ///
-        /// Duas colunas porque doze linhas empilhadas mais o campo de nome mais os
+        /// Duas colunas porque onze linhas empilhadas mais o campo de nome mais os
         /// botões não caberiam numa tela 16:9 sem letra miúda — e letra miúda num
         /// resumo de resultados é o que faz o aluno não ler o próprio boletim.
+        ///
+        /// A ALTURA DA COLUNA SAI DA CONTA, e não de um seis escrito à mão: com
+        /// onze bancadas as colunas ficam de seis e cinco, e um seis fixo deixaria
+        /// a última linha fora do quadro. Foi assim que a bancada das fichas saiu.
         /// </summary>
         void Tabela(RectTransform pai)
         {
             const float alturaDaLinha = 30f;
             const float larguraDaColuna = 452f;
 
+            // A coluna mais alta, arredondando para cima: com onze bancadas dá seis
+            // e cinco. Escrito à mão, um "6" aqui e um "% 6" ali sobreviveriam à
+            // próxima bancada que entrar ou sair, e a última linha cairia fora do
+            // quadro sem ninguém perceber — foi o que quase aconteceu quando a
+            // bancada das fichas saiu.
+            var porColuna = (Catalogo.Bancadas + 1) / 2;
+
             var quadro = Widgets.Painel("Quadro", pai, Color.clear);
             Widgets.Fixar(quadro, new Vector2(0.5f, 1f), new Vector2(0f, -96f),
-                          new Vector2(larguraDaColuna * 2f + 24f, alturaDaLinha * 6f));
+                          new Vector2(larguraDaColuna * 2f + 24f, alturaDaLinha * porColuna));
 
-            for (var i = 1; i <= 12; i++)
+            for (var i = 1; i <= Catalogo.Bancadas; i++)
             {
                 var etapa = $"e{i}";
                 var mestre = Elenco.De(etapa);
                 var estrelas = Progresso.Atual.Estrelas(etapa);
                 var segundos = Progresso.Atual.Segundos(etapa);
 
-                var coluna = (i - 1) / 6;
-                var fileira = (i - 1) % 6;
+                var coluna = (i - 1) / porColuna;
+                var fileira = (i - 1) % porColuna;
 
                 var linha = Widgets.Painel($"l{i}", quadro,
                                            fileira % 2 == 0 ? Cores.Tinta : Color.clear);

@@ -48,19 +48,6 @@ namespace FabricaDeIA.Desafios
         /// <summary>Desenha o nível da vez dentro de <see cref="Area"/>.</summary>
         protected abstract void MontarNivel();
 
-        /// <summary>
-        /// Remonta o nível atual do zero.
-        ///
-        /// Serve para apagar o que a demonstração do tutorial deixou na mesa: o
-        /// aluno tem que jogar a rodada dele, não terminar a que a máquina
-        /// começou na frente dele.
-        ///
-        /// Só pode ser chamado DEPOIS que a explicação acabou — ela vive dentro
-        /// de <see cref="Area"/>, e limpar a área com o tutorial no ar o
-        /// destruiria no meio de um passo.
-        /// </summary>
-        protected void RecomecarNivel() => AbrirNivel();
-
         void AbrirNivel()
         {
             // Limpar antes de montar: o nível anterior não pode deixar sobra na
@@ -146,6 +133,20 @@ namespace FabricaDeIA.Desafios
             var ultimo = NivelAtual + 1 >= Niveis;
             Painel.Rodape(ultimo ? "a peça está pronta" : "ainda falta uma rodada");
             Painel.Acao(ultimo ? "voltar ao ateliê" : "continuar", Proximo);
+        }
+
+        /// <summary>
+        /// Salta para um nível e o monta, sem passar por cartaz nenhum.
+        ///
+        /// Existe para a bancada 11: o último dia dela corta direto para o epílogo,
+        /// e o caminho normal — <c>Resolveu</c> e depois <c>Proximo</c> — obrigaria
+        /// a passar por um cartaz com botão no meio do corte. Mora aqui, e não na
+        /// bancada, porque quem escreve em <see cref="NivelAtual"/> é esta classe.
+        /// </summary>
+        protected void SaltarPara(int nivel)
+        {
+            NivelAtual = Mathf.Clamp(nivel, 0, Niveis - 1);
+            AbrirNivel();
         }
 
         void Proximo()

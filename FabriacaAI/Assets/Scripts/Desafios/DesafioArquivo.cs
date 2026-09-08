@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using FabricaDeIA.Engine;
 using FabricaDeIA.UI;
@@ -109,24 +110,42 @@ namespace FabricaDeIA.Desafios
         const int Tentativas = 12;
 
         /// <summary>
-        /// Segundos para atravessar a tabela de ponta a ponta, seja ela de que
-        /// tamanho for.
+        /// Segundos para atravessar as 20 casinhas da rodada 1 — a velocidade
+        /// travada da bancada inteira.
         ///
-        /// A velocidade é dada em travessias, e não em casinhas por segundo, porque
-        /// a tabela é sempre desenhada no mesmo quadrado de tela: uma casinha da
-        /// rodada 3 tem menos de um sexto da largura de uma da rodada 1. Um passo
-        /// fixo de nove casinhas por segundo — que era o que estava aqui — deixaria
-        /// o bonequinho arrastando na última rodada, onde uma volta pela borda
-        /// custaria quase um minuto, e a rodada que pede 90% seria a mais lenta de
-        /// todas. Assim ele anda sempre à mesma velocidade AOS OLHOS de quem joga.
+        /// ERA `_lado / Travessia`: casinhas por segundo crescendo com o lado da
+        /// tabela, para a travessia de ponta a ponta durar sempre os mesmos 6,5s
+        /// e o bonequinho "parecer" andar na mesma velocidade em pixels — a
+        /// tabela é sempre desenhada no mesmo quadrado de tela, e uma casinha da
+        /// rodada 3 tem menos de um sexto da largura de uma da rodada 1.
         ///
-        /// O número saiu de 3,5 para 6,5 depois do primeiro teste com gente: a
-        /// tabela é desenhada em 430 pixels, então 3,5 segundos davam 123 pixels por
-        /// segundo, e não sobrava tempo de ver o risco chegando e virar. É o único
-        /// botão de velocidade desta bancada — aumentar este número deixa TODAS as
-        /// rodadas mais lentas na mesma proporção.
+        /// Isso escondia um problema: o que decide se dá tempo de reagir e virar
+        /// antes de esbarrar num risco não é a velocidade em pixels, é a
+        /// velocidade em CASINHAS — cada casinha é uma chance de virar. E essa
+        /// velocidade ia a 20/6,5 ≈ 3,1 casinhas/s na rodada 1, para 60/6,5 ≈
+        /// 9,2 na rodada 2 e 120/6,5 ≈ 18,5 na rodada 3: o tempo de reação por
+        /// casinha caía de 0,325s para 0,108s e depois 0,054s, na mesma rodada em
+        /// que a casinha também encolhia de 21,5px para 7,2px e depois 3,6px. As
+        /// duas coisas piorando junto é o que fazia a rodada 2 parecer "pequena
+        /// demais e rápida demais" a ponto de não dar para cumprir.
+        ///
+        /// AGORA a velocidade é travada nas mesmas ~3,1 casinhas/s de qualquer
+        /// rodada — o valor que o primeiro teste com gente já validou. O preço:
+        /// atravessar o tabuleiro de ponta a ponta leva mais tempo de relógio
+        /// numa tabela maior (a rodada 2 leva cerca de 3× mais, a 3 cerca de 6×
+        /// mais). É a troca certa — o aluno tem o jogo inteiro para terminar a
+        /// rodada, mas só uma casinha de cada vez para decidir virar, e essa
+        /// fração de segundo não pode encolher de rodada para rodada.
         /// </summary>
         const float Travessia = 6.5f;
+
+        /// <summary>
+        /// Segundos que a tabela fica afastada — mostrando-se inteira e
+        /// minúscula — antes do cartaz de resultado cobrir a tela. Ver
+        /// <see cref="FecharRodada"/> e <c>MostrarTabelaInteira</c> em
+        /// <c>DesafioArquivo.Desenho.cs</c>.
+        /// </summary>
+        const float TempoDoAfastamento = 1.1f;
 
         float _passoPorSegundo;
 
@@ -180,7 +199,10 @@ namespace FabricaDeIA.Desafios
         protected override void MontarNivel()
         {
             _lado = Rodadas3[NivelAtual];
-            _passoPorSegundo = _lado / Travessia;
+            // Travada em casinhas por segundo — não cresce com o lado. Ver o
+            // comentário de Travessia: é essa constância que mantém o tempo de
+            // reação por casinha igual em toda rodada.
+            _passoPorSegundo = Rodadas3[0] / Travessia;
             _travado = false;
             _esbarrou = 0;
             _trilha.Clear();
@@ -191,157 +213,6 @@ namespace FabricaDeIA.Desafios
 
             Painel.Rodape("setas para andar · dê a volta numa região para tomá-la");
             Painel.Instruir($"o arquivo agora tem {_lado} palavras — tome o que estiver vazio");
-        }
-
-        /// <summary>
-        /// Monta a tabela da rodada: um risquinho para cada par que o corpus
-        /// realmente tem, dentro do vocabulário desta rodada.
-        ///
-        /// Os pares saem do corpus de verdade, e é isso que faz a conta ser honesta
-        /// — não são trinta marcas espalhadas a esmo para o jogo dar certo, são os
-        /// pares que alguém escreveu mesmo.
-        /// </summary>
-        void Semear()
-        {
-            _tabela = new Casa[_lado, _lado];
-            _riscos = 0;
-
-            var arquivo = new Bigrama(Corpus.Frases);
-            MedirOTeto(arquivo);
-
-            var palavras = Escolher(arquivo);
-
-            for (var i = 0; i < palavras.Count; i++)
-            {
-                for (var j = 0; j < palavras.Count; j++)
-                {
-                    if (arquivo.Risquinhos(palavras[i], palavras[j]) <= 0) continue;
-                    _tabela[i, j] = Casa.Risco;
-                    _riscos++;
-                }
-            }
-
-            // A base: um cantinho já tomado, para o aluno ter de onde sair e para
-            // onde voltar. Sem base, a primeira volta não tem como fechar.
-            for (var y = 0; y < 2; y++)
-                for (var x = 0; x < 2; x++)
-                    if (_tabela[x, y] != Casa.Risco) _tabela[x, y] = Casa.Meu;
-
-            _onde = new Vector2Int(1, 1);
-            _rumo = Vector2Int.right;
-            _tomadas = Contar(Casa.Meu);
-
-            if (NivelAtual == 0) _riscosDaPrimeira = _riscos;
-        }
-
-        /// <summary>
-        /// Conta o arquivo COMPLETO: todas as palavras que o corpus tem e todos os
-        /// pares distintos entre elas.
-        ///
-        /// É a única conta desta bancada que não depende da rodada, e é por isso que
-        /// ela existe. As três rodadas mostram os pares subirem junto com as
-        /// palavras, e sozinhas dariam a impressão errada — a de que basta ler mais
-        /// para o arquivo encher. O teto desmente: por mais palavras que o Aurélio
-        /// ponha no fichário, os pares param aqui, porque quem os escreve é o texto,
-        /// e o texto acabou.
-        ///
-        /// Percorre as linhas da tabela, e não as casinhas: são mil e poucos pares
-        /// contra cem mil casinhas, e o resultado é o mesmo.
-        /// </summary>
-        void MedirOTeto(Bigrama arquivo)
-        {
-            if (_paresTodos > 0) return;
-
-            foreach (var palavra in arquivo.Palavras)
-            {
-                if (palavra == Bigrama.Inicio || palavra == Bigrama.Fim) continue;
-                _vocabularioTodo++;
-                foreach (var continuacao in arquivo.Continuacoes(palavra))
-                    if (continuacao.Para != Bigrama.Fim) _paresTodos++;
-            }
-        }
-
-        /// <summary>
-        /// Sorteia o vocabulário desta rodada, várias vezes, e fica com o tabuleiro
-        /// cujo vazio chega mais perto do alvo.
-        ///
-        /// A lista sai ORDENADA POR MOVIMENTO, e a ordem importa tanto quanto o
-        /// sorteio. Os eixos em ordem de posto deixam os riscos amontoados no canto
-        /// das palavras movimentadas e o resto do tabuleiro limpo, e é o que torna
-        /// a bancada jogável: medindo a maior volta única possível, com os eixos
-        /// ordenados ela cerca 42-60% na rodada 1, 68-78% na 2 e 66-84% na 3 — logo
-        /// abaixo de cada meta, de modo que a primeira volta grande dá quase tudo e
-        /// faltam poucas para fechar.
-        ///
-        /// Embaralhar os eixos foi medido e reprovado: espalha os riscos por todo o
-        /// tabuleiro, a maior volta da rodada 1 cai para 33-39% contra uma meta de
-        /// 60%, e a bancada vira uma sequência longa de voltinhas. O canto cheio
-        /// também é o retrato honesto da tabela — é ali que as palavras que todo
-        /// mundo usa se encontram.
-        /// </summary>
-        List<string> Escolher(Bigrama arquivo)
-        {
-            var ordenadas = new List<string>();
-            foreach (var p in arquivo.MaisMovimentadas())
-            {
-                if (p == Bigrama.Inicio || p == Bigrama.Fim) continue;
-                ordenadas.Add(p);
-            }
-
-            var fundo = Mathf.Min(Faixa[NivelAtual], ordenadas.Count);
-            var alvo = VazioAlvo[NivelAtual];
-            var casas = (float)_lado * _lado;
-
-            List<int> melhor = null;
-            var melhorErro = float.MaxValue;
-
-            for (var t = 0; t < Tentativas; t++)
-            {
-                var postos = Sortear(fundo, _lado);
-
-                var riscos = 0;
-                foreach (var i in postos)
-                    foreach (var j in postos)
-                        if (arquivo.Risquinhos(ordenadas[i], ordenadas[j]) > 0) riscos++;
-
-                var erro = Mathf.Abs(1f - riscos / casas - alvo);
-                if (erro >= melhorErro) continue;
-                melhorErro = erro;
-                melhor = postos;
-            }
-
-            melhor.Sort();
-            var palavras = new List<string>(melhor.Count);
-            foreach (var i in melhor) palavras.Add(ordenadas[i]);
-            return palavras;
-        }
-
-        /// <summary>
-        /// Tira <paramref name="quantos"/> postos distintos entre 0 e
-        /// <paramref name="fundo"/>, por embaralhamento parcial de Fisher-Yates.
-        /// </summary>
-        List<int> Sortear(int fundo, int quantos)
-        {
-            var saco = new int[fundo];
-            for (var i = 0; i < fundo; i++) saco[i] = i;
-
-            for (var i = 0; i < quantos; i++)
-            {
-                var j = i + (int)(_sorteio.Proximo() * (fundo - i));
-                if (j >= fundo) j = fundo - 1;
-                (saco[i], saco[j]) = (saco[j], saco[i]);
-            }
-
-            var saida = new List<int>(quantos);
-            for (var i = 0; i < quantos; i++) saida.Add(saco[i]);
-            return saida;
-        }
-
-        int Contar(Casa que)
-        {
-            var n = 0;
-            foreach (var c in _tabela) if (c == que) n++;
-            return n;
         }
 
         // ------------------------------------------------------------- o passo
@@ -510,8 +381,29 @@ namespace FabricaDeIA.Desafios
             if (Fracao < Meta[NivelAtual]) return;
 
             _travado = true;
-            var pct = Mathf.RoundToInt(Fracao * 100f);
+            StartCoroutine(FecharRodada());
+        }
 
+        /// <summary>
+        /// O fecho da rodada, em duas partes: primeiro o afastamento — a tabela
+        /// larga o recorte e se mostra inteira, minúscula —, e só depois o
+        /// cartaz com o texto. Sem a pausa entre as duas, o cartaz (que cobre
+        /// <see cref="DesafioEmNiveis.Area"/> inteira, ver <c>MostrarCartaz</c>)
+        /// tampa o afastamento no mesmo quadro em que ele aparece, e o aluno
+        /// nunca chega a VER a tabela toda — só o texto dizendo o tamanho dela.
+        ///
+        /// Na rodada 1 não há o que afastar: a janela já é a tabela inteira (ver
+        /// <c>AtualizarJanela</c>), então <c>houveAfastamento</c> fica falso e a
+        /// pausa é pulada — não custa o único segundo extra da rodada que serve
+        /// de andaime.
+        /// </summary>
+        IEnumerator FecharRodada()
+        {
+            var houveAfastamento = _lado > Rodadas3[0];
+            MostrarTabelaInteira();
+            if (houveAfastamento) yield return new WaitForSeconds(TempoDoAfastamento);
+
+            var pct = Mathf.RoundToInt(Fracao * 100f);
             var casas = _lado * _lado;
 
             if (NivelAtual < Niveis - 1)
@@ -522,7 +414,7 @@ namespace FabricaDeIA.Desafios
                     "foi tão fácil tomar.\n\n" +
                     "Aurélio vai pôr mais palavras no arquivo. Repare no que\n" +
                     "acontece com o tanto de vazio.");
-                return;
+                yield break;
             }
 
             // As três razões, calculadas e não escritas à mão: se alguém mexer nos

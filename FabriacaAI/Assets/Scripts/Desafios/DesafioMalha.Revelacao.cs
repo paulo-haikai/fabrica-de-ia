@@ -5,11 +5,18 @@ using UnityEngine;
 namespace FabricaDeIA.Desafios
 {
     /// <summary>
-    /// A REVELAÇÃO — o que acontece quando o aluno vence o corredor.
+    /// A REVELAÇÃO — a máquina por dentro, uma vez, e é o fim da bancada.
     ///
-    /// Depois de dez salas seguindo um pacote, ele chega ao último nível e vê DE
+    /// Depois de dez salas seguindo um pacote, o aluno chega ao último nível e vê DE
     /// ONDE VINHA AQUILO. A parede de trezentas e dezoito lâmpadas, os doze
     /// neurônios do meio, e a luz atravessando a malha inteira de um lado ao outro.
+    ///
+    /// E TAMBÉM É O QUE ELE VÊ SE PEDIR PARA SAIR ANTES. Quem aperta sair no meio do
+    /// corredor cai aqui, na mesma sequência, e só então a moldura fecha — o que a
+    /// desistência custa é a estrela, não a lição. Ver DesafioMalha.Desistir. Por
+    /// isso este arquivo não pode supor que as dez salas foram vencidas: ele desenha
+    /// a mesma coisa nos dois casos, e o único texto que fala do corredor é o do
+    /// primeiro cartaz, que descreve salas que qualquer um dos dois já atravessou.
     ///
     /// A ALEGORIA É O CORREDOR, e é ela que este nível cobra de volta. Cada sala
     /// testou de novo se o pacote passava; a malha faz o mesmo com a informação,
@@ -33,14 +40,23 @@ namespace FabricaDeIA.Desafios
     /// animação deixa de ser a introdução de um conceito e vira a resposta a uma
     /// pergunta que ele já está fazendo.
     ///
-    /// O RITMO É DE TRÊS TEMPOS, e a ordem importa:
+    /// E ELA PASSA UMA VEZ SÓ. Depois desta travessia vinham outras três, uma por
+    /// palavra da frase, a um clique de "a próxima palavra" cada. Repetição não
+    /// ensinava: é a MESMA tela com outra janela, e o que ela tinha a acrescentar —
+    /// que a palavra escrita volta para a entrada como parte da pergunta seguinte —
+    /// cabe numa frase do cartaz de fecho.
+    ///
+    /// O RITMO É DE QUATRO TEMPOS, e a ordem importa:
     ///
     ///   1. Um cartaz curto, ligando as salas do corredor às peneiras da malha.
-    ///      Curto porque ele acabou de vencer e a mão dele ainda está no teclado.
+    ///      Curto porque ele acabou de correr e a mão dele ainda está no teclado.
     ///   2. A animação rodando devagar, narrada, SEM PEDIR NADA. Não há palpite a
     ///      dar nem placar a fazer: é o único momento da bancada em que ele pode
     ///      olhar em vez de decidir, e é para isso que ele veio.
-    ///   3. O cartaz que nomeia o que ele acabou de ver, e então a malha escreve.
+    ///   3. O cartaz que nomeia o que ele acabou de ver, e então a malha escreve a
+    ///      palavra que sobrou — ver DesafioMalha.Revelar.
+    ///   4. O cartaz de fecho, que cobra o preço daquela palavra e fecha a bancada.
+    ///      Ver DesafioMalha.Fechar.
     ///
     /// Meter uma pergunta junto com a explicação seria economizar uma tela e perder
     /// a bancada: ninguém lê um parágrafo enquanto decide.
@@ -50,33 +66,49 @@ namespace FabricaDeIA.Desafios
         RectTransform _cartazDaRevelacao;
 
         /// <summary>
-        /// Abre o nível da malha com a revelação, em vez de cair direto na animação.
+        /// Abre a malha pela revelação, em vez de cair direto na animação.
+        ///
+        /// O cartaz conta as salas QUE ELE ATRAVESSOU, e não as dez do corredor
+        /// inteiro. Dizia "dez" fixo, de quando só chegava aqui quem vencia tudo;
+        /// agora chega também quem pediu para sair na terceira sala, e a bancada
+        /// abriria a parte mais importante da aula mentindo na cara dele. A alegoria
+        /// não precisa das dez: ela precisa que CADA sala tenha testado de novo, e
+        /// três salas já testaram três vezes.
         /// </summary>
         void AbrirARevelacao()
         {
             Painel.Rodape("a máquina por dentro");
 
-            Cartaz("Por que eram tantas salas",
-                "O seu pacote atravessou dez salas, e cada uma testou de novo\n" +
-                "se ele passava. Chão que cede, espinho que sobe, porta que\n" +
-                "foge: peneira atrás de peneira, e chega quem sobrevive a todas.\n\n" +
-                "Esta máquina faz isso com a INFORMAÇÃO. Não são dez peneiras:\n" +
-                "são milhares, e ela passa por todas em um milésimo de segundo.\n\n" +
+            var quantas = _salaAtual == 1 ? "uma sala" : $"{_salaAtual} salas";
+            var corrida = _salaAtual == 0
+                ? "Você mal entrou no corredor, e ele já estava testando se o\n" +
+                  "seu pacote passava. Chão que cede, espinho que sobe, porta\n" +
+                  "que foge: peneira atrás de peneira, e chega quem sobrevive.\n\n"
+                : $"O seu pacote atravessou {quantas}, e cada uma testou de\n" +
+                  "novo se ele passava. Chão que cede, espinho que sobe, porta\n" +
+                  "que foge: peneira atrás de peneira, e chega quem sobrevive a\n" +
+                  "todas.\n\n";
+
+            Cartaz("Por que o corredor testava tanto",
+                corrida +
+                "Esta máquina faz isso com a INFORMAÇÃO. E não são poucas\n" +
+                "peneiras: são milhares, e ela passa por todas em um milésimo\n" +
+                "de segundo.\n\n" +
                 "Agora você vai ver por dentro, devagar.",
                 "ver a informação ser peneirada",
                 () => StartCoroutine(Atravessar()));
         }
 
         /// <summary>
-        /// A frente de luz, narrada e mais devagar que nas travessias seguintes.
+        /// A frente de luz — a única travessia da bancada, narrada e devagar.
         ///
-        /// É a mesma animação de quatro tempos que a bancada sempre teve. Ela roda
-        /// mais devagar aqui de propósito: numa demonstração o aluno tem tempo.
+        /// É a mesma animação de quatro tempos que a bancada sempre teve. O "devagar"
+        /// era em comparação com as travessias repetidas, que corriam encurtadas;
+        /// elas não existem mais, e o ritmo de demonstração é o único que sobrou —
+        /// que é o certo, porque ninguém aqui está apostando contra o relógio.
         /// </summary>
         IEnumerator Atravessar()
         {
-            _rodando = true;
-
             Painel.Instruir("as três palavras entram INTEIRAS, todas ao mesmo tempo", Cores.Luz);
             yield return Percorrer(0f, 1f, 0.7f, f => Iluminar(Fase.Entradas, f));
 
@@ -89,7 +121,9 @@ namespace FabricaDeIA.Desafios
             Painel.Instruir("do outro lado acende só o que atravessou a peneira inteira", Cores.Luz);
             yield return Percorrer(0f, 1f, 1.1f, f => Iluminar(Fase.Parede, f));
 
-            _rodando = false;
+            // Sem trava de "já está rodando": ela existia para o botão "a próxima
+            // palavra", que soltava uma segunda frente de luz na mesma malha se
+            // clicado duas vezes. Não há mais botão que reinicie a animação.
             Fechamento();
         }
 

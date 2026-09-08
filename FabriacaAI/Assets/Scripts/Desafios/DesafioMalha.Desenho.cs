@@ -7,7 +7,7 @@ using UnityEngine.UI;
 namespace FabricaDeIA.Desafios
 {
     /// <summary>
-    /// O desenho da malha da bancada 6, e a frente de luz que a atravessa.
+    /// O desenho da malha da bancada 5, e a frente de luz que a atravessa.
     ///
     /// DUAS DECISÕES DE DESENHO CARREGAM A LIÇÃO INTEIRA:
     ///
@@ -61,9 +61,8 @@ namespace FabricaDeIA.Desafios
             _rotulosDaJanela.Clear();
             _plaquetas.Clear();
 
-            // A frase que ela escreve fica em CIMA, e cresce para baixo — uma linha
-            // por passe. É o laço ficando visível: cada linha é a malha inteira
-            // rodando outra vez.
+            // A travessia fica em CIMA: a janela que entrou de um lado da seta, a
+            // palavra que sobrou do outro. Uma linha, porque é uma travessia.
             _historico = Widgets.Painel("Histórico", Area, Color.clear);
             Widgets.Faixa(_historico, true, 56f);
 
@@ -74,9 +73,9 @@ namespace FabricaDeIA.Desafios
 
             _legenda = Widgets.Texto("Legenda", Area, 12, TextAnchor.LowerCenter, Cores.Neblina);
             // Uma linha, não duas. A segunda dizia que cada neurônio se liga às 318
-            // lâmpadas e que desenho só três — informação de uma vez só, que o
-            // tutorial já dá. Permanente na tela ela custava altura de malha em todo
-            // o resto da partida, e altura de malha é o conteúdo desta bancada.
+            // lâmpadas e que desenho só três — informação de uma vez só, que não
+            // precisa ficar plantada na tela. Permanente ela custava altura de malha
+            // em todo o resto da partida, e altura de malha é o conteúdo desta bancada.
             Widgets.Faixa(_legenda.rectTransform, false, 20f, 68f);
             _legenda.text = "dourado empurra a favor  ·  turquesa empurra contra  ·  " +
                             "neurônio escuro somou negativo";
@@ -158,10 +157,10 @@ namespace FabricaDeIA.Desafios
             var lugares = new List<Vector2>();
             var janela = _frase.Skip(_frase.Count - _rede.Janela).ToList();
 
-            // Os grupos ocupam 75% da altura e não 92%: a faixa vazia embaixo é o
-            // espaço que o cartão do tutorial ocupa quando ele está no ar. Sem ela, a
-            // foto mostrou o terceiro grupo de entradas cortado ao meio pelo cartão —
-            // e o terceiro grupo é justamente a palavra mais recente da janela.
+            // Os grupos ocupam 75% da altura e não 92%: a faixa vazia embaixo é
+            // respiro deliberado. Sem ela o terceiro grupo de entradas fica colado na
+            // borda de baixo — e o terceiro grupo é justamente a palavra mais recente
+            // da janela.
             var alturaDoGrupo = espaco.y * 0.21f;
             var vaoEntreGrupos = espaco.y * 0.035f;
             var total = _rede.Janela * alturaDoGrupo + (_rede.Janela - 1) * vaoEntreGrupos;
@@ -418,12 +417,12 @@ namespace FabricaDeIA.Desafios
         }
 
         /// <summary>
-        /// Redesenha o que muda entre uma travessia e outra: o histórico, os rótulos
-        /// da janela, o mostrador e — depois que a luz chega — as porcentagens.
+        /// Redesenha o que a travessia muda: a linha de cima, os rótulos da janela, o
+        /// mostrador e — depois que a luz chega — as porcentagens.
         ///
-        /// A MALHA em si não é remontada. Ela é sempre a mesma rede, e remontá-la a
-        /// cada travessia faria a tela piscar e sugerir que trocou de máquina. O que
-        /// muda de uma para a outra é só o desenho de luz dentro dela.
+        /// A MALHA em si não é remontada. Ela é sempre a mesma rede, e remontá-la
+        /// faria a tela piscar e sugerir que trocou de máquina no meio. O que muda é
+        /// só o desenho de luz dentro dela.
         /// </summary>
         void Redesenhar()
         {
@@ -447,6 +446,14 @@ namespace FabricaDeIA.Desafios
             }
         }
 
+        /// <summary>
+        /// A faixa de cima: a pergunta que entrou e a palavra que sobrou dela.
+        ///
+        /// Era um histórico de VÁRIAS linhas, uma por travessia, com as duas últimas
+        /// à mostra — de quando a malha rodava quatro vezes seguidas e a repetição
+        /// era o assunto. Roda uma vez, e o que a faixa tem para mostrar é uma
+        /// travessia: a janela, a seta, e o que atravessou.
+        /// </summary>
         void DesenharHistorico()
         {
             foreach (Transform filho in _historico) Destroy(filho.gameObject);
@@ -454,25 +461,19 @@ namespace FabricaDeIA.Desafios
             var titulo = Widgets.Texto("t", _historico, 13, TextAnchor.UpperLeft, Cores.Neblina);
             Widgets.Faixa(titulo.rectTransform, true, 18f);
             titulo.rectTransform.offsetMin = new Vector2(14f, titulo.rectTransform.offsetMin.y);
-            titulo.text = _linhas.Count == 0
-                ? "a frase que ela vai escrever aparece aqui, uma linha por travessia"
-                : "cada linha é a malha inteira peneirando outra vez";
+            titulo.text = _linha == null
+                ? "a palavra que sobrar da peneira aparece aqui"
+                : "a pergunta que entrou, e o que sobrou da malha inteira";
 
-            // Só as duas últimas: mais que isso não cabe na faixa de 56 pixels, e as
-            // antigas já fizeram o serviço de mostrar que o laço se repete.
-            // (O comentário dizia "quatro" e o código levava duas — sobra da vez em
-            // que a faixa encolheu para o desenho da malha caber.)
-            var mostradas = _linhas.Skip(Mathf.Max(0, _linhas.Count - 2)).ToList();
-            for (var i = 0; i < mostradas.Count; i++)
-            {
-                var (janela, palavra, chance) = mostradas[i];
+            if (_linha == null) return;
 
-                var linha = Widgets.UmaLinha(
-                    Widgets.Texto($"h{i}", _historico, 15, TextAnchor.UpperLeft, Cores.Papel));
-                Widgets.Faixa(linha.rectTransform, true, 17f, 20f + i * 17f);
-                linha.rectTransform.offsetMin = new Vector2(26f, linha.rectTransform.offsetMin.y);
-                linha.text = $"{janela}  →  {palavra}     ({chance * 100f:0}% da parede)";
-            }
+            var (janela, palavra, chance) = _linha.Value;
+
+            var linha = Widgets.UmaLinha(
+                Widgets.Texto("h0", _historico, 15, TextAnchor.UpperLeft, Cores.Papel));
+            Widgets.Faixa(linha.rectTransform, true, 17f, 20f);
+            linha.rectTransform.offsetMin = new Vector2(26f, linha.rectTransform.offsetMin.y);
+            linha.text = $"{janela}  →  {palavra}     ({chance * 100f:0}% da parede)";
         }
     }
 }

@@ -26,7 +26,41 @@ namespace FabricaDeIA.Editor
         const int Amostras = 20;
 
         /// <summary>
-        /// Confere as trinta salas do acervo do corredor da bancada 6 — todas elas,
+        /// Roda TODAS as conferências de conteúdo de uma vez.
+        ///
+        /// ESTE ITEM DE MENU EXISTIA NA DOCUMENTAÇÃO E NÃO NO CÓDIGO. O cabeçalho
+        /// desta classe prometia «Menu: Fábrica de IA → Conferir conteúdo das
+        /// bancadas» e o item não estava em lugar nenhum — as cinco conferências
+        /// abaixo eram métodos sem chamador, compilando e nunca rodando.
+        ///
+        /// É o pior estado possível para uma medição: ela parece existir. O
+        /// projeto acreditava estar conferindo o dominó, o arquivo, o mapa, a
+        /// malha e os holofotes, e não conferia nenhum deles. Foi assim que a
+        /// conferência da bancada das fichas sobreviveu meses à bancada.
+        /// </summary>
+        [MenuItem("Fábrica de IA/Conferir conteúdo das bancadas")]
+        public static void ConferirConteudo()
+        {
+            var relato = new List<string>();
+            var problemas = new List<string>();
+
+            Dominos2(relato, problemas);
+            Arquivo3(relato, problemas);
+            Mapa4(relato, problemas);
+            Malha5(relato, problemas);
+            Holofotes9(relato, problemas);
+            FabricaDeIA.Desafios.DesafioAlinhar.Conferir(relato, problemas);
+
+            var texto = "CONTEÚDO DAS BANCADAS:\n" + string.Join("\n", relato);
+            if (problemas.Count == 0)
+                Debug.Log(texto + "\nCONTEÚDO: OK");
+            else
+                Debug.LogError(texto + "\n\nCONTEÚDO: " + problemas.Count +
+                               " PROBLEMA(S)\n  " + string.Join("\n  ", problemas));
+        }
+
+        /// <summary>
+        /// Confere as trinta salas do acervo do corredor da bancada 5 — todas elas,
         /// e não só as dez que uma aula joga, porque o sorteio pode pegar qualquer uma.
         ///
         /// A NATUREZA DESTA CONFERÊNCIA MUDOU, e vale dizer por quê. Enquanto as
@@ -47,12 +81,12 @@ namespace FabricaDeIA.Editor
         /// cima de alguma coisa, e nada pode estar fora do mundo. Um erro de dígito
         /// numa das centenas de coordenadas copiadas aparece aqui, e não numa aula.
         /// </summary>
-        [MenuItem("Fábrica de IA/Conferir as salas da bancada 6")]
+        [MenuItem("Fábrica de IA/Conferir as salas da bancada 5")]
         public static void ConferirCorredor()
         {
             var relato = new List<string>();
             var problemas = new List<string>();
-            Corredor6(relato, problemas);
+            Corredor5(relato, problemas);
 
             var texto = "CORREDOR:\n" + string.Join("\n", relato);
             if (problemas.Count == 0) Debug.Log(texto + "\nCORREDOR: OK");
@@ -60,7 +94,7 @@ namespace FabricaDeIA.Editor
                                 " PROBLEMA(S)\n  " + string.Join("\n  ", problemas));
         }
 
-        static void Corredor6(List<string> relato, List<string> problemas)
+        static void Corredor5(List<string> relato, List<string> problemas)
         {
             var salas = Desafios.DesafioMalha.TodasAsSalas;
             var truquesAoTodo = 0;
@@ -181,10 +215,10 @@ namespace FabricaDeIA.Editor
                               "o sorteio não tem de onde tirar");
         }
 
-        // ---------------------------------------------------- bancada 6, a malha
+        // ---------------------------------------------------- bancada 5, a malha
 
         /// <summary>
-        /// Mede a MALHA — a rede que o último nível da bancada 6 abre e anima.
+        /// Mede a MALHA — a rede que o último nível da bancada 5 abre e anima.
         ///
         /// A medição encolheu junto com a bancada, e vale dizer por quê. Enquanto o
         /// corredor tinha uma porta por palavra candidata, esta conferência simulava
@@ -209,7 +243,7 @@ namespace FabricaDeIA.Editor
         /// As fases do corredor têm conferência própria, que é de outra natureza —
         /// alcance, não estatística. Ver ConferirCorredor.
         /// </summary>
-        static void Malha6(List<string> relato, List<string> problemas)
+        static void Malha5(List<string> relato, List<string> problemas)
         {
             var rede = Rede.Atual;
 
@@ -250,7 +284,7 @@ namespace FabricaDeIA.Editor
                 if (exemplos.Count < 4) exemplos.Add(string.Join(" ", frase));
             }
 
-            relato.Add($"  malha (bancada 6): rede acerta {rede.Acerto:P0} · " +
+            relato.Add($"  malha (bancada 5): rede acerta {rede.Acerto:P0} · " +
                        $"bigrama {rede.ReguaDoBigrama:P0} · {rede.Meio} neurônios · " +
                        $"{rede.Palavras} lâmpadas · {frases.Count} sementes · " +
                        $"travadas {travadas} de {Amostras}\n      " +
@@ -420,7 +454,7 @@ namespace FabricaDeIA.Editor
         ///     que é pior porque não aparece testando uma vez.
         ///   · A META TEM QUE CABER NO VAZIO. Cercar tudo é impossível, então meta
         ///     colada no vazio disponível faz rodada invencível. Foi o defeito que
-        ///     derrubou a bancada 11, onde dois terços das rodadas não tinham
+        ///     derrubou a bancada 10, onde dois terços das rodadas não tinham
         ///     solução.
         ///   · O FECHO TEM QUE SER VERDADE. A tela final compara os pares da última
         ///     rodada com os da primeira, e o aluno viu os dois números. A versão
@@ -588,42 +622,7 @@ namespace FabricaDeIA.Editor
             return saida;
         }
 
-        // ---------------------------------------------------- bancada 4, corte
-
-        static void Corte4(List<string> relato, List<string> problemas)
-        {
-            var rodadas = 0;
-            var economia = 0f;
-            var exemplos = new List<string>();
-
-            for (var s = 1; s <= Amostras; s++)
-            {
-                foreach (var r in Cortes.Sortear(s * 15485863))
-                {
-                    rodadas++;
-                    var letras = r.Palavras.Sum(p => p.Length);
-                    economia += letras - r.Meta;
-
-                    if (exemplos.Count < 3)
-                        exemplos.Add(string.Join(" ", r.Palavras) + " → " + letras +
-                                     " letras, meta " + r.Meta + " em " + r.Fusoes + " emendas");
-
-                    // Meta igual ao número de letras significa que nenhuma emenda
-                    // rende nada: as palavras sorteadas não compartilham estrutura.
-                    if (r.Meta >= letras)
-                        problemas.Add("corte: meta " + r.Meta + " não economiza nada (" +
-                                      string.Join(" ", r.Palavras) + ")");
-                    if (r.Palavras.Length < 3)
-                        problemas.Add("corte: rodada com menos de três palavras");
-                }
-            }
-
-            relato.Add("  corte (bancada 4): " + rodadas + " rodadas · economia média " +
-                       (economia / Mathf.Max(1, rodadas)).ToString("0.0") + " fichas\n      " +
-                       string.Join("\n      ", exemplos));
-        }
-
-        // ----------------------------------------------------- bancada 5, mapa
+        // ----------------------------------------------------- bancada 4, mapa
 
         /// <summary>
         /// Mostra os grupos que a coocorrência produz, para eu poder LER se são
@@ -634,7 +633,7 @@ namespace FabricaDeIA.Editor
         /// comum aos olhos de uma pessoa. O que a conferência faz é medir a
         /// separação (que é objetiva) e imprimir os grupos (que é para o olho).
         /// </summary>
-        static void Mapa5(List<string> relato, List<string> problemas)
+        static void Mapa4(List<string> relato, List<string> problemas)
         {
             var mapa = new Vizinhancas(Corpus.Frases);
             var exemplos = new List<string>();
@@ -662,7 +661,7 @@ namespace FabricaDeIA.Editor
                 }
             }
 
-            relato.Add("  mapa (bancada 5): " + grupos + " grupos · coesão média " +
+            relato.Add("  mapa (bancada 4): " + grupos + " grupos · coesão média " +
                        (coesao / Mathf.Max(1, grupos)).ToString("0.00") + "\n      " +
                        string.Join("\n      ", exemplos));
 
@@ -670,89 +669,161 @@ namespace FabricaDeIA.Editor
                 problemas.Add("mapa: grupos com coesão baixa — não há resposta certa a achar");
         }
 
-        // --------------------------------------------------- bancada 8, treino
+        // --------------------------------------------------- bancada 7, treino
 
         /// <summary>
-        /// Varre a faixa de força do treino e diz que pedaço dela vence.
+        /// Varre a faixa de regulagem do estilingue e diz que pedaço dela vence.
         ///
-        /// É a conferência mais importante desta leva. A bancada 8 depende de
-        /// haver força que funcione (senão o nível é impossível) e de NÃO
-        /// funcionar quase toda força (senão não há decisão).
+        /// É a conferência mais importante desta leva. A bancada 7 depende de
+        /// haver correção que funcione (senão o nível é impossível) e de NÃO
+        /// funcionar quase toda correção (senão não há decisão).
         ///
-        /// A varredura passou a ser contínua junto com a bancada: enquanto o
-        /// aluno escolhia entre cinco rótulos, bastava testar os cinco. Agora
-        /// ele carrega uma barra, e o que precisa ser medido é a LARGURA da
-        /// faixa que vence — uma faixa estreita demais é um nível que só passa
-        /// por sorte do dedo, e isso a checagem antiga não teria como ver.
+        /// A varredura acompanhou a bancada duas vezes. Quando o aluno escolhia
+        /// entre cinco rótulos, bastava testar os cinco; quando ele passou a
+        /// carregar uma barra, passou a importar a LARGURA da faixa que vence —
+        /// faixa estreita é nível que só passa por sorte do dedo. Agora que a
+        /// bancada é um Angry Birds, a varredura roda a FÍSICA de verdade, a
+        /// mesma de <see cref="Estilingue"/> que o jogo roda em câmera lenta:
+        /// medir uma conta diferente da que o aluno joga não mede nada.
+        ///
+        /// A rodada 2 é medida em duas dimensões, porque nela o aluno também
+        /// escolhe a mira — e o que interessa saber é se existe canto do
+        /// retângulo (mira x correção) que vence, e quanto dele.
         /// </summary>
-        static void Treino8(List<string> relato, List<string> problemas)
+        [MenuItem("Fábrica de IA/Conferir o estilingue da bancada 7")]
+        public static void ConferirTreino()
         {
+            var relato = new List<string>();
+            var problemas = new List<string>();
+            Treino7(relato, problemas);
+
+            var texto = "TREINO:\n" + string.Join("\n", relato);
+            if (problemas.Count == 0) Debug.Log(texto + "\nTREINO: OK");
+            else Debug.LogError(texto + "\n\nTREINO: " + problemas.Count +
+                                " PROBLEMA(S)\n  " + string.Join("\n  ", problemas));
+        }
+
+        static void Treino7(List<string> relato, List<string> problemas)
+        {
+            // Os mesmos números de DesafioTreino.Rodadas8: se um lado mudar, a
+            // checagem deixa de checar o jogo que existe.
             var rodadas = new[]
             {
-                (nome: "rodada 1", botoes: 4, passos: 8, desequilibrio: 1f),
-                (nome: "rodada 2", botoes: 8, passos: 8, desequilibrio: 2.5f),
-                (nome: "rodada 3", botoes: 8, passos: 12, desequilibrio: 9f)
+                (nome: "rodada 1", porcos: new[] { 78f }, chute: 30f, tiros: 6),
+                (nome: "rodada 3", porcos: new[] { 65f, 122f }, chute: 18f, tiros: 4)
             };
 
-            // Os mesmos números de DesafioTreino: se um lado mudar, a checagem
-            // deixa de checar o jogo que existe.
-            const float forcaMinima = 0.03f;
-            const float forcaMaxima = 2.4f;
-            const float meta = 0.01f;
-            const int amostras = 40;
+            const float minima = 0.02f, maxima = 2f;
+            const int amostras = 120;
 
             foreach (var r in rodadas)
             {
                 var vencedoras = new List<float>();
-                var linhas = new List<string>();
-
                 for (var a = 0; a < amostras; a++)
                 {
-                    var fracao = Mathf.Lerp(forcaMinima, forcaMaxima, a / (float)(amostras - 1));
-
-                    // Média de várias sementes: uma só poderia ser sortuda.
-                    var vitorias = 0;
-                    for (var s = 1; s <= 12; s++)
+                    var correcao = Regulagem(minima, maxima, a / (float)(amostras - 1));
+                    var todas = true;
+                    foreach (var porco in r.porcos)
                     {
-                        var m = new Mostrador(r.botoes, s * 7013, r.desequilibrio);
-                        var curva = m.Treinar(fracao, r.passos);
-                        var razao = curva[^1] / Mathf.Max(1e-9f, curva[0]);
-                        if (float.IsNaN(razao) || float.IsInfinity(razao)) razao = 1e6f;
-                        if (razao <= meta) vitorias++;
+                        Estilingue.Treinar(r.chute * Mathf.Deg2Rad, correcao, porco,
+                                           Estilingue.Cenario(porco), r.tiros, out var acertou);
+                        todas &= acertou;
                     }
-
-                    // Vence "de verdade" só se vencer na maioria das sementes —
-                    // uma força que passa em 3 de 12 é armadilha, não solução.
-                    if (vitorias >= 7) vencedoras.Add(fracao);
+                    if (todas) vencedoras.Add(a / (float)(amostras - 1));
                 }
 
-                var largura = vencedoras.Count / (float)amostras;
-                linhas.Add(vencedoras.Count == 0
-                    ? "nenhuma força vence"
-                    : "vence de " + vencedoras[0].ToString("0.00") + " a " +
-                      vencedoras[^1].ToString("0.00") + " (" +
-                      (largura * 100f).ToString("0") + "% da barra)");
-
-                relato.Add("  treino (bancada 8) " + r.nome + ", " + r.botoes + " botões, " +
-                           r.passos + " passos\n      " + string.Join("\n      ", linhas));
+                var largura = Contigua(vencedoras, 1.5f / (amostras - 1));
+                relato.Add("  treino (bancada 7) " + r.nome + ", " + r.porcos.Length +
+                           " porco(s), " + r.tiros + " tiros\n      " +
+                           (vencedoras.Count == 0
+                               ? "nenhuma correção vence"
+                               : "vence de " +
+                                 Regulagem(minima, maxima, vencedoras[0]).ToString("0.00") + " a " +
+                                 Regulagem(minima, maxima, vencedoras[^1]).ToString("0.00") +
+                                 " (" + (largura * 100f).ToString("0") + "% do elástico)"));
 
                 if (vencedoras.Count == 0)
-                    problemas.Add("treino: " + r.nome + " não tem força que vença — impossível");
-                else if (largura < 0.06f)
+                    problemas.Add("treino: " + r.nome + " não tem correção que vença — impossível");
+                else if (largura < 0.12f)
                     problemas.Add("treino: " + r.nome + " vence numa faixa estreita demais (" +
                                   (largura * 100f).ToString("0") + "%) — passa por sorte do dedo");
-                else if (largura > 0.85f)
-                    problemas.Add("treino: " + r.nome + " vence com quase toda força — sem decisão");
+                else if (largura > 0.75f)
+                    problemas.Add("treino: " + r.nome + " vence com quase toda correção — sem decisão");
             }
+
+            Treino8Mira(relato, problemas, 95f, 3, minima, maxima);
         }
 
-        // ----------------------------------------------- bancada 10, holofotes
+        /// <summary>
+        /// A rodada 2, em que a mira também é do aluno: mede o retângulo inteiro
+        /// (mira x correção) e, principalmente, se existe mira que vence com
+        /// qualquer correção — que é a lição dela.
+        /// </summary>
+        static void Treino8Mira(List<string> relato, List<string> problemas,
+                                float porco, int tiros, float minima, float maxima)
+        {
+            const int lado = 60;
+            var blocos = Estilingue.Cenario(porco);
+            var vitorias = 0;
+            var mirasFolgadas = 0;
+
+            for (var i = 0; i < lado; i++)
+            {
+                var mira = Mathf.Lerp(4f, 46f, i / (float)(lado - 1)) * Mathf.Deg2Rad;
+                var naMira = 0;
+                for (var j = 0; j < lado; j++)
+                {
+                    var correcao = Regulagem(minima, maxima, j / (float)(lado - 1));
+                    Estilingue.Treinar(mira, correcao, porco, blocos, tiros, out var acertou);
+                    if (acertou) { vitorias++; naMira++; }
+                }
+                if (naMira >= lado - 1) mirasFolgadas++;
+            }
+
+            var area = vitorias / (float)(lado * lado);
+            relato.Add("  treino (bancada 7) rodada 2, mira do aluno\n      " +
+                       (area * 100f).ToString("0") + "% do retângulo mira x correção vence · " +
+                       mirasFolgadas + " miras vencem com qualquer correção");
+
+            if (vitorias == 0)
+                problemas.Add("treino: rodada 2 não tem mira nenhuma que vença — impossível");
+            else if (area < 0.12f)
+                problemas.Add("treino: rodada 2 vence em " + (area * 100f).ToString("0") +
+                              "% do retângulo — é sorte, não calibragem");
+            else if (mirasFolgadas == 0)
+                problemas.Add("treino: rodada 2 não tem mira que perdoe a correção — " +
+                              "a lição de que um bom chute inicial encurta o treino some");
+        }
+
+        /// <summary>
+        /// A mesma conversão geométrica da barra do jogo. Duplicá-la aqui seria
+        /// medir uma régua e entregar outra.
+        /// </summary>
+        static float Regulagem(float minima, float maxima, float fracao) =>
+            minima * Mathf.Pow(maxima / minima, fracao);
+
+        /// <summary>A maior faixa CONTÍNUA de vitória, em fração do elástico.</summary>
+        static float Contigua(List<float> pontos, float folga)
+        {
+            if (pontos.Count == 0) return 0f;
+
+            float melhor = 0f, inicio = pontos[0], fim = pontos[0];
+            for (var i = 1; i < pontos.Count; i++)
+            {
+                if (pontos[i] - pontos[i - 1] <= folga) { fim = pontos[i]; continue; }
+                melhor = Mathf.Max(melhor, fim - inicio);
+                inicio = fim = pontos[i];
+            }
+            return Mathf.Max(melhor, fim - inicio);
+        }
+
+        // ----------------------------------------------- bancada 9, holofotes
 
         /// <summary>
         /// Confere que cada rodada dos holofotes tem solução dentro do orçamento
         /// de lâmpadas — o gerador já filtra por isso, e aqui a gente cobra.
         /// </summary>
-        static void Holofotes10(List<string> relato, List<string> problemas)
+        static void Holofotes9(List<string> relato, List<string> problemas)
         {
             var companhias = new Companhias(Corpus.Frases);
             var geradas = 0;
@@ -784,7 +855,7 @@ namespace FabricaDeIA.Editor
                 }
             }
 
-            relato.Add("  holofotes (bancada 10): " + geradas + " rodadas, todas com solução\n      " +
+            relato.Add("  holofotes (bancada 9): " + geradas + " rodadas, todas com solução\n      " +
                        string.Join("\n      ", exemplos));
         }
     }

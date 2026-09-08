@@ -21,7 +21,7 @@ namespace FabricaDeIA.Desafios
     /// direita sai uma frase.
     ///
     /// O que faz disto um jogo:
-    ///   · ENCAIXE — a regra é física e se aprende sem tutorial: bate ou não bate;
+    ///   · ENCAIXE — a regra é física e se aprende sem explicação: bate ou não bate;
     ///   · MÃO LIMITADA — o número de peças é justo, e há engodos que encaixam
     ///     perfeitamente e levam para o lugar errado;
     ///   · BECO SEM SAÍDA — colocar a peça errada pode travar a corrente, e ver a

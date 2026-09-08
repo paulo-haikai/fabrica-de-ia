@@ -22,6 +22,7 @@ import { BANCADAS, LADO as LADO_BANCADA, pintarBancada } from './bancadas.mjs';
 import { folhaDe, pessoa, LARGURA as L_PESSOA, ALTURA as A_PESSOA, DIRECOES, QUADROS } from './elenco.mjs';
 import { PECAS as PECAS_ABERTURA, pintarPeca } from './abertura.mjs';
 import { PECAS as PECAS_CORREDOR, LADO as LADO_CORREDOR, pintarPeca as pintarCorredor } from './corredor.mjs';
+import { PECAS as PECAS_GUICHE, LADO as LADO_GUICHE, pintarPeca as pintarGuiche } from './guiche.mjs';
 
 const AQUI = dirname(fileURLToPath(import.meta.url));
 const DESTINO = join(AQUI, '..', '..', 'FabriacaAI', 'Assets', 'Resources', 'Arte');
@@ -39,15 +40,41 @@ export const ELENCO = [
   { id: 'e1', nome: 'Tico', oficio: 'aprendiz da estufa', pele: 1, cabelo: 0, corte: 'curto', roupa: 9, acessorio: 'folha' },
   { id: 'e2', nome: 'Dona Ciça', oficio: 'guarda-livros', pele: 3, cabelo: 4, corte: 'coque', roupa: 5, acessorio: 'oculos' },
   { id: 'e3', nome: 'Mestre Aurélio', oficio: 'arquivista', pele: 2, cabelo: 5, corte: 'raspado', roupa: 0, acessorio: 'oculos' },
-  { id: 'e4', nome: 'Nara', oficio: 'costureira', pele: 4, cabelo: 0, corte: 'trancas', roupa: 3, acessorio: 'lenco' },
-  { id: 'e5', nome: 'Bento', oficio: 'cartógrafo de jardim', pele: 1, cabelo: 2, corte: 'longo', roupa: 1, acessorio: 'folha' },
-  { id: 'e6', nome: 'Iara', oficio: 'tecelã de circuitos', pele: 3, cabelo: 0, corte: 'coque', roupa: 9, acessorio: 'visor' },
-  { id: 'e7', nome: 'Seu Ilo', oficio: 'afinador', pele: 2, cabelo: 4, corte: 'curto', roupa: 10, acessorio: 'oculos' },
-  { id: 'e8', nome: 'Rosa', oficio: 'treinadora', pele: 4, cabelo: 3, corte: 'trancas', roupa: 11, acessorio: 'nenhum' },
-  { id: 'e9', nome: 'Chef Amaro', oficio: 'cozinheiro', pele: 3, cabelo: 0, corte: 'chapeu', roupa: 11, acessorio: 'avental_couro' },
-  { id: 'e10', nome: 'Lumi', oficio: 'acendedora de lampiões', pele: 1, cabelo: 4, corte: 'curto', roupa: 9, acessorio: 'visor' },
-  { id: 'e11', nome: 'Vovó Zi', oficio: 'contadora de histórias', pele: 4, cabelo: 4, corte: 'longo', roupa: 8, acessorio: 'lenco' },
-  { id: 'e12', nome: 'Sereno', oficio: 'guardião do ateliê', pele: 2, cabelo: 5, corte: 'longo', roupa: 0, acessorio: 'folha' }
+  { id: 'e4', nome: 'Bento', oficio: 'cartógrafo de jardim', pele: 1, cabelo: 2, corte: 'longo', roupa: 1, acessorio: 'folha' },
+  { id: 'e5', nome: 'Iara', oficio: 'tecelã de circuitos', pele: 3, cabelo: 0, corte: 'coque', roupa: 9, acessorio: 'visor' },
+  { id: 'e6', nome: 'Seu Ilo', oficio: 'afinador', pele: 2, cabelo: 4, corte: 'curto', roupa: 10, acessorio: 'oculos' },
+  { id: 'e7', nome: 'Rosa', oficio: 'treinadora', pele: 4, cabelo: 3, corte: 'trancas', roupa: 11, acessorio: 'nenhum' },
+  { id: 'e8', nome: 'Chef Amaro', oficio: 'cozinheiro', pele: 3, cabelo: 0, corte: 'chapeu', roupa: 11, acessorio: 'avental_couro' },
+  { id: 'e9', nome: 'Lumi', oficio: 'acendedora de lampiões', pele: 1, cabelo: 4, corte: 'curto', roupa: 9, acessorio: 'visor' },
+  { id: 'e10', nome: 'Vovó Zi', oficio: 'contadora de histórias', pele: 4, cabelo: 4, corte: 'longo', roupa: 8, acessorio: 'lenco' },
+  { id: 'e11', nome: 'Sereno', oficio: 'guardião do ateliê', pele: 2, cabelo: 5, corte: 'longo', roupa: 0, acessorio: 'folha' },
+
+  // --- os requerentes do guichê da bancada 11 ---
+  //
+  // Doze pessoas quaisquer, e o "quaisquer" é o projeto inteiro: quem chega ao
+  // balcão da prefeitura pedindo creche ou passe não tem tipo. Sem avental,
+  // porque não são do ateliê; sem folha nem visor, que são acessórios de ofício
+  // daqui.
+  //
+  // A COMBINAÇÃO É DE PROPÓSITO EMBARALHADA e não deve ser "arrumada" depois:
+  // pele, cabelo, corte e roupa variam sem seguir nenhum eixo comum, para que
+  // nenhum grupo visual se forme. A bancada sorteia o retrato SEM OLHAR para
+  // bairro, tempo de cidade, espera ou necessidade — e a conferência mede que a
+  // aparência fica no acaso: +1,8pp sobre a taxa-base, contra +1,6pp de um número
+  // puramente aleatório. Um jogo sobre viés em que a cara previsse a resposta
+  // estaria ensinando exatamente o que veio desarmar.
+  { id: 'r0',  nome: 'requerente', oficio: '', pele: 0, cabelo: 5, corte: 'curto',   roupa: 7,  acessorio: 'nenhum', avental: false },
+  { id: 'r1',  nome: 'requerente', oficio: '', pele: 3, cabelo: 0, corte: 'trancas', roupa: 2,  acessorio: 'lenco',  avental: false },
+  { id: 'r2',  nome: 'requerente', oficio: '', pele: 5, cabelo: 4, corte: 'coque',   roupa: 4,  acessorio: 'oculos', avental: false },
+  { id: 'r3',  nome: 'requerente', oficio: '', pele: 2, cabelo: 1, corte: 'raspado', roupa: 2,  acessorio: 'nenhum', avental: false },
+  { id: 'r4',  nome: 'requerente', oficio: '', pele: 4, cabelo: 0, corte: 'longo',   roupa: 6,  acessorio: 'nenhum', avental: false },
+  { id: 'r5',  nome: 'requerente', oficio: '', pele: 1, cabelo: 2, corte: 'curto',   roupa: 0,  acessorio: 'oculos', avental: false },
+  { id: 'r6',  nome: 'requerente', oficio: '', pele: 3, cabelo: 5, corte: 'longo',   roupa: 3,  acessorio: 'nenhum', avental: false },
+  { id: 'r7',  nome: 'requerente', oficio: '', pele: 0, cabelo: 3, corte: 'coque',   roupa: 8,  acessorio: 'lenco',  avental: false },
+  { id: 'r8',  nome: 'requerente', oficio: '', pele: 5, cabelo: 1, corte: 'chapeu',  roupa: 5,  acessorio: 'nenhum', avental: false },
+  { id: 'r9',  nome: 'requerente', oficio: '', pele: 2, cabelo: 0, corte: 'trancas', roupa: 1,  acessorio: 'nenhum', avental: false },
+  { id: 'r10', nome: 'requerente', oficio: '', pele: 4, cabelo: 4, corte: 'curto',   roupa: 11, acessorio: 'oculos', avental: false },
+  { id: 'r11', nome: 'requerente', oficio: '', pele: 1, cabelo: 6, corte: 'longo',   roupa: 9,  acessorio: 'lenco',  avental: false }
 ];
 
 /** Distribui peças de tamanho fixo numa grade de `colunas`. */
@@ -88,7 +115,7 @@ function main() {
   const poses = ELENCO.flatMap(p => folhaDe(pessoa(p)));
   escrever('elenco.png', atlas(poses, L_PESSOA, A_PESSOA, DIRECOES * QUADROS));
 
-  // --- corredor da bancada 6 ---
+  // --- corredor da bancada 5 ---
   //
   // Atlas, e não peça solta como a abertura: aqui são dezesseis peças do mesmo
   // tamanho, desenhadas na mesma grade, e o jogo troca de peça muitas vezes por
@@ -99,6 +126,15 @@ function main() {
     atlas(PECAS_CORREDOR.map(([nome]) => pintarCorredor(nome)),
           LADO_CORREDOR, LADO_CORREDOR, COLUNAS_CORREDOR)
   );
+
+  // --- guichê da bancada 11 ---
+  //
+  // Peça por peça, como a abertura, e não em atlas: a mesa LADRILHA a largura da
+  // tela e os carimbos são girados na hora em que descem. Célula de atlas que
+  // ladrilha ou gira puxa pixel da peça vizinha na borda.
+  for (const [nome] of PECAS_GUICHE) {
+    escrever(`guiche_${nome}.png`, pintarGuiche(nome));
+  }
 
   // --- abertura ---
   //

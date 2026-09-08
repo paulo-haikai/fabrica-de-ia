@@ -8,7 +8,7 @@ using UnityEngine.UI;
 namespace FabricaDeIA.Desafios
 {
     /// <summary>
-    /// Bancada 11 — a máquina de falar de Vovó Zi.
+    /// Bancada 10 — a máquina de falar de Vovó Zi.
     ///
     /// Inspiração: LABIRINTO, na forma que jogo de puzzle chama de pathfinding —
     /// e o parente mais próximo em jogo comercial é o baralho de escolhas do Slay
@@ -33,7 +33,7 @@ namespace FabricaDeIA.Desafios
     /// </summary>
     public partial class DesafioFala : DesafioEmNiveis
     {
-        public override string Etapa => "e11";
+        public override string Etapa => "e10";
         public override string Titulo => "Fazer ela falar";
 
         protected override int Niveis => Rodadas11.Length;

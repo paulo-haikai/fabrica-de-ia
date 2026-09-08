@@ -138,7 +138,7 @@ namespace FabricaDeIA.Arte
         ///
         /// O Jogo carrega as folhas para montar o atelie e as passa de mao em mao
         /// para quem precisa. As bancadas nao estao nessa corrente — elas nascem
-        /// dentro do painel, longe do construtor do mundo —, e a bancada 6 precisa
+        /// dentro do painel, longe do construtor do mundo —, e a bancada 5 precisa
         /// dos sprites do corredor. Recortar a folha de novo a cada visita seria
         /// desperdicio bobo: e o mesmo Texture2D, ja em memoria, e o recorte custa
         /// um Sprite.Create por peca.
@@ -170,7 +170,7 @@ namespace FabricaDeIA.Arte
                                   dados.elenco.direcoes * dados.elenco.quadros,
                                   new Vector2(0.5f, 0.04f));
 
-            // O corredor da bancada 6. Pivô no canto inferior esquerdo, como o
+            // O corredor da bancada 5. Pivô no canto inferior esquerdo, como o
             // tileset: as peças dele são encaixadas numa grade, e pivô no meio
             // faria toda posição virar uma conta com meio tile de correção.
             var corredor = Recortar(dados.corredor.arquivo, dados.corredor.lado,
@@ -248,7 +248,7 @@ namespace FabricaDeIA.Arte
 
         // ------------------------------------------------------------ acesso
 
-        /// <summary>Uma peça do corredor da bancada 6, pelo nome.</summary>
+        /// <summary>Uma peça do corredor da bancada 5, pelo nome.</summary>
         public Sprite Corredor(string nome)
         {
             var achado = Dados.corredor.pecas.FirstOrDefault(t => t.nome == nome);
@@ -266,7 +266,7 @@ namespace FabricaDeIA.Arte
             return _tiles[achado.indice];
         }
 
-        /// <summary>A bancada de uma etapa (<c>e1</c> a <c>e12</c>).</summary>
+        /// <summary>A bancada de uma etapa (<c>e1</c> a <c>e11</c>).</summary>
         public Sprite Bancada(string etapa)
         {
             var i = Array.IndexOf(Dados.bancadas.ordem, etapa);
@@ -296,36 +296,44 @@ namespace FabricaDeIA.Arte
             return quadros;
         }
 
-        readonly Dictionary<string, Sprite> _abertura = new();
+        readonly Dictionary<string, Sprite> _avulsas = new();
 
         /// <summary>
-        /// Uma peça da abertura, carregada sob demanda.
+        /// Uma peça solta, carregada sob demanda pelo prefixo do arquivo.
         ///
-        /// Cada peça é um PNG próprio, e não uma célula de atlas: são de tamanhos
-        /// muito diferentes e a cena estica algumas delas na tela — céu e colina
-        /// cobrem a largura inteira. Esticar uma célula de atlas puxaria pixel da
-        /// peça vizinha na borda.
+        /// Peça solta, e não célula de atlas, quando o tamanho varia muito ou
+        /// quando a tela ESTICA, LADRILHA ou GIRA a imagem — céu e colina da
+        /// abertura cobrem a largura inteira; a mesa do guichê se repete pela
+        /// bancada e o carimbo desce torto. Nos três casos uma célula de atlas
+        /// puxaria pixel da peça vizinha na borda.
         ///
         /// Carrega quando pedem e guarda: quem só joga o ateliê nunca paga por
-        /// isto, e quem vê a abertura paga uma vez.
+        /// isto, e quem abre a bancada paga uma vez.
         /// </summary>
-        public Sprite Peca(string nome)
+        public Sprite Avulsa(string prefixo, string nome)
         {
-            if (_abertura.TryGetValue(nome, out var pronta)) return pronta;
+            var chave = prefixo + nome;
+            if (_avulsas.TryGetValue(chave, out var pronta)) return pronta;
 
-            var prefixo = Dados.abertura != null ? Dados.abertura.prefixo : "abertura_";
-            var textura = Resources.Load<Texture2D>($"Arte/{prefixo}{nome}");
+            var textura = Resources.Load<Texture2D>($"Arte/{chave}");
             if (textura == null)
                 throw new InvalidOperationException(
-                    $"peça de abertura ausente: Resources/Arte/{prefixo}{nome}.png");
+                    $"peça de arte ausente: Resources/Arte/{chave}.png");
 
             var sprite = Sprite.Create(textura, new Rect(0, 0, textura.width, textura.height),
                                        new Vector2(0.5f, 0.5f), PixelsPorUnidade,
                                        0, SpriteMeshType.FullRect);
             sprite.name = nome;
-            _abertura[nome] = sprite;
+            _avulsas[chave] = sprite;
             return sprite;
         }
+
+        /// <summary>Uma peça da abertura.</summary>
+        public Sprite Peca(string nome) =>
+            Avulsa(Dados.abertura != null ? Dados.abertura.prefixo : "abertura_", nome);
+
+        /// <summary>Uma peça do guichê da bancada 11.</summary>
+        public Sprite PecaDoGuiche(string nome) => Avulsa("guiche_", nome);
 
         public PessoaDaFolha Pessoa(string id)
         {

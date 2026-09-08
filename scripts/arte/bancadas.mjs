@@ -331,15 +331,14 @@ export const BANCADAS = [
   ['e1', estufa],
   ['e2', livroCaixa],
   ['e3', fichario],
-  ['e4', mesaDeCorte],
-  ['e5', mesaDeMapa],
-  ['e6', tear],
-  ['e7', afinador],
-  ['e8', bancadaDeTreino],
-  ['e9', fogao],
-  ['e10', lampioes],
-  ['e11', maquinaDeFalar],
-  ['e12', balanca]
+  ['e4', mesaDeMapa],
+  ['e5', tear],
+  ['e6', afinador],
+  ['e7', bancadaDeTreino],
+  ['e8', fogao],
+  ['e9', lampioes],
+  ['e10', maquinaDeFalar],
+  ['e11', balanca]
 ];
 
 export function pintarBancada(indice) {

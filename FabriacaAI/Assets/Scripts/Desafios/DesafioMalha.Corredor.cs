@@ -33,6 +33,11 @@ namespace FabricaDeIA.Desafios
     /// DesafioMalha.Revelacao.cs. A bancada não tenta explicar a rede DURANTE o jogo:
     /// tentou, em duas versões, e o resultado foi um jogo pequeno e uma explicação
     /// pela metade.
+    ///
+    /// E O CORREDOR NÃO É PEDÁGIO. Quem desiste no meio dele também vê a máquina, uma
+    /// vez, a caminho da saída — o que ele perde é a estrela. Dez salas de platformer
+    /// não podem ser a condição para um aluno de doze anos descobrir o que é uma rede
+    /// neural. Ver DesafioMalha.Desistir.
     /// </summary>
     public partial class DesafioMalha
     {
@@ -64,7 +69,27 @@ namespace FabricaDeIA.Desafios
         /// <summary>Quantas salas o aluno atravessa numa aula.</summary>
         public const int SalasNaAula = SalasPorNivel * NiveisDeCorredor;
 
-        /// <summary>Quantos tombos cabem por nível e ainda dão a estrela.</summary>
+        /// <summary>
+        /// O pacote chegou ao fim do corredor inteiro? É a pergunta que decide as
+        /// estrelas da bancada — ver <see cref="Estrelas"/>.
+        ///
+        /// Lê-se em <c>_salaAtual</c> porque ele JÁ é essa contagem: nasce em
+        /// <c>NivelAtual * SalasPorNivel</c>, que é o número de salas vencidas antes
+        /// deste nível, e sobe de um a cada pacote entregue. Um segundo contador ao
+        /// lado seria a mesma coisa contada duas vezes, e um dia as duas discordariam.
+        /// </summary>
+        bool VenceuOCorredor => _salaAtual >= SalasNaAula;
+
+        /// <summary>
+        /// Quantos tombos cabem por nível sem o cartaz mudar de cor.
+        ///
+        /// Não vale mais ESTRELA nenhuma — a estrela é por chegar ao fim das dez
+        /// salas, e só. O número continua porque o cartaz de fim de nível é o único
+        /// lugar onde o aluno lê como ele foi, e "5 salas · 3 tombos" em dourado diz
+        /// uma coisa diferente de "5 salas · 24 tombos" em vermelho. É recado, e
+        /// recado de graça: tombar é de graça neste jogo, e a bancada avisa isso no
+        /// primeiro minuto — cobrar tombo na nota desmentiria o próprio aviso.
+        /// </summary>
         static readonly int[] TombosPermitidos = { 12, 20 };
 
         // --------------------------------------------------------------- estado
@@ -397,10 +422,12 @@ namespace FabricaDeIA.Desafios
                 return;
             }
 
+            // Sem contaEstrela: passar tropeçando não custa estrela nenhuma, porque
+            // tombo não vale nota nesta bancada. O cartaz vermelho é o comentário da
+            // casa sobre a corrida, e não uma punição.
             Falhou($"{SalasPorNivel} salas · {_tombosNoNivel} tombos",
                 $"Passou, mas tombou {_tombosNoNivel} vezes — mais que os {permitidos} de folga.\n\n" +
-                "Este lugar mente o tempo todo, e é assim que ele foi feito.\n\n" + fecho,
-                contaEstrela: _tombosNoNivel <= permitidos * 2);
+                "Este lugar mente o tempo todo, e é assim que ele foi feito.\n\n" + fecho);
         }
     }
 }

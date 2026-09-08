@@ -8,7 +8,7 @@ using UnityEngine.UI;
 namespace FabricaDeIA.Desafios
 {
     /// <summary>
-    /// Bancada 10 — os holofotes de Lumi.
+    /// Bancada 9 — os holofotes de Lumi.
     ///
     /// Inspiração: FLOW FREE, pela escassez. Lá você tem menos tubo do que
     /// gostaria e precisa decidir onde gastar; aqui você tem duas lâmpadas para
@@ -33,7 +33,7 @@ namespace FabricaDeIA.Desafios
     /// </summary>
     public partial class DesafioHolofotes : DesafioEmNiveis
     {
-        public override string Etapa => "e10";
+        public override string Etapa => "e9";
         public override string Titulo => "Onde ela olha";
 
         protected override int Niveis => _rodadas?.Count ?? Holofotes.PorAula;
@@ -78,7 +78,8 @@ namespace FabricaDeIA.Desafios
             _perguntas = 0;
             _revelado = false;
 
-            Painel.Rodape("a máquina só vê o que está aceso · clique numa palavra para acender");
+            Painel.Rodape("a máquina só vê o que está aceso · " +
+                          "clique nas palavras DA FRASE para acender");
 
             var rotulo = Widgets.Texto("Rótulo", Area, 15, TextAnchor.UpperCenter, Cores.Neblina);
             Widgets.Faixa(rotulo.rectTransform, true, 20f);
@@ -93,7 +94,11 @@ namespace FabricaDeIA.Desafios
             var rotuloOpcoes = Widgets.Texto("RótuloOpções", Area, 14,
                                              TextAnchor.UpperCenter, Cores.Neblina);
             Widgets.Faixa(rotuloOpcoes.rectTransform, true, 18f, 182f);
-            rotuloOpcoes.text = "as palavras entre as quais ela vai escolher";
+            // Diz QUEM escolhe. O texto anterior — "as palavras entre as quais ela
+            // vai escolher" — era verdadeiro e lido ao contrário: soava como um menu
+            // de opções para o aluno, que é o único convite que esta tela não pode
+            // fazer.
+            rotuloOpcoes.text = "ELA escolhe entre estas quatro · você escolhe onde apontar a luz";
 
             _opcoes = Widgets.Painel("Opções", Area, Color.clear);
             Widgets.Esticar(_opcoes);
@@ -193,7 +198,22 @@ namespace FabricaDeIA.Desafios
             {
                 var candidato = _rodada.Candidatos[i];
 
-                var caixa = Widgets.Painel($"o{i}", _opcoes, Cores.TintaClara);
+                // MOSTRADOR, E NÃO BOTÃO — e a cor é o que diz isso.
+                //
+                // Era Cores.TintaClara: EXATAMENTE o mesmo fundo das palavras
+                // clicáveis da frase. Quatro caixas do tamanho de um botão, com a
+                // cor de um botão, sob um rótulo que dizia "as palavras entre as
+                // quais ela vai escolher" — e que não respondiam a clique nenhum,
+                // porque quem escolhe o candidato é a MÁQUINA, não o aluno.
+                //
+                // O aluno clicava nelas, nada acontecia, e ele concluía que a
+                // bancada estava quebrada. Não estava: ele estava clicando no lugar
+                // errado, e a tela tinha mandado ele clicar ali.
+                //
+                // Cores.Tinta é mais escura que o fundo das palavras e recua para
+                // trás. Affordance errada é bug: um controle que não controla mente
+                // tanto quanto um número errado.
+                var caixa = Widgets.Painel($"o{i}", _opcoes, Cores.Tinta);
                 Widgets.Fixar(caixa, new Vector2(0.5f, 1f),
                               new Vector2((i - (_rodada.Candidatos.Length - 1) / 2f) * (largura + 8f),
                                           -34f),
@@ -207,9 +227,25 @@ namespace FabricaDeIA.Desafios
                                           new Vector2(largura - 20f, 12f),
                                           Cores.Tinta, Cores.Vidro);
 
-                if (!_revelado) continue;
-
-                var nota = _companhias.Nota(_acesas.Select(k => _rodada.Antes[k]), candidato);
+                // O trilho NASCE CHEIO: <see cref="Widgets.Barra"/> cria o miolo com a
+                // largura do trilho inteiro. Quem desenha a barra e não a preenche não
+                // está mostrando "nada" — está mostrando TUDO.
+                //
+                // Era o que acontecia aqui antes de perguntar: um `continue` pulava o
+                // preenchimento, e os quatro candidatos apareciam com a força no
+                // máximo. Duas coisas quebravam de uma vez. A promessa desta bancada,
+                // dita no resumo acima, é que a barra só existe depois da aposta — e
+                // quatro barras cheias são barras existindo. E a lição saía ao
+                // contrário: no feedback as barras DESCIAM da borda até o valor real, e
+                // queda se lê como perda, não como revelação.
+                //
+                // Por isso `Encher` é chamado SEMPRE, com zero enquanto não houve
+                // pergunta (`maior` é zero nesse caso, e a fração vai a zero junto).
+                // Nenhuma das outras bancadas com barra confia no estado em que o
+                // widget nasce; as duas chamam `Encher` na linha seguinte à criação.
+                var nota = _revelado
+                    ? _companhias.Nota(_acesas.Select(k => _rodada.Antes[k]), candidato)
+                    : 0f;
                 Widgets.Encher(barra, maior <= 0f ? 0f : nota / maior, largura - 20f);
             }
         }
@@ -244,9 +280,7 @@ namespace FabricaDeIA.Desafios
             var palpite = _companhias.Palpite(_acesas.Select(k => _rodada.Antes[k]),
                                               _rodada.Candidatos);
 
-            // Durante a explicação, perguntar é demonstração: se o chute acertar
-            // por acaso, a rodada não fecha — o aluno ainda não jogou.
-            if (palpite == _rodada.Resposta && !Congelado)
+            if (palpite == _rodada.Resposta)
             {
                 Vencer();
                 return;
@@ -266,7 +300,7 @@ namespace FabricaDeIA.Desafios
             // sem frase, ONDE a resposta falhou — a palavra que continua faltando.
             Widgets.Tremer(_lacuna);
 
-            if (_perguntas >= Perguntas && !Congelado)
+            if (_perguntas >= Perguntas)
             {
                 Desistir10(palpite);
                 return;

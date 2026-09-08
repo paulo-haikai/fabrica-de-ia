@@ -6,7 +6,7 @@ using FabricaDeIA.UI;
 namespace FabricaDeIA.Desafios
 {
     /// <summary>
-    /// A pista da bancada 7 e os botões de calibração.
+    /// A pista da bancada 6 e os botões de calibração.
     ///
     /// A pista é desenhada com retângulos de interface, não com física: são
     /// quatro ou cinco caixas andando para a esquerda. Física de verdade traria

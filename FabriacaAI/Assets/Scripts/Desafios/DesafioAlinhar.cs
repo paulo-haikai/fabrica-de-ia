@@ -1,327 +1,311 @@
+using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using FabricaDeIA.Engine;
 using FabricaDeIA.Nucleo;
 using FabricaDeIA.UI;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace FabricaDeIA.Desafios
 {
     /// <summary>
-    /// Bancada 12 — o guardião Sereno.
+    /// Bancada 11 — o guichê do Sereno.
     ///
-    /// Inspiração: PAPERS, PLEASE. Você julga caso por caso, sem regra escrita, e
-    /// o jogo vai revelando que as suas decisões formaram uma política — que
-    /// depois é cobrada de você.
+    /// Inspiração: PAPERS, PLEASE, agora de verdade. Uma pessoa por vez no balcão,
+    /// duas folhas para conferir, um manual que muda todo dia, uma cota, um
+    /// relógio, e um carimbo em cada mão.
     ///
-    /// Aqui o aluno vê pares de respostas da mesma máquina para a mesma pergunta e
-    /// escolhe qual prefere. Nenhuma das duas está errada; elas diferem em
-    /// TEMPERAMENTO — mais curta ou mais longa, mais cautelosa ou mais direta,
-    /// mais formal ou mais próxima. Depois de cinco escolhas, a máquina responde
-    /// uma pergunta NOVA usando a política que ele construiu sem perceber, e ele
-    /// julga se acertou o gosto dele.
+    /// A versão anterior CITAVA o Papers, Please e não era: seis pares de
+    /// respostas, o aluno clicava na que preferia, e no fim a máquina falava com o
+    /// "temperamento" dele. Ensinava RLHF por gosto pessoal, e fechava noventa
+    /// minutos de aula perguntando se o aluno prefere resposta curta ou longa.
     ///
-    /// É RLHF na sua forma mais simples e honesta: ninguém programou a
-    /// personalidade da máquina, ninguém escreveu uma regra de conduta. Alguém
-    /// escolheu, muitas vezes, entre duas respostas — e a soma dessas escolhas
-    /// virou o jeito dela.
+    /// A lição de aprendizado por preferência humana NÃO se perdeu — ela é o motor
+    /// desta aqui. O que mudou foi o que está em jogo quando as escolhas viram
+    /// regra. Não é mais o jeito de falar dela. É quem entra.
     ///
-    /// A lição que fecha o ateliê tem uma parte incômoda de propósito: se o jeito
-    /// da máquina vem de quem escolheu, então a pergunta que importa sobre
-    /// qualquer IA não é "como ela funciona", é "quem escolheu, e o que essa
-    /// pessoa preferia".
+    /// CINCO NÍVEIS, E OS TRÊS PRIMEIROS SÃO OUTRO JOGO:
+    ///
+    ///   · Dias 1 a 3 — O GUICHÊ. O aluno defere e indefere gente pedindo creche,
+    ///     passe, consulta. O relógio aperta a cada dia até não caber mais ler as
+    ///     duas folhas de todo mundo. Ver DesafioAlinhar.Manual.cs.
+    ///   · Nível 4 — A VIRADA. O balcão é automatizado, e o modelo é treinado NA
+    ///     FRENTE DELE, com o log que ele acabou de produzir.
+    ///   · Nível 5 — OS ANOS. Escala, ausência de recurso, e a alça de retorno.
+    ///     Ver DesafioAlinhar.Maquina.cs.
+    ///
+    /// ONDE O VIÉS ENTRA: em lugar nenhum deste arquivo. Ele nasce de uma frase
+    /// óbvia em DesafioAlinhar.Fila.cs — a espera na fila não pode ser maior que o
+    /// tempo na cidade — e é o relógio que obriga o aluno a descobri-lo sozinho.
+    /// Nenhum cartaz sugere o atalho. Ele funciona, e é por isso que é usado.
+    ///
+    /// O FECHO CONTINUA INCÔMODO, e é a razão de a bancada ser a última. Era "quem
+    /// escolheu, e o que essa pessoa preferia". Agora é: quem escolheu foi você, e
+    /// você não sabia que estava escolhendo isso.
+    ///
+    /// O QUE ENSINA O GESTO AQUI É O MEMORANDO do primeiro dia — que já estava na
+    /// tela por outro motivo, porque é assim que um expediente começa. Ele diz
+    /// onde fica o manual e que cada pessoa traz duas folhas, e não diz mais nada.
+    ///
+    /// E não dizer mais é de propósito: explicar o gesto exigiria apontar para as
+    /// folhas, e apontar para a folha de baixo é entregar a bancada. O aluno
+    /// precisa descobrir sozinho qual das duas importa — e descobrir, sob
+    /// relógio, que dá para não olhar.
     /// </summary>
     public partial class DesafioAlinhar : DesafioEmNiveis
     {
-        public override string Etapa => "e12";
-        public override string Titulo => "Ensinar modos a ela";
-
-        protected override int Niveis => 2;
+        public override string Etapa => "e11";
+        public override string Titulo => "Quem ela deixa passar";
 
         /// <summary>
-        /// Os três eixos de temperamento. Cada par de respostas difere num deles,
-        /// e a escolha do aluno empurra a agulha para um lado.
+        /// Três dias de expediente e o epílogo. Eram cinco níveis: o Ato II tinha
+        /// quatro telas de texto entre o último carimbo e a cena final.
+        ///
+        /// ELAS FORAM CORTADAS, e o que elas diziam a cena passou a dizer sozinha.
+        /// Quem acabou de carimbar trinta pessoas sob relógio não vai ler quatro
+        /// cartazes — e a única coisa que aquelas telas tinham de insubstituível, a
+        /// REGRA QUE A MÁQUINA APRENDEU, agora é uma legenda dentro do epílogo, dita
+        /// pela própria máquina. Ver DesafioAlinhar.Epilogo.cs.
         /// </summary>
-        enum Eixo { Tamanho, Cautela, Formalidade }
+        protected override int Niveis => Dias.Length + 1;
 
-        class Caso
+        /// <summary>Uma decisão do aluno, do jeito que a máquina vai receber.</summary>
+        readonly struct Registro
         {
-            public string Pergunta;
-            public Eixo Eixo;
-            /// <summary>Resposta do lado "mais": mais longa, mais cautelosa, mais formal.</summary>
-            public string Mais;
-            /// <summary>Resposta do lado "menos".</summary>
-            public string Menos;
+            public readonly Requerente Quem;
+            public readonly bool Deferiu;
+            public Registro(Requerente quem, bool deferiu) { Quem = quem; Deferiu = deferiu; }
         }
 
-        static readonly Caso[] Casos =
-        {
-            new()
-            {
-                Pergunta = "Quanto é 7 vezes 8?",
-                Eixo = Eixo.Tamanho,
-                Mais = "São 56. Se quiser conferir: 7 vezes 8 é o mesmo que 7 vezes 4, " +
-                       "que dá 28, somado com ele mesmo — 28 mais 28, 56.",
-                Menos = "56."
-            },
-            new()
-            {
-                Pergunta = "Essa planta da horta vai sobreviver ao inverno?",
-                Eixo = Eixo.Cautela,
-                Mais = "Não dá para afirmar sem saber a espécie e o quanto esfria aí. " +
-                       "Se me disser as duas coisas, eu arrisco um palpite.",
-                Menos = "Vai sobreviver."
-            },
-            new()
-            {
-                Pergunta = "Pode revisar a minha redação?",
-                Eixo = Eixo.Formalidade,
-                Mais = "Com certeza. Peço que envie o texto e eu apresento as sugestões " +
-                       "de correção organizadas por parágrafo.",
-                Menos = "Claro, manda aí. Eu vou apontando o que der para melhorar."
-            },
-            new()
-            {
-                Pergunta = "Por que o sinal toca no fim da aula?",
-                Eixo = Eixo.Tamanho,
-                Mais = "Para marcar a troca de horário. Sem um aviso comum, cada turma " +
-                       "sairia num momento diferente e os professores não conseguiriam " +
-                       "trocar de sala na hora certa.",
-                Menos = "Para avisar que a aula acabou."
-            },
-            new()
-            {
-                Pergunta = "Qual é a resposta da questão 4?",
-                Eixo = Eixo.Cautela,
-                Mais = "Antes de responder: você quer a resposta ou quer que eu te ajude " +
-                       "a chegar nela? As duas coisas servem, mas ajudam de formas diferentes.",
-                Menos = "É a letra C."
-            },
-            new()
-            {
-                Pergunta = "Errei a prova toda. E agora?",
-                Eixo = Eixo.Formalidade,
-                Mais = "Compreendo a preocupação. Sugiro identificar quais conteúdos " +
-                       "concentraram os erros e revisá-los antes da próxima avaliação.",
-                Menos = "Acontece. Vamos ver onde você tropeçou e arrumar isso."
-            }
-        };
+        /// <summary>
+        /// TUDO o que o aluno decidiu, nos três dias. É o conjunto de treino da
+        /// máquina, e não há outro: o Ato II não tem uma linha de resultado
+        /// escrita à mão, ele ajusta um modelo a estes registros e diz o que saiu.
+        /// </summary>
+        readonly List<Registro> _log = new();
 
-        /// <summary>A pergunta do teste final, com as quatro respostas possíveis.</summary>
-        static readonly string PerguntaFinal = "Não entendi a matéria de hoje. Você me explica?";
-
-        readonly Dictionary<Eixo, int> _agulha = new();
-        List<Caso> _rodada;
-        int _casoAtual;
-        bool _testando;
-
-        RectTransform _mesa;
         Mulberry32 _sorteio;
+        RectTransform _mesa;
+
+        int _dia;
+        List<Requerente> _fila;
+        int _indice;
+        float _relogio;
+        bool _expediente;
+
+        /// <summary>
+        /// A fila está andando: alguém está saindo, ou alguém está chegando.
+        ///
+        /// Existe por dois motivos, e o segundo é o que importa. O primeiro é
+        /// óbvio: carimbar durante o fade carimbaria a pessoa errada. O segundo é
+        /// que O RELÓGIO PARA AQUI — a troca de pessoa não come tempo do
+        /// expediente. A pressa da bancada é calibrada em segundos de LEITURA, e
+        /// descontar meio segundo por atendimento mudaria a dificuldade dos três
+        /// dias sem ninguém ter decidido mudá-la.
+        /// </summary>
+        bool _trocando;
+
+        int _certos;
+        int _erros;
+        int _recemIndeferidos;
+        int _diasVencidos;
+
+        Requerente Atual => _fila != null && _indice < _fila.Count ? _fila[_indice] : null;
 
         protected override void Preparar()
         {
             _sorteio = new Mulberry32((uint)Rodadas.Semente());
-            foreach (Eixo e in System.Enum.GetValues(typeof(Eixo))) _agulha[e] = 0;
         }
 
         protected override void MontarNivel()
         {
-            _casoAtual = 0;
-            _testando = NivelAtual == 1;
-
             _mesa = Widgets.Painel("Mesa", Area, Color.clear);
             Widgets.Esticar(_mesa);
 
-            if (_testando)
-            {
-                MontarTeste();
-                return;
-            }
+            _dia = NivelAtual;
 
-            // Três casos por rodada, sorteados: um de cada eixo, para a política
-            // sair equilibrada em vez de medir só uma coisa.
-            _rodada = System.Enum.GetValues(typeof(Eixo))
-                .Cast<Eixo>()
-                .Select(eixo => Embaralhar(Casos.Where(c => c.Eixo == eixo).ToList()).First())
-                .ToList();
-            _rodada = Embaralhar(_rodada);
+            if (NivelAtual >= Dias.Length) { MontarAnos(); return; }
 
-            Painel.Rodape("nenhuma das duas está errada · escolha a que você prefere");
-            MontarCaso();
-        }
-
-        List<T> Embaralhar<T>(List<T> fonte)
-        {
-            var copia = new List<T>(fonte);
-            for (var i = copia.Count - 1; i > 0; i--)
-            {
-                var j = (int)(_sorteio.Proximo() * (i + 1));
-                (copia[i], copia[j]) = (copia[j], copia[i]);
-            }
-            return copia;
-        }
-
-        // ---------------------------------------------------------- julgamento
-
-        void MontarCaso()
-        {
-            foreach (Transform filho in _mesa) Destroy(filho.gameObject);
-
-            var caso = _rodada[_casoAtual];
-            Painel.MarcarPasso(_casoAtual + 1, _rodada.Count);
-            Painel.Instruir("qual das duas você prefere?");
-            Painel.Acao(null, null);
-
-            var pergunta = Widgets.Texto("Pergunta", _mesa, 19, TextAnchor.UpperCenter, Cores.Luz);
-            Widgets.Faixa(pergunta.rectTransform, true, 30f);
-            pergunta.text = $"“{caso.Pergunta}”";
-
-            // Os lados aparecem em ordem sorteada: se "mais" ficasse sempre à
-            // esquerda, o aluno acabaria escolhendo por posição e a política
-            // mediria a mão dele, não o gosto.
-            var maisAEsquerda = _sorteio.Proximo() < 0.5f;
-            Resposta(caso, maisAEsquerda ? caso.Mais : caso.Menos, -1f, maisAEsquerda ? +1 : -1);
-            Resposta(caso, maisAEsquerda ? caso.Menos : caso.Mais, +1f, maisAEsquerda ? -1 : +1);
-        }
-
-        void Resposta(Caso caso, string texto, float lado, int empurrao)
-        {
-            var botao = Widgets.Botao($"r{lado}", _mesa, string.Empty,
-                                      Cores.TintaClara, Cores.Papel);
-            Widgets.Fixar((RectTransform)botao.transform, new Vector2(0.5f, 0.5f),
-                          new Vector2(lado * 224f, -6f), new Vector2(430f, 210f));
-            Destroy(botao.GetComponentInChildren<Text>().gameObject);
-
-            var corpo = Widgets.Texto("t", (RectTransform)botao.transform, 16,
-                                      TextAnchor.UpperLeft, Cores.Papel);
-            Widgets.Esticar(corpo.rectTransform, 18f);
-            corpo.text = texto;
-
-            botao.onClick.AddListener(() => Julgar(caso.Eixo, empurrao));
-        }
-
-        void Julgar(Eixo eixo, int empurrao)
-        {
-            _agulha[eixo] += empurrao;
-            _casoAtual++;
-
-            if (_casoAtual < _rodada.Count)
-            {
-                MontarCaso();
-                return;
-            }
-
-            Resolveu("Três escolhas feitas",
-                "Você não escreveu regra nenhuma. Não disse “seja breve” nem\n" +
-                "“seja cuidadosa” — só escolheu, três vezes, entre duas respostas.\n\n" +
-                "Sereno anotou. Na próxima ele responde uma pergunta nova\n" +
-                "do jeito que você escolheu.");
-        }
-
-        // ------------------------------------------------------------- o teste
-
-        void MontarTeste()
-        {
-            Painel.Rodape("a resposta abaixo foi montada com as suas escolhas");
-            Painel.MarcarPasso(string.Empty);
-            Painel.Instruir("uma pergunta que você nunca julgou");
-
-            var pergunta = Widgets.Texto("Pergunta", _mesa, 19, TextAnchor.UpperCenter, Cores.Luz);
-            Widgets.Faixa(pergunta.rectTransform, true, 30f);
-            pergunta.text = $"“{PerguntaFinal}”";
-
-            var caixa = Widgets.Painel("Resposta", _mesa, Cores.TintaClara);
-            Widgets.Fixar(caixa, new Vector2(0.5f, 0.5f), new Vector2(0f, 10f),
-                          new Vector2(760f, 160f));
-
-            var corpo = Widgets.Texto("t", caixa, 17, TextAnchor.UpperLeft, Cores.Papel);
-            Widgets.Esticar(corpo.rectTransform, 20f);
-            corpo.text = Montar();
-
-            var perfil = Widgets.Texto("Perfil", _mesa, 15, TextAnchor.LowerCenter, Cores.Neblina);
-            Widgets.Faixa(perfil.rectTransform, false, 60f, 8f);
-            perfil.text = "o jeito que as suas escolhas montaram:\n" + Perfil();
-
-            Painel.Acao("é o meu jeito, sim", () => Fechar(true));
-
-            var recusa = Widgets.Botao("Recusa", _mesa, "não, não é assim que eu falo",
-                                       Cores.Madeira, Cores.Papel, 15);
-            Widgets.Fixar((RectTransform)recusa.transform, new Vector2(0.5f, 0f),
-                          new Vector2(0f, 12f), new Vector2(320f, 38f));
-            recusa.onClick.AddListener(() => Fechar(false));
+            AbrirDia();
         }
 
         /// <summary>
-        /// Monta a resposta final juntando os pedaços que cada eixo escolhido pede.
-        ///
-        /// É simplificado — três eixos, dois lados cada — e é honesto sobre a
-        /// mecânica que representa: o modelo não ganhou regras, ganhou uma
-        /// preferência agregada, e responde conforme ela.
+        /// Uma estrela por dia de expediente vencido — a virada e os anos não dão
+        /// nenhuma, porque são demonstração, e estrela de demonstração é estrela
+        /// por sorte. Três dias vencidos fecham a aula com as três, que é o que a
+        /// última bancada do ateliê deve poder dar.
         /// </summary>
-        string Montar()
+        protected override int Estrelas() => Mathf.Clamp(_diasVencidos, 0, 3);
+
+        // ------------------------------------------------------------- o dia
+
+        void AbrirDia()
         {
-            var formal = _agulha[Eixo.Formalidade] > 0;
-            var cautelosa = _agulha[Eixo.Cautela] > 0;
-            var longa = _agulha[Eixo.Tamanho] > 0;
+            var d = Dias[_dia];
+            _fila = SortearFila(d.Casos, d.ComDiscrepancia, d.Empresas);
+            _indice = 0;
+            _certos = 0;
+            _erros = 0;
+            _recemIndeferidos = 0;
+            _relogio = d.Segundos;
+            _expediente = false;
+            _trocando = false;
 
-            var abertura = formal
-                ? "Certamente. Podemos revisar o conteúdo juntos."
-                : "Claro, vamos junto.";
-
-            var pergunta = cautelosa
-                ? (formal
-                    ? " Antes disso, gostaria de saber qual parte ficou confusa."
-                    : " Só me diz qual parte embolou?")
-                : string.Empty;
-
-            var corpo = longa
-                ? (formal
-                    ? " Sugiro começarmos pelo conceito principal e, em seguida, " +
-                      "aplicá-lo a um exercício, para verificar se ficou claro."
-                    : " A gente começa pelo começo, faz um exercício junto, " +
-                      "e você vê se encaixou.")
-                : string.Empty;
-
-            return abertura + pergunta + corpo;
+            // O memorando ANTES do relógio, sempre. É onde o manual muda e onde a
+            // assinatura muda — e ler quem assinou é a única forma de o aluno
+            // perceber para quem ele trabalha.
+            MostrarMemorando(Memorando(_dia), ComecarExpediente);
         }
 
-        string Perfil()
+        void ComecarExpediente()
         {
-            string Lado(Eixo eixo, string mais, string menos, string meio) =>
-                _agulha[eixo] > 0 ? mais : _agulha[eixo] < 0 ? menos : meio;
-
-            return string.Join("   ·   ", new[]
-            {
-                Lado(Eixo.Tamanho, "explica com calma", "vai direto ao ponto", "meio a meio"),
-                Lado(Eixo.Cautela, "pergunta antes", "responde de primeira", "meio a meio"),
-                Lado(Eixo.Formalidade, "trata com formalidade", "fala como colega", "meio a meio")
-            });
+            _expediente = true;
+            MontarGuiche();
+            Chamar();
         }
 
-        void Fechar(bool reconheceu)
+        /// <summary>
+        /// Chama a próxima pessoa da fila — e ela CHEGA, não aparece pronta.
+        /// </summary>
+        void Chamar()
         {
-            // A persona atravessa a aula: fica guardada como o resultado do ateliê.
-            Progresso.Atual.preferencias = new[]
+            if (Atual == null) { FecharDia(); return; }
+            StartCoroutine(Chegando());
+        }
+
+        /// <summary>
+        /// A entrada de quem foi chamado: a mesa é preenchida com o vão ainda
+        /// apagado, e só então tudo o que é dessa pessoa aparece junto.
+        ///
+        /// Apagar ANTES de desenhar é o que garante que o fade não mostre o
+        /// requerente anterior por um quadro — o erro que faz a troca parecer um
+        /// piscar de tela em vez de uma fila andando.
+        /// </summary>
+        IEnumerator Chegando()
+        {
+            _trocando = true;
+            Presenca(0f);
+            DesenharRequerente(Atual);
+            AtualizarPlacar();
+            yield return Entrando();
+            _trocando = false;
+        }
+
+        /// <summary>
+        /// O carimbo. É o único gesto da bancada, e ele é irreversível de
+        /// propósito: no Papers, Please o carimbo desce e a pessoa vai embora.
+        /// Poder desfazer transformaria a pressa em inconveniente, e é a pressa
+        /// que a bancada precisa que doa.
+        /// </summary>
+        void Decidir(bool deferir)
+        {
+            if (!_expediente || _trocando || Atual == null) return;
+
+            var r = Atual;
+            _log.Add(new Registro(r, deferir));
+
+            if (r.Recem && !deferir) _recemIndeferidos++;
+
+            // "Certo" aqui é certo SEGUNDO O CONFERIDOR — e a partir do dia 3 o
+            // conferidor é da empresa. Ver ContaErro: indeferir recém-chegado
+            // deixa de contar erro, mesmo quando o manual mandava deferir.
+            var errou = ContaErro(r, deferir);
+            if (errou) _erros++;
+            else _certos++;
+
+            Carimbar(deferir, errou);
+            StartCoroutine(Despachando());
+        }
+
+        /// <summary>
+        /// O que acontece depois que o carimbo desce: a tinta fica um instante na
+        /// tela, a pessoa vai embora, e só ENTÃO a fila anda.
+        ///
+        /// O avanço do índice mora aqui, no meio do fade, e não no clique. É o que
+        /// impede a folha da pessoa seguinte de aparecer por baixo da tinta da
+        /// anterior — e é por isso que o dia só fecha depois que esta corrotina
+        /// termina.
+        /// </summary>
+        IEnumerator Despachando()
+        {
+            _trocando = true;
+            yield return new WaitForSecondsRealtime(TintaNaTela);
+            yield return Saindo();
+            if (!Aberto) yield break;
+
+            _indice++;
+            _trocando = false;
+
+            if (_erros > Dias[_dia].Advertencias) { FecharDia(); yield break; }
+            Chamar();
+        }
+
+        void Update()
+        {
+            // O epílogo tem o próprio relógio e roda antes de tudo: ele acontece
+            // depois que o expediente acabou, e é uma função do tempo para a tela.
+            // Ver DesafioAlinhar.Epilogo.cs.
+            if (_cenaRodando) { RodarCena(); return; }
+
+            // O relógio para enquanto a fila anda. Ver _trocando.
+            if (!_expediente || !Aberto || _trocando) return;
+
+            _relogio -= Time.deltaTime;
+            AtualizarRelogio(Mathf.Max(0f, _relogio));
+
+            if (_relogio <= 0f)
             {
-                (float)_agulha[Eixo.Tamanho],
-                _agulha[Eixo.Cautela],
-                _agulha[Eixo.Formalidade]
-            };
+                _expediente = false;
+                FecharDia();
+            }
+        }
+
+        void FecharDia()
+        {
+            if (!_expediente && _fila == null) return;
+            _expediente = false;
+            _trocando = false;
+
+            var d = Dias[_dia];
+            var venceu = _certos >= d.Meta;
+            if (venceu) _diasVencidos++;
+
+            // O ÚLTIMO DIA NÃO TEM CARTAZ. Terminou a terceira leva, a tela corta
+            // para o epílogo — sem bilhete, sem "continuar", sem nada entre o
+            // último carimbo e o que ele produziu. O corte seco é o efeito: o
+            // expediente acaba e o aluno já está quatro anos depois.
+            if (_dia >= Dias.Length - 1)
+            {
+                SaltarPara(Dias.Length);
+                return;
+            }
+
+            var bilhete = FimDoDia(_dia, _certos, _fila.Count, _recemIndeferidos);
+
+            if (venceu)
+            {
+                Resolveu($"Dia {_dia + 1} encerrado", bilhete);
+                return;
+            }
+
+            // Perder um dia NÃO tira a lição, e por isso conta estrela: quem
+            // atendeu a fila inteira leu o manual e carimbou, que é o gesto que a
+            // bancada ensina. O que ele não fez foi bater a cota de um contrato
+            // que não é dele.
+            Falhou($"Dia {_dia + 1} encerrado", bilhete +
+                   "\n\nA cota do dia não foi batida.", contaEstrela: true);
+        }
+
+        // ------------------------------------------------------- o que fica
+
+        /// <summary>
+        /// Guarda a regra que a máquina aprendeu, para o resto do ateliê saber o
+        /// que aconteceu aqui. O campo já existia e não era lido por ninguém — era
+        /// a "persona" da versão antiga.
+        /// </summary>
+        void GuardarRegra(int campo, int corte, float acerto)
+        {
+            Progresso.Atual.preferencias = new float[] { campo, corte, acerto };
             Progresso.Atual.Salvar();
-
-            var comum = reconheceu
-                ? "Você reconheceu o jeito dela porque o jeito é seu.\n\n"
-                : "Não ficou igual ao que você faria — três escolhas são pouco\n" +
-                  "para capturar uma pessoa. Modelos de verdade usam milhões.\n\n";
-
-            Resolveu(reconheceu ? "É o seu jeito" : "Quase o seu jeito",
-                comum +
-                "Ninguém programou a personalidade dela. Alguém escolheu,\n" +
-                "muitas vezes, entre duas respostas — a soma virou o jeito dela.\n\n" +
-                "Isso tem nome: aprendizado por preferência humana. E deixa\n" +
-                "uma pergunta melhor que “como a IA funciona”: quem escolheu,\n" +
-                "e o que essa pessoa preferia?");
         }
     }
 }

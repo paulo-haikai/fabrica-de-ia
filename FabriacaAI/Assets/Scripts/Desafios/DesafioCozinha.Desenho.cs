@@ -8,7 +8,7 @@ using FabricaDeIA.UI;
 namespace FabricaDeIA.Desafios
 {
     /// <summary>
-    /// As duas colunas da bancada 9 e o traço que liga uma à outra.
+    /// As duas colunas da bancada 8 e o traço que liga uma à outra.
     ///
     /// O traço é feito de quadradinhos, não de uma linha lisa: o uGUI não desenha
     /// linha, e enfiar um <c>LineRenderer</c> aqui traria câmera, ordenação e
