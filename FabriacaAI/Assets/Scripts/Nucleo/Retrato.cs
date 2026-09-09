@@ -316,35 +316,32 @@ namespace FabricaDeIA.Nucleo
                     Debug.Log($"FECHAMENTO: {etapa} fechou limpo");
                 }
 
-                // Vence a caixa de fala do mestre COM A TECLA, que é o único jeito
-                // que o aluno tem.
+                // O FECHO DO MESTRE SAIU, e é isto que o teste cobra agora.
                 //
-                // A versão anterior deste laço clicava num botão "continuar" — e
-                // esse botão não existe: a caixa de fala tem só o texto "[E]
-                // continuar". Ou seja, o teste nunca tocou na caixa, e por isso não
-                // viu o laço que prendia o aluno nela. Um teste que aperta um botão
-                // inexistente passa sempre.
-                if (!FalandoAgora())
-                {
-                    Debug.LogError($"FECHAMENTO: {etapa} não falou o fecho do mestre — " +
-                                   "o teste não chegou onde queria");
-                    falhas++;
-                }
-
-                for (var i = 0; i < 6 && FalandoAgora(); i++)
-                {
-                    yield return Teclar(Key.E);
-                    yield return new WaitForSecondsRealtime(0.05f);
-                }
-
+                // Ele nasceu do problema oposto: a caixa de fala aparecia depois do
+                // minigame e prendia o aluno num laço de tecla. A correção final foi
+                // tirar a fala — quem acaba de fechar uma bancada quer o controle de
+                // volta, não mais uma tela para ler. Então a pergunta virou "sobrou
+                // caixa nenhuma e o aluno anda?".
+                //
+                // O laço de teclas continua aqui para o caso de a fala voltar por
+                // acidente: sem ele, a falha deixaria o teste travado na bancada
+                // seguinte em vez de dizer o que houve.
                 if (FalandoAgora())
                 {
-                    Debug.LogError($"FECHAMENTO: {etapa} deixou o aluno preso na caixa de fala");
+                    Debug.LogError($"FECHAMENTO: {etapa} abriu caixa de fala ao sair — " +
+                                   "o fecho do mestre voltou");
                     falhas++;
+
+                    for (var i = 0; i < 6 && FalandoAgora(); i++)
+                    {
+                        yield return Teclar(Key.E);
+                        yield return new WaitForSecondsRealtime(0.05f);
+                    }
                 }
                 else if (!Andando())
                 {
-                    Debug.LogError($"FECHAMENTO: {etapa} fechou a fala e deixou o aluno travado");
+                    Debug.LogError($"FECHAMENTO: {etapa} fechou e deixou o aluno travado");
                     falhas++;
                 }
 
@@ -393,6 +390,125 @@ namespace FabricaDeIA.Nucleo
             Progresso.Atual.Salvar();
 
             Debug.Log(falhas == 0 ? "FECHAMENTO: OK" : $"FECHAMENTO: {falhas} FALHA(S)");
+        }
+
+        /// <summary>
+        /// Prova que a aula TERMINA: fecha a última bancada e cobra a tela de fim,
+        /// e depois dela o formulário do certificado.
+        ///
+        /// É uma sequência que o aluno vive uma vez só, no fim de noventa minutos,
+        /// e por isso é a que menos se testa jogando. Aqui ela custa dez segundos:
+        /// dez bancadas visitadas por decreto, a décima primeira aberta pelo
+        /// atalho, e o resto é o jogo fazendo o que faria na aula.
+        ///
+        /// As duas fotos não são enfeite — a tela de fim é a única do jogo montada
+        /// por animação, e uma peça fora do lugar não aparece em log nenhum.
+        /// </summary>
+        public static void TestarFim(string pasta)
+        {
+            var jogo = FindFirstObjectByType<Jogo>();
+            if (jogo == null)
+            {
+                Debug.LogError("FIM: o jogo não está rodando");
+                return;
+            }
+            var carregador = jogo.gameObject.GetComponent<Retrato>()
+                          ?? jogo.gameObject.AddComponent<Retrato>();
+            carregador.StartCoroutine(carregador.FechandoAAula(jogo, pasta));
+        }
+
+        IEnumerator FechandoAAula(Jogo jogo, string pasta)
+        {
+            var falhas = 0;
+            var guardado = JsonUtility.ToJson(Progresso.Atual);
+            var ultima = $"e{Desafios.Catalogo.Bancadas}";
+
+            // Todas menos a última, para que fechar a última seja justamente o que
+            // fecha a aula. É a transição que o jogo observa, e não o total.
+            Progresso.Reiniciar();
+            for (var i = 1; i < Desafios.Catalogo.Bancadas; i++)
+                Progresso.Atual.Concluir($"e{i}", 2, 40);
+
+            jogo.AbrirDireto(ultima);
+            yield return null;
+            yield return null;
+
+            if (FindFirstObjectByType<UI.PainelDeBancada>() == null)
+            {
+                Debug.LogError($"FIM: {ultima} não abriu");
+                falhas++;
+            }
+
+            // Sai pela porta, que é a saída que o aluno cansado usa. O fim da aula
+            // não pode depender de ele ter vencido o minigame.
+            for (var i = 0; i < 3 && FindFirstObjectByType<UI.PainelDeBancada>() != null; i++)
+            {
+                Clicar("sair");
+                yield return null;
+                yield return null;
+            }
+
+            if (FalandoAgora())
+            {
+                Debug.LogError("FIM: apareceu caixa de fala — o fecho do mestre voltou");
+                falhas++;
+            }
+
+            var fim = FindFirstObjectByType<UI.Fim>();
+            if (fim == null)
+            {
+                Debug.LogError("FIM: a tela de fim não abriu ao fechar a última bancada");
+                falhas++;
+            }
+            else
+            {
+                // Tempo de a máquina se levantar inteira, com título e números.
+                yield return new WaitForSecondsRealtime(4.6f);
+                yield return Fotografar(jogo, null, pasta, 0f, "fim-da-aula");
+
+                if (FindFirstObjectByType<UI.Fim>() == null)
+                {
+                    Debug.LogError("FIM: a tela de fim sumiu antes da hora");
+                    falhas++;
+                }
+            }
+
+            // A tecla que pula. Ela existe para a turma que já viu, e é o caminho
+            // por onde a maioria vai chegar ao certificado.
+            yield return Teclar(Key.E);
+            yield return new WaitForSecondsRealtime(0.3f);
+
+            if (FindFirstObjectByType<UI.Fim>() != null)
+            {
+                Debug.LogError("FIM: [E] não pulou a animação");
+                falhas++;
+            }
+
+            var formatura = FindFirstObjectByType<UI.Formatura>();
+            if (formatura == null)
+            {
+                Debug.LogError("FIM: o certificado não veio depois da animação");
+                falhas++;
+            }
+            else
+            {
+                yield return Fotografar(jogo, null, pasta, 0.3f, "fim-certificado");
+
+                // E a saída do formulário devolve o aluno andando.
+                Clicar("voltar");
+                yield return null;
+                yield return null;
+                if (!Andando())
+                {
+                    Debug.LogError("FIM: saiu do certificado com o aluno travado");
+                    falhas++;
+                }
+            }
+
+            JsonUtility.FromJsonOverwrite(guardado, Progresso.Atual);
+            Progresso.Atual.Salvar();
+
+            Debug.Log(falhas == 0 ? "FIM: OK" : $"FIM: {falhas} FALHA(S)");
         }
 
         /// <summary>

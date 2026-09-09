@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using FabricaDeIA.Arte;
@@ -18,8 +17,20 @@ namespace FabricaDeIA.Nucleo
     /// e não abrir o Editor.
     ///
     /// O caminho de uma bancada: o aluno chega, o mestre fala, o desafio
-    /// acontece, e o mestre fecha. O fecho só vem para quem resolveu — dar o
-    /// fecho a quem desistiu seria mentira, e a turma percebe.
+    /// acontece — e acabou. Fechar a bancada devolve o aluno ao salão andando,
+    /// sem mais nenhuma tecla no meio.
+    ///
+    /// HAVIA UM FECHO, e ele saiu. O mestre dizia uma última frase quando o
+    /// aluno voltava com a peça pronta, e para andar de novo era preciso ler a
+    /// caixa e apertar E. Na aula isso virou confusão: quem sai de um minigame
+    /// está saindo, não começando a ler; a caixa aparecia como se fosse um erro,
+    /// e a turma travava perguntando "e agora?". Uma tela que se fecha sozinha
+    /// não custa nada; uma que exige tecla para devolver o controle custa a
+    /// atenção de trinta pessoas de uma vez.
+    ///
+    /// O que ficou no lugar do fecho é a tela de fim (<see cref="UI.Fim"/>),
+    /// UMA vez só, quando a última bancada fecha: a máquina se levanta e o
+    /// certificado vem em seguida.
     /// </summary>
     public class Jogo : MonoBehaviour
     {
@@ -153,17 +164,21 @@ namespace FabricaDeIA.Nucleo
         // ------------------------------------------------------- a conversa
 
         /// <summary>
-        /// O quadro em que uma caixa de fala foi fechada por tecla.
+        /// O quadro em que o aluno foi devolvido ao salão.
         ///
         /// Existe por causa de um laço que prendia o aluno na aula: a MESMA tecla
-        /// fecha a fala e aborda o mestre. Ao fechar o fecho do mestre, o
-        /// `VoltarAoSalao` destrava o jogador no mesmo quadro — e como o
+        /// fecha o que está na frente dele e aborda o mestre. Quem devolve o
+        /// controle destrava o jogador no mesmo quadro — e como o
         /// `wasPressedThisFrame` daquela tecla continua verdadeiro, o
         /// `Jogador.Update`, que roda depois, entendia o mesmo toque como "falar
-        /// com quem está ao alcance" e reabria a conversa. O aluno apertava E, a
-        /// caixa piscava e voltava; apertava de novo e caía dentro do minigame.
-        /// Não havia saída, porque ele estava colado na bancada que acabou de
-        /// terminar.
+        /// com quem está ao alcance" e reabria o que tinha acabado de fechar. O
+        /// aluno apertava E, a caixa piscava e voltava; apertava de novo e caía
+        /// dentro do minigame. Não havia saída, porque ele estava colado na
+        /// bancada que acabou de terminar.
+        ///
+        /// Nasceu para as caixas de fala e hoje vale para toda saída, marcada em
+        /// `VoltarAoSalao`: com o fecho do mestre removido, é a tecla que encerra
+        /// o próprio minigame que passou a chegar destravada no salão.
         ///
         /// O caso simétrico — a tecla que ABRE a caixa engolindo a primeira fala —
         /// já tinha guarda dentro da HUD. Faltava esta.
@@ -173,7 +188,7 @@ namespace FabricaDeIA.Nucleo
         void Abordar(Bancada bancada)
         {
             if (_estado != Estado.Andando) return;
-            // O toque que fechou uma fala não aborda ninguém.
+            // O toque que devolveu o aluno ao salão não aborda ninguém.
             if (Time.frameCount == _quadroDoFecho) return;
 
             if (!Progresso.Atual.Liberada(bancada.Etapa))
@@ -318,15 +333,23 @@ namespace FabricaDeIA.Nucleo
 
             desafio.Terminou += estrelas =>
             {
+                // Antes de registrar, porque é a comparação com o depois que diz
+                // se FOI ESTA bancada que fechou a aula. Ver só o depois faria a
+                // tela de fim voltar toda vez que o aluno reabrisse qualquer
+                // bancada para rever.
+                var faltavam = !Progresso.Atual.TodasTentadas;
+
                 // Registra SEMPRE, inclusive com zero estrela: quem tentou e não
                 // resolveu gastou aula, e o professor precisa ver isso. Zero
                 // estrela não conta como concluída em lugar nenhum — `Concluida`
                 // exige estrela > 0 —, então guardar não inventa progresso.
                 // O balcão do certificado fica de fora do registro: ele não é
-                // uma das doze, não dá estrela, e anotá-lo faria a folha do aluno
-                // dizer "visitadas: 13 de 12".
+                // uma das onze, não dá estrela, e anotá-lo faria a folha do aluno
+                // dizer "visitadas: 12 de 11".
                 if (etapa != "e12")
                     Progresso.Atual.Concluir(etapa, estrelas, desafio.Segundos);
+
+                _fechouAAula = faltavam && Progresso.Atual.TodasTentadas;
                 Encerrar();
             };
 
@@ -348,38 +371,57 @@ namespace FabricaDeIA.Nucleo
         }
 
         /// <summary>
-        /// O fecho do mestre, para quem resolveu. Quem saiu sem resolver volta
-        /// direto ao salão.
+        /// A bancada fechou. Nada de fala: o aluno volta a andar no mesmo quadro.
+        ///
+        /// Vale para as duas saídas — o botão "sair" e o fim do minigame —,
+        /// porque as duas são a mesma coisa do ponto de vista de quem está com a
+        /// mão no teclado: a tela sumiu, e o boneco tem que responder de novo.
         /// </summary>
         void Encerrar()
         {
             var etapa = _bancadaAberta != null ? _bancadaAberta.Etapa : null;
-            var mestre = etapa != null ? Elenco.De(etapa) : null;
 
             // Do balcão do certificado se sai para a formatura, sempre — com a
             // aula completa ou pela metade. A folha registra o que a pessoa fez,
             // e quem parou na sétima bancada fez sete bancadas de trabalho.
-            if (etapa == "e12" && mestre != null)
+            if (etapa == "e12")
             {
-                _estado = Estado.Conversando;
-                _hud.Falar($"{mestre.Nome}, {mestre.Oficio}",
-                           new[] { mestre.Depois }, AbrirFormatura);
+                AbrirFormatura();
                 return;
             }
 
-            if (mestre != null && Progresso.Atual.Concluida(etapa))
+            // A última bancada da aula não devolve ninguém ao salão: fecha a aula
+            // em cena. É a marca escrita em `AbrirBancada`, e não uma pergunta ao
+            // progresso, para que isto aconteça UMA vez — quem voltar depois a
+            // uma bancada já feita sai andando como em qualquer outra.
+            if (_fechouAAula)
             {
-                _estado = Estado.Conversando;
-                // A formatura entra DEPOIS do fecho do mestre, e não em vez dele:
-                // a última fala é o que dá sentido ao boletim que vem a seguir.
-                var depois = Progresso.Atual.AulaCompleta
-                    ? (Action)AbrirFormatura
-                    : VoltarAoSalao;
-
-                _hud.Falar($"{mestre.Nome}, {mestre.Oficio}", new[] { mestre.Depois }, depois);
+                _fechouAAula = false;
+                AbrirFim();
                 return;
             }
+
             VoltarAoSalao();
+        }
+
+        /// <summary>
+        /// Esta bancada acabou de completar a aula? Zerado assim que é usado.
+        /// </summary>
+        bool _fechouAAula;
+
+        /// <summary>
+        /// O fim da aula: a máquina se levanta e o certificado vem logo depois.
+        ///
+        /// A tela de fim entra ANTES da formatura, e não em vez dela: uma é a
+        /// recompensa, a outra é o papel que o aluno leva. Trocar a ordem faria a
+        /// aula terminar num formulário.
+        /// </summary>
+        void AbrirFim()
+        {
+            _estado = Estado.Conversando;
+            _jogador.Travado = true;
+            _bancadaAberta = null;
+            UI.Fim.Abrir(_hud.Palco, AbrirFormatura);
         }
 
         /// <summary>
@@ -431,6 +473,17 @@ namespace FabricaDeIA.Nucleo
 
         void VoltarAoSalao()
         {
+            // O toque que devolveu o aluno ao salão não aborda ninguém.
+            //
+            // A marca era posta só ao fechar uma caixa de fala, porque era a fala
+            // que ficava entre o minigame e o salão. Sem ela, agora que o fecho
+            // saiu, a MESMA tecla que encerrou a bancada — E, espaço ou Enter,
+            // que é como metade das bancadas confirma — destravaria o aluno e, no
+            // mesmo quadro, seria lida pelo `Jogador.Update` como "trabalhar na
+            // bancada ao alcance". Ele está colado nela: entraria de novo, sem
+            // ter pedido, na bancada que acabou de terminar.
+            _quadroDoFecho = Time.frameCount;
+
             _estado = Estado.Andando;
             _jogador.Travado = false;
             _bancadaAberta = null;

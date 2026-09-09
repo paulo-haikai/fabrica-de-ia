@@ -60,6 +60,13 @@ namespace FabricaDeIA.Editor
             Nucleo.Retrato.Tirar(null, Pasta);
         }
 
+        [MenuItem("Fábrica de IA/Testar o fim da aula")]
+        public static void TestarFim()
+        {
+            if (!Pronto()) return;
+            Nucleo.Retrato.TestarFim(Pasta);
+        }
+
         [MenuItem("Fábrica de IA/Testar saída das bancadas")]
         public static void TestarSaida()
         {

@@ -81,7 +81,7 @@ namespace FabricaDeIA.UI
         /// <summary>
         /// Liga ou desliga a interface do salão.
         ///
-        /// Existe para a abertura: o placar "0 de 12 peças" aparecendo por cima
+        /// Existe para a abertura: o placar "0 de 11 peças" aparecendo por cima
         /// da tela de título quebraria a cena antes de ela começar. O palco fica
         /// de fora — é onde a própria abertura se monta.
         /// </summary>
@@ -136,7 +136,7 @@ namespace FabricaDeIA.UI
             var feitas = Progresso.Atual.Tentadas;
             var conta = Widgets.Texto("Conta", caixa, 15, TextAnchor.UpperCenter, Cores.Neblina);
             Widgets.Faixa(conta.rectTransform, true, 20f, 56f);
-            conta.text = $"{feitas} de 12 bancadas visitadas  ·  " +
+            conta.text = $"{feitas} de {Desafios.Catalogo.Bancadas} bancadas visitadas  ·  " +
                          $"{Progresso.Atual.EstrelasTotais} estrelas";
 
             Botao(caixa, "voltar ao trabalho", 0, Cores.Folha, continuar);
@@ -203,7 +203,11 @@ namespace FabricaDeIA.UI
             var alvo = proxima == null
                 ? "a máquina está pronta"
                 : $"agora: {Elenco.De(proxima)?.Titulo}";
-            _placar.text = $"Fábrica de IA        {feitas} de 12 peças        {alvo}";
+            // A conta sai de `Catalogo.Bancadas` e não de um doze escrito à mão:
+            // a aula tem onze bancadas desde que a das fichas saiu, e o placar
+            // continuava prometendo doze peças — a tela de fim chegava dizendo
+            // "a máquina está pronta" com "11 de 12" na faixa de cima.
+            _placar.text = $"Fábrica de IA        {feitas} de {Desafios.Catalogo.Bancadas} peças        {alvo}";
         }
 
         // ------------------------------------------------------------- aviso
